@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 主背景渐变 - 蓝色圆角矩形 -->
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 剪切板背景渐变 - 灰色 -->
+    <linearGradient id="clipboardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B8C5D1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8A9BA8;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 剪切板夹子渐变 - 蓝色金属 -->
+    <linearGradient id="clipGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5BA0F2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4A90E2;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 纸张渐变 - 纯白 -->
+    <linearGradient id="paperGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f8fafc;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- X字母渐变 - 蓝色 -->
+    <linearGradient id="xGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 阴影滤镜 -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+    
+    <!-- 内阴影滤镜 -->
+    <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feOffset dx="0" dy="2"/>
+      <feGaussianBlur stdDeviation="4"/>
+      <feComposite operator="over"/>
+    </filter>
+    
+    <!-- 3D效果滤镜 -->
+    <filter id="emboss3d" x="-50%" y="-50%" width="200%" height="200%">
+      <feOffset dx="0" dy="4"/>
+      <feGaussianBlur stdDeviation="6"/>
+      <feComposite operator="over"/>
+    </filter>
+  </defs>
+  
+  <!-- 主背景圆角矩形 -->
+  <rect x="64" y="64" width="896" height="896" rx="180" ry="180" fill="url(#mainGradient)" filter="url(#shadow)"/>
+  
+  <!-- 剪切板主体 -->
+  <g transform="translate(200, 120)">
+    
+    <!-- 剪切板背景板 - 更像真实剪切板 -->
+    <rect x="0" y="80" width="624" height="720" rx="25" ry="25" 
+          fill="url(#clipboardGradient)" 
+          stroke="#7A8B98" stroke-width="2"
+          filter="url(#shadow)"/>
+    
+    <!-- 剪切板夹子 - 更真实的设计 -->
+    <g transform="translate(312, 0)">
+      <!-- 夹子主体 -->
+      <rect x="-100" y="0" width="200" height="140" rx="15" ry="15" 
+            fill="url(#clipGradient)" 
+            stroke="#357ABD" stroke-width="2"
+            filter="url(#shadow)"/>
+      
+      <!-- 夹子圆孔 -->
+      <circle cx="0" cy="50" r="25" fill="none" 
+              stroke="#ffffff" stroke-width="8" opacity="0.9"/>
+      
+      <!-- 夹子装饰线条 -->
+      <rect x="-70" y="90" width="140" height="6" rx="3" 
+            fill="#ffffff" opacity="0.7"/>
+      <rect x="-50" y="105" width="100" height="4" rx="2" 
+            fill="#ffffff" opacity="0.5"/>
+    </g>
+    
+    <!-- 白色纸张 - 更大更突出 -->
+    <rect x="50" y="150" width="524" height="600" rx="15" ry="15" 
+          fill="url(#paperGradient)" 
+          stroke="#e2e8f0" stroke-width="1"
+          filter="url(#innerShadow)"/>
+    
+    <!-- X字母 - 超大3D效果 -->
+    <g transform="translate(312, 450)">
+      <!-- X字母底层深阴影 -->
+      <text x="8" y="108" 
+            font-family="SF Pro Display, Helvetica Neue, Arial, sans-serif" 
+            font-size="320" 
+            font-weight="900" 
+            fill="#000000" 
+            opacity="0.15"
+            text-anchor="middle">X</text>
+      
+      <!-- X字母中层阴影 -->
+      <text x="4" y="104" 
+            font-family="SF Pro Display, Helvetica Neue, Arial, sans-serif" 
+            font-size="320" 
+            font-weight="900" 
+            fill="#000000" 
+            opacity="0.1"
+            text-anchor="middle">X</text>
+      
+      <!-- X字母边缘高光 -->
+      <text x="-2" y="98" 
+            font-family="SF Pro Display, Helvetica Neue, Arial, sans-serif" 
+            font-size="320" 
+            font-weight="900" 
+            fill="#ffffff" 
+            opacity="0.4"
+            text-anchor="middle">X</text>
+      
+      <!-- X字母主体 -->
+      <text x="0" y="100" 
+            font-family="SF Pro Display, Helvetica Neue, Arial, sans-serif" 
+            font-size="320" 
+            font-weight="900" 
+            fill="url(#xGradient)" 
+            filter="url(#emboss3d)"
+            text-anchor="middle">X</text>
+    </g>
+  </g>
+  
+  <!-- 顶部高光效果 -->
+  <ellipse cx="512" cy="200" rx="400" ry="80" fill="#ffffff" opacity="0.2" transform="rotate(-3 512 200)"/>
+  
+  <!-- 底部反光 -->
+  <ellipse cx="512" cy="900" rx="300" ry="50" fill="#ffffff" opacity="0.1"/>
+</svg> 
