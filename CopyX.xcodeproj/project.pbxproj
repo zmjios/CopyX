@@ -16,6 +16,7 @@
 		2A1E4B3D2B1234567890007 /* HotKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1E4B3C2B1234567890007 /* HotKeyManager.swift */; };
 		2A1E4B3F2B1234567890008 /* ClipboardHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1E4B3E2B1234567890008 /* ClipboardHistoryView.swift */; };
 		2A1E4B412B1234567890009 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1E4B402B1234567890009 /* SettingsView.swift */; };
+		2A1E4B432B1234567890011 /* TextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1E4B422B1234567890011 /* TextProcessor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		2A1E4B3C2B1234567890007 /* HotKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyManager.swift; sourceTree = "<group>"; };
 		2A1E4B3E2B1234567890008 /* ClipboardHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHistoryView.swift; sourceTree = "<group>"; };
 		2A1E4B402B1234567890009 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		2A1E4B422B1234567890011 /* TextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextProcessor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				2A1E4B382B1234567890005 /* ClipboardManager.swift */,
 				2A1E4B3C2B1234567890007 /* HotKeyManager.swift */,
 				2A1E4B3A2B1234567890006 /* ClipboardItem.swift */,
+				2A1E4B422B1234567890011 /* TextProcessor.swift */,
 				2A1E4B2D2B1234567890003 /* Assets.xcassets */,
 				2A1E4B372B1234567890010 /* CopyX.entitlements */,
 				2A1E4B2F2B1234567890400 /* Preview Content */,
@@ -161,6 +164,7 @@
 				2A1E4B3D2B1234567890007 /* HotKeyManager.swift in Sources */,
 				2A1E4B412B1234567890009 /* SettingsView.swift in Sources */,
 				2A1E4B392B1234567890005 /* ClipboardManager.swift in Sources */,
+				2A1E4B432B1234567890011 /* TextProcessor.swift in Sources */,
 				2A1E4B2A2B1234567890001 /* CopyXApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -292,22 +296,30 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CopyX/CopyX.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CopyX/Preview Content\"";
+				DEVELOPMENT_TEAM = 8YCD48DN83;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "CopyX";
+				INFOPLIST_KEY_CFBundleDisplayName = CopyX;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "CopyX需要发送Apple Events以便与其他应用程序进行分享和交互";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSharingServicePickerSharingServicesKey = "com.apple.share.Mail.compose com.apple.share.Messages.compose com.apple.share.Notes.create com.apple.share.Reminders.create com.apple.share.System.add-to-reading-list com.apple.share.AirDrop.send";
+				INFOPLIST_KEY_NSSystemAdministrationUsageDescription = "CopyX需要系统管理权限以便访问分享服务和剪切板功能";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.2.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.copyx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -319,22 +331,30 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CopyX/CopyX.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CopyX/Preview Content\"";
+				DEVELOPMENT_TEAM = 8YCD48DN83;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "CopyX";
+				INFOPLIST_KEY_CFBundleDisplayName = CopyX;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "CopyX需要发送Apple Events以便与其他应用程序进行分享和交互";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSSharingServicePickerSharingServicesKey = "com.apple.share.Mail.compose com.apple.share.Messages.compose com.apple.share.Notes.create com.apple.share.Reminders.create com.apple.share.System.add-to-reading-list com.apple.share.AirDrop.send";
+				INFOPLIST_KEY_NSSystemAdministrationUsageDescription = "CopyX需要系统管理权限以便访问分享服务和剪切板功能";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.2.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.copyx.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -364,4 +384,4 @@
 /* End XCConfigurationList section */
 	};
 	rootObject = 2A1E4B1E2B1234567890900 /* Project object */;
-} 
+}

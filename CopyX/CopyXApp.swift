@@ -10,25 +10,26 @@ struct CopyXApp: App {
     var body: some Scene {
         // 由于我们是状态栏应用，不需要主窗口
         // 使用一个隐藏的窗口来保持应用运行
-        WindowGroup {
-            EmptyView()
-                .frame(width: 0, height: 0)
-                .opacity(0)
-                .onAppear {
-                    // 将ClipboardManager和HotKeyManager实例传递给AppDelegate
-                    appDelegate.clipboardManager = clipboardManager
-                    appDelegate.hotKeyManager = hotKeyManager
-                    
-                    // 启动剪切板监控
-                    clipboardManager.startMonitoring()
-                    
-                    // 设置HotKeyManager的clipboardManager引用
-                    hotKeyManager.clipboardManager = clipboardManager
-                    hotKeyManager.registerHotKeys()
-                }
-        }
-        .windowStyle(HiddenTitleBarWindowStyle())
-        .windowResizability(.contentSize)
+            WindowGroup {
+                EmptyView()
+                    .frame(width: 0, height: 0)
+                    .opacity(0)
+                    .onAppear {
+                        // 将ClipboardManager和HotKeyManager实例传递给AppDelegate
+                        appDelegate.clipboardManager = clipboardManager
+                        appDelegate.hotKeyManager = hotKeyManager
+                        
+                        // 启动剪切板监控
+                        clipboardManager.startMonitoring()
+                        
+                        // 设置HotKeyManager的clipboardManager引用
+                        hotKeyManager.clipboardManager = clipboardManager
+                        hotKeyManager.registerHotKeys()
+                    }
+            }
+            .windowStyle(HiddenTitleBarWindowStyle())
+            .windowResizability(.contentSize)
+        
     }
 }
 

@@ -213,7 +213,7 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
         }
     }
     
-    func copyToPasteboard() {
+    mutating func copyToPasteboard() {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         
@@ -226,6 +226,53 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
             }
         case .file:
             pasteboard.setString(content, forType: .fileURL)
+        }
+        
+        // 更新使用统计
+        updateUsageStats()
+    }
+    
+    // 更新使用统计
+    mutating func updateUsageStats() {
+        usageCount += 1
+        lastUsedDate = Date()
+    }
+    
+    // 切换收藏状态
+    mutating func toggleFavorite() {
+        isFavorite.toggle()
+    }
+    
+    // 添加标签
+    mutating func addTag(_ tag: String) {
+        if !tags.contains(tag) {
+            tags.append(tag)
+        }
+    }
+    
+    // 移除标签
+    mutating func removeTag(_ tag: String) {
+        tags.removeAll { $0 == tag }
+    }
+    
+    // 设置自定义标题
+    mutating func setCustomTitle(_ title: String?) {
+        customTitle = title?.isEmpty == true ? nil : title
+    }
+    
+    // 获取显示标题
+    var displayTitle: String {
+        if let customTitle = customTitle, !customTitle.isEmpty {
+            return customTitle
+        }
+        
+        switch type {
+        case .text, .url:
+            return String(content.prefix(50))
+        case .image:
+            return "图片内容"
+        case .file:
+            return URL(string: content)?.lastPathComponent ?? "文件"
         }
     }
     
@@ -246,11 +293,11 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
         // 新字段，支持向后兼容
         sourceAppBundleIdentifier = try container.decodeIfPresent(String.self, forKey: .sourceAppBundleIdentifier)
         
-        // 新增收藏夹相关属性
-        isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
-        tags = try container.decode([String].self, forKey: .tags)
+        // 新增收藏夹相关属性，支持向后兼容
+        isFavorite = try container.decodeIfPresent(Bool.self, forKey: .isFavorite) ?? false
+        tags = try container.decodeIfPresent([String].self, forKey: .tags) ?? []
         customTitle = try container.decodeIfPresent(String.self, forKey: .customTitle)
-        usageCount = try container.decode(Int.self, forKey: .usageCount)
+        usageCount = try container.decodeIfPresent(Int.self, forKey: .usageCount) ?? 0
         lastUsedDate = try container.decodeIfPresent(Date.self, forKey: .lastUsedDate)
     }
     

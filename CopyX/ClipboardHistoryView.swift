@@ -1,10 +1,12 @@
 import SwiftUI
 import AppKit
+import UserNotifications
 
 struct ClipboardHistoryView: View {
     @EnvironmentObject var clipboardManager: ClipboardManager
     @State private var searchText = ""
     @State private var selectedTypeFilter: ClipboardItem.ClipboardItemType? = nil
+    @State private var showingFavoritesOnly = false
     @State private var selectedIndex = 0
     @State private var showingDetailView = false
     @State private var selectedItem: ClipboardItem? = nil
@@ -18,11 +20,18 @@ struct ClipboardHistoryView: View {
     var filteredItems: [ClipboardItem] {
         var items = clipboardManager.clipboardHistory
         
+        // 收藏过滤
+        if showingFavoritesOnly {
+            items = items.filter { $0.isFavorite }
+        }
+        
         // 搜索过滤
         if !searchText.isEmpty {
             items = items.filter { item in
                 item.content.localizedCaseInsensitiveContains(searchText) ||
-                item.sourceApp.localizedCaseInsensitiveContains(searchText)
+                item.sourceApp.localizedCaseInsensitiveContains(searchText) ||
+                item.displayTitle.localizedCaseInsensitiveContains(searchText) ||
+                item.tags.contains { $0.localizedCaseInsensitiveContains(searchText) }
             }
         }
         
@@ -71,7 +80,7 @@ struct ClipboardHistoryView: View {
                 closeDetailView()
             },
             onCopy: {
-                item.copyToPasteboard()
+                clipboardManager.copyToPasteboard(item)
                 detailWindow.close()
                 closeDetailView()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -197,10 +206,30 @@ struct ClipboardHistoryView: View {
                 FilterButton(
                     title: type?.displayName ?? "全部",
                     icon: type?.iconName ?? "square.grid.2x2",
-                    isSelected: selectedTypeFilter == type,
+                    isSelected: selectedTypeFilter == type && !showingFavoritesOnly,
                     backgroundColor: type?.backgroundColor ?? "systemGray"
                 ) {
-                    selectedTypeFilter = type
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        selectedTypeFilter = type
+                        // 如果选择了类型筛选，清除收藏筛选
+                        showingFavoritesOnly = false
+                    }
+                }
+            }
+            
+            // 收藏夹筛选按钮
+            FilterButton(
+                title: "收藏",
+                icon: "heart.fill",
+                isSelected: showingFavoritesOnly,
+                backgroundColor: "systemPink"
+            ) {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    showingFavoritesOnly.toggle()
+                    // 如果开启收藏筛选，清除类型筛选
+                    if showingFavoritesOnly {
+                        selectedTypeFilter = nil
+                    }
                 }
             }
         }
@@ -309,12 +338,13 @@ extension ClipboardHistoryView {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 16) {
                 ForEach(Array(filteredItems.enumerated()), id: \.element.id) { index, item in
-                    ClipboardCardView(
+                                            ClipboardCardView(
                         item: item,
                         index: index,
                         isSelected: index == selectedIndex,
+                        clipboardManager: clipboardManager,
                         onCopy: {
-                            item.copyToPasteboard()
+                            clipboardManager.copyToPasteboard(item)
                             if let onClose = onClose {
                                 onClose()
                             } else {
@@ -685,6 +715,7 @@ struct ClipboardCardView: View {
     let item: ClipboardItem
     let index: Int
     let isSelected: Bool
+    let clipboardManager: ClipboardManager
     let onCopy: () -> Void
     let onShowDetail: () -> Void
     
@@ -721,6 +752,7 @@ struct ClipboardCardView: View {
             }
         }
         .onTapGesture {
+            // 只在非操作按钮区域响应点击
             performCopyAnimation()
         }
         .onTapGesture(count: 2) {
@@ -739,6 +771,7 @@ struct ClipboardCardView: View {
                     }
                 }
         )
+        .allowsHitTesting(true)
     }
     
     // 顶部类型标签
@@ -785,6 +818,19 @@ struct ClipboardCardView: View {
             )
             
             Spacer()
+            
+            // 收藏按钮
+            Button(action: {
+                toggleFavorite()
+            }) {
+                Image(systemName: item.isFavorite ? "heart.fill" : "heart")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(item.isFavorite ? .pink : .secondary)
+                    .scaleEffect(item.isFavorite ? 1.1 : 1.0)
+                    .animation(.bouncy(duration: 0.5), value: item.isFavorite)
+            }
+            .buttonStyle(PlainButtonStyle())
+            .help(item.isFavorite ? "取消收藏" : "添加收藏")
             
             // 类型标签
             HStack(spacing: 4) {
@@ -861,10 +907,11 @@ struct ClipboardCardView: View {
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
-                                            .background(
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(Color(NSColor.tertiarySystemFill))
-                        )
+                    .background(
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(Color(NSColor.controlBackgroundColor))
+                    )
+                
             }
         }
     }
@@ -923,7 +970,7 @@ struct ClipboardCardView: View {
                         .padding(.vertical, 2)
                         .background(
                             RoundedRectangle(cornerRadius: 4)
-                                .fill(Color(NSColor.tertiarySystemFill))
+                                .fill(Color(NSColor.controlBackgroundColor))
                         )
                 }
             }
@@ -939,6 +986,10 @@ struct ClipboardCardView: View {
                 // 操作图标 - 参考图片中右下角的图标
                 if isHovered || isSelected {
                     HStack(spacing: 6) {
+                        // 分享按钮
+                        ShareButton(item: item)
+                            .allowsHitTesting(true) // 确保可以点击
+                        
                         Button(action: onShowDetail) {
                             Image(systemName: "arrow.up.right.square")
                                 .font(.system(size: 14))
@@ -953,6 +1004,7 @@ struct ClipboardCardView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
+                    .allowsHitTesting(true) // 确保操作按钮区域可以点击
                 }
             }
         }
@@ -965,7 +1017,7 @@ struct ClipboardCardView: View {
                         colors: [
                             Color(item.getAppIconDominantColor()).opacity(0.08),
                             Color(item.getAppIconDominantColor()).opacity(0.05),
-                            Color(NSColor.tertiarySystemFill).opacity(0.15)
+                            Color(NSColor.controlBackgroundColor).opacity(0.15)
                         ],
                         startPoint: .leading,
                         endPoint: .trailing
@@ -1185,7 +1237,12 @@ struct ClipboardCardView: View {
         }
     }
     
-
+    // 切换收藏状态
+    private func toggleFavorite() {
+        withAnimation(.bouncy(duration: 0.5)) {
+            clipboardManager.toggleFavorite(item)
+        }
+    }
 }
 
 // MARK: - 可选择文本组件
@@ -1297,4 +1354,937 @@ struct SelectableText: NSViewRepresentable {
 
 extension NSApplication {
     static let keyboardShortcutNotification = Notification.Name("KeyboardShortcut")
+}
+
+// MARK: - 分享按钮组件
+struct ShareButton: View {
+    let item: ClipboardItem
+    @State private var showingShareMenu = false
+    @EnvironmentObject var clipboardManager: ClipboardManager
+    
+    var body: some View {
+        ZStack {
+            Button(action: {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    showingShareMenu.toggle()
+                }
+            }) {
+                Image(systemName: "square.and.arrow.up")
+                    .font(.system(size: 14))
+                    .foregroundColor(Color(item.getAppIconDominantColor()))
+            }
+            .buttonStyle(PlainButtonStyle())
+            .help("分享")
+            .onTapGesture {
+                // 阻止事件冒泡到父视图
+            }
+            
+            if showingShareMenu {
+                if clipboardManager.useModalShareView {
+                    ShareModalView(item: item, isPresented: $showingShareMenu)
+                } else {
+                    ShareMenuOverlay(item: item, isPresented: $showingShareMenu)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - 分享模态弹框
+struct ShareModalView: View {
+    let item: ClipboardItem
+    @Binding var isPresented: Bool
+    
+    var body: some View {
+        ZStack {
+            // 半透明背景遮罩
+            Color.black.opacity(0.3)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                        isPresented = false
+                    }
+                }
+            
+            // 中心弹框
+            VStack(spacing: 0) {
+                // 标题栏
+                HStack {
+                    Text("分享到")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundColor(.primary)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                            isPresented = false
+                        }
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 20))
+                            .foregroundColor(.secondary)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .help("关闭")
+                }
+                .padding(.horizontal, 14)
+                .padding(.top, 10)
+                .padding(.bottom, 6)
+                
+                // 分享选项网格 - 改为3列布局以容纳更多选项
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 3), spacing: 8) {
+                    ShareModalOption(
+                        title: "微信",
+                        icon: "message.fill",
+                        color: .green
+                    ) {
+                        ShareManager.shared.shareToWeChat(item)
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                            isPresented = false
+                        }
+                    }
+                    
+                    ShareModalOption(
+                        title: "系统分享",
+                        icon: "square.and.arrow.up.circle.fill",
+                        color: .blue
+                    ) {
+                        ShareManager.shared.shareToSystem(item)
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                            isPresented = false
+                        }
+                    }
+                    
+                    ShareModalOption(
+                        title: "X (Twitter)",
+                        icon: "bubble.left.and.bubble.right.fill",
+                        color: .cyan
+                    ) {
+                        ShareManager.shared.shareToTwitter(item)
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                            isPresented = false
+                        }
+                    }
+                    
+                    ShareModalOption(
+                        title: "微博",
+                        icon: "globe.asia.australia.fill",
+                        color: .orange
+                    ) {
+                        ShareManager.shared.shareToWeibo(item)
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                            isPresented = false
+                        }
+                    }
+                    
+                    ShareModalOption(
+                        title: "QQ",
+                        icon: "person.2.fill",
+                        color: .purple
+                    ) {
+                        ShareManager.shared.shareToQQ(item)
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                            isPresented = false
+                        }
+                    }
+                    
+                    ShareModalOption(
+                        title: "复制链接",
+                        icon: "link.circle.fill",
+                        color: .gray
+                    ) {
+                        ShareManager.shared.copyToClipboard(item)
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                            isPresented = false
+                        }
+                    }
+                }
+                .padding(.horizontal, 14)
+                .padding(.bottom, 14)
+            }
+            .frame(width: 300, height: 240)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color(NSColor.controlBackgroundColor))
+                    .shadow(color: Color.black.opacity(0.25), radius: 20, x: 0, y: 10)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Color(NSColor.separatorColor).opacity(0.5), lineWidth: 0.5)
+            )
+            .clipped()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .drawingGroup() // 优化跨屏幕渲染性能
+        .transition(.asymmetric(
+            insertion: .opacity.combined(with: .scale(scale: 0.95)),
+            removal: .opacity.combined(with: .scale(scale: 0.95))
+        ))
+        .background(
+            // 隐藏的键盘事件处理器
+            KeyboardEventHandler { event in
+                if event.keyCode == 53 { // ESC键的keyCode是53
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0)) {
+                        isPresented = false
+                    }
+                    return true
+                }
+                return false
+            }
+        )
+    }
+}
+
+// MARK: - 分享模态选项
+struct ShareModalOption: View {
+    let title: String
+    let icon: String
+    let color: Color
+    let action: () -> Void
+    
+    @State private var isHovered = false
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 4) {
+                ZStack {
+                    Circle()
+                        .fill(color.opacity(0.15))
+                        .frame(width: 32, height: 32)
+                    
+                    Image(systemName: icon)
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(color)
+                }
+                
+                Text(title)
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity, minHeight: 52, maxHeight: 52)
+            .padding(.horizontal, 4)
+            .padding(.vertical, 4)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(isHovered ? Color(NSColor.controlAccentColor).opacity(0.1) : Color.clear)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.2)) {
+                isHovered = hovering
+            }
+        }
+        .contentShape(Rectangle())
+    }
+}
+
+// MARK: - 分享菜单覆盖层
+struct ShareMenuOverlay: View {
+    let item: ClipboardItem
+    @Binding var isPresented: Bool
+    
+    var body: some View {
+        GeometryReader { geometry in
+            // 透明背景，点击关闭菜单
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8, blendDuration: 0)) {
+                        isPresented = false
+                    }
+                }
+                .overlay(
+                    ShareMenuContent(item: item, isPresented: $isPresented)
+                        .position(
+                            x: max(100, min(geometry.size.width - 100, geometry.size.width - 50)),
+                            y: max(120, min(geometry.size.height - 120, geometry.size.height - 50))
+                        )
+                        .scaleEffect(isPresented ? 1.0 : 0.8)
+                        .opacity(isPresented ? 1.0 : 0.0)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.8, blendDuration: 0), value: isPresented)
+                )
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .drawingGroup() // 优化跨屏幕渲染性能
+        .allowsHitTesting(true)
+        .background(
+            // 隐藏的键盘事件处理器
+            KeyboardEventHandler { event in
+                if event.keyCode == 53 { // ESC键的keyCode是53
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8, blendDuration: 0)) {
+                        isPresented = false
+                    }
+                    return true
+                }
+                return false
+            }
+        )
+    }
+}
+
+// MARK: - 分享菜单内容
+struct ShareMenuContent: View {
+    let item: ClipboardItem
+    @Binding var isPresented: Bool
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("分享到")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.primary)
+                Spacer()
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        isPresented = false
+                    }
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 14))
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            .padding(.bottom, 2)
+            
+            VStack(spacing: 4) {
+                // 系统分享
+                ShareOptionButton(
+                    title: "系统分享",
+                    icon: "square.and.arrow.up.circle.fill",
+                    color: .blue,
+                    action: {
+                        ShareManager.shared.shareToSystem(item)
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isPresented = false
+                        }
+                    }
+                )
+                
+                // 微信分享
+                ShareOptionButton(
+                    title: "微信",
+                    icon: "message.fill",
+                    color: .green,
+                    action: {
+                        ShareManager.shared.shareToWeChat(item)
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isPresented = false
+                        }
+                    }
+                )
+                
+                // X (Twitter) 分享
+                ShareOptionButton(
+                    title: "X (Twitter)",
+                    icon: "bubble.left.and.bubble.right.fill",
+                    color: .cyan,
+                    action: {
+                        ShareManager.shared.shareToTwitter(item)
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isPresented = false
+                        }
+                    }
+                )
+                
+                // 微博分享
+                ShareOptionButton(
+                    title: "微博",
+                    icon: "globe.asia.australia.fill",
+                    color: .orange,
+                    action: {
+                        ShareManager.shared.shareToWeibo(item)
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isPresented = false
+                        }
+                    }
+                )
+                
+                // QQ分享
+                ShareOptionButton(
+                    title: "QQ",
+                    icon: "person.2.fill",
+                    color: .purple,
+                    action: {
+                        ShareManager.shared.shareToQQ(item)
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isPresented = false
+                        }
+                    }
+                )
+                
+                // 复制内容
+                ShareOptionButton(
+                    title: "复制内容",
+                    icon: "doc.on.doc.fill",
+                    color: .gray,
+                    action: {
+                        ShareManager.shared.copyToClipboard(item)
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isPresented = false
+                        }
+                    }
+                )
+            }
+        }
+        .padding(10)
+        .frame(width: 180, height: 240)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color(NSColor.controlBackgroundColor))
+                .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: 8)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color(NSColor.separatorColor), lineWidth: 0.5)
+        )
+        .allowsHitTesting(true)
+        .contentShape(Rectangle())
+    }
+}
+
+// MARK: - 分享选项按钮
+struct ShareOptionButton: View {
+    let title: String
+    let icon: String
+    let color: Color
+    let action: () -> Void
+    
+    @State private var isHovered = false
+    
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                Image(systemName: icon)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(color)
+                    .frame(width: 16)
+                
+                Text(title)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(.primary)
+                
+                Spacer()
+                
+                Image(systemName: "arrow.right")
+                    .font(.system(size: 9))
+                    .foregroundColor(.secondary)
+                    .opacity(isHovered ? 1.0 : 0.0)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 6)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(isHovered ? color.opacity(0.1) : Color.clear)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.2)) {
+                isHovered = hovering
+            }
+        }
+        .contentShape(Rectangle())
+    }
+}
+
+
+
+
+
+// MARK: - 分享管理器
+class ShareManager {
+    static let shared = ShareManager()
+    
+    private init() {}
+    
+    // 分享到微信
+    func shareToWeChat(_ item: ClipboardItem) {
+        let content = prepareShareContent(item)
+        
+        // 首先检查微信是否安装
+        if isWeChatInstalled() {
+            // 使用微信分享URL Scheme
+            shareToWeChatWithURLScheme(content: content, item: item)
+        } else {
+            // 微信未安装，提供备用方案
+            showWeChatNotInstalledAlert(content: content)
+        }
+    }
+    
+    // 检查微信是否安装
+    private func isWeChatInstalled() -> Bool {
+        if let wechatURL = URL(string: "weixin://") {
+            return NSWorkspace.shared.urlForApplication(toOpen: wechatURL) != nil
+        }
+        return false
+    }
+    
+    // 使用微信URL Scheme分享
+    private func shareToWeChatWithURLScheme(content: String, item: ClipboardItem) {
+        // 根据内容类型构建不同的分享URL
+        var shareURL: URL?
+        
+        switch item.type {
+        case .text, .url:
+            // 文本分享：使用微信的文本分享接口
+            shareURL = URL(string: "weixin://dl/stickers")
+            
+            // 先复制内容到剪切板
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(content, forType: .string)
+            
+        case .image:
+            // 图片分享：打开微信让用户手动分享
+            shareURL = URL(string: "weixin://dl/moments")
+            
+            // 如果是图片，尝试复制图片到剪切板
+            if let imageData = Data(base64Encoded: item.content),
+               let nsImage = NSImage(data: imageData) {
+                NSPasteboard.general.clearContents()
+                NSPasteboard.general.writeObjects([nsImage])
+            }
+            
+        case .file:
+            // 文件分享：打开微信文件传输助手
+            shareURL = URL(string: "weixin://dl/chat")
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString("文件: \(item.displayTitle)", forType: .string)
+        }
+        
+        // 打开微信
+        if let url = shareURL {
+            NSWorkspace.shared.open(url)
+            
+            // 延迟显示分享指导
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.showWeChatShareGuidance(for: item.type)
+            }
+        }
+    }
+    
+    // 显示微信分享指导
+    private func showWeChatShareGuidance(for type: ClipboardItem.ClipboardItemType) {
+        let message: String
+        switch type {
+        case .text, .url:
+            message = "内容已复制到剪切板，在微信中长按输入框粘贴分享"
+        case .image:
+            message = "图片已复制到剪切板，在微信中点击相册选择或粘贴分享"
+        case .file:
+            message = "文件信息已复制，可在微信文件传输助手中分享"
+        }
+        
+        showShareNotification(platform: "微信", message: message)
+    }
+    
+    // 微信未安装时的处理
+    private func showWeChatNotInstalledAlert(content: String) {
+        let alert = NSAlert()
+        alert.messageText = "微信未安装"
+        alert.informativeText = "您的设备上没有安装微信应用。是否要打开微信网页版？"
+        alert.addButton(withTitle: "打开网页版")
+        alert.addButton(withTitle: "复制内容")
+        alert.addButton(withTitle: "取消")
+        alert.alertStyle = .informational
+        
+        let response = alert.runModal()
+        
+        switch response {
+        case .alertFirstButtonReturn:
+            // 打开微信网页版
+            if let webURL = URL(string: "https://wx.qq.com/") {
+                NSWorkspace.shared.open(webURL)
+                NSPasteboard.general.clearContents()
+                NSPasteboard.general.setString(content, forType: .string)
+                showShareNotification(platform: "微信网页版", message: "内容已复制到剪切板")
+            }
+        case .alertSecondButtonReturn:
+            // 仅复制内容
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(content, forType: .string)
+            showShareNotification(platform: "剪切板", message: "内容已复制到剪切板")
+        default:
+            break
+        }
+    }
+    
+    // 分享到 X (Twitter)
+    func shareToTwitter(_ item: ClipboardItem) {
+        let content = prepareShareContent(item)
+        let encodedContent = content.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        
+        if let twitterURL = URL(string: "https://twitter.com/intent/tweet?text=\(encodedContent)") {
+            NSWorkspace.shared.open(twitterURL)
+            showShareNotification(platform: "X (Twitter)", message: "正在打开 X...")
+        }
+    }
+    
+    // 分享到微博
+    func shareToWeibo(_ item: ClipboardItem) {
+        let content = prepareShareContent(item)
+        let encodedContent = content.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        
+        if let weiboURL = URL(string: "https://service.weibo.com/share/share.php?title=\(encodedContent)") {
+            NSWorkspace.shared.open(weiboURL)
+            showShareNotification(platform: "微博", message: "正在打开微博...")
+        }
+    }
+    
+    // 分享到QQ
+    func shareToQQ(_ item: ClipboardItem) {
+        let content = prepareShareContent(item)
+        
+        // 尝试打开QQ
+        if let qqURL = URL(string: "mqq://") {
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(content, forType: .string)
+            
+            NSWorkspace.shared.open(qqURL, configuration: NSWorkspace.OpenConfiguration()) { app, error in
+                DispatchQueue.main.async {
+                    if error == nil {
+                        self.showShareNotification(platform: "QQ", message: "内容已复制到剪切板，请在QQ中粘贴")
+                    } else {
+                        // QQ未安装，使用系统分享
+                        self.shareToSystem(item)
+                    }
+                }
+            }
+        }
+    }
+    
+    // 系统分享
+    func shareToSystem(_ item: ClipboardItem) {
+        // 使用最简单的分享方式 - 纯文本
+        let shareText: String
+        
+        switch item.type {
+        case .text:
+            shareText = item.content
+        case .url:
+            shareText = item.content
+        case .image:
+            shareText = "图片分享"
+        case .file:
+            shareText = "文件: \(item.displayTitle)"
+        }
+        
+        // 确保文本不为空
+        let finalText = shareText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !finalText.isEmpty else {
+            NSLog("分享文本为空")
+            self.fallbackShare(content: "无内容可分享")
+            return
+        }
+        
+        let itemsToShare = [finalText]
+        
+        // 调试信息
+        NSLog("准备分享文本: \(finalText)")
+        
+        // 使用系统分享面板
+        DispatchQueue.main.async {
+            // 尝试使用不同的分享方式
+            self.trySystemShare(items: itemsToShare, content: finalText, originalItem: item)
+        }
+    }
+    
+    // 尝试多种系统分享方式
+    private func trySystemShare(items: [Any], content: String, originalItem: ClipboardItem) {
+        NSLog("开始尝试系统分享，项目数量: \(items.count)")
+        
+        // 只尝试一种方式：直接使用分享服务
+        if self.tryDirectSharingService(items: items, content: content) {
+            return
+        }
+        
+        // 备用方案 - 复制到剪切板并提示用户
+        self.fallbackShare(content: content)
+    }
+    
+
+    
+    // 直接使用分享服务
+    private func tryDirectSharingService(items: [Any], content: String) -> Bool {
+        NSLog("尝试直接分享服务")
+        
+        // 方法1：尝试使用特定的分享服务而不是选择器
+        let availableServices = NSSharingService.sharingServices(forItems: items)
+        NSLog("系统可用的分享服务: \(availableServices.map { $0.title })")
+        
+        if !availableServices.isEmpty {
+            // 创建一个简单的选择对话框
+            let alert = NSAlert()
+            alert.messageText = "选择分享方式"
+            alert.informativeText = "请选择要使用的分享服务："
+            
+            // 添加主要的分享服务选项
+            let mainServices = ["Mail", "Messages", "Notes", "Reminders"]
+            for serviceName in mainServices {
+                if availableServices.contains(where: { $0.title == serviceName }) {
+                    alert.addButton(withTitle: serviceName)
+                }
+            }
+            
+            // 如果有其他服务，添加一个"其他"选项
+            if availableServices.count > mainServices.count {
+                alert.addButton(withTitle: "其他...")
+            }
+            
+            alert.addButton(withTitle: "取消")
+            
+            let response = alert.runModal()
+            
+            if response == .alertFirstButtonReturn {
+                // 用户选择了第一个按钮，尝试使用对应的服务
+                if let selectedService = availableServices.first(where: { $0.title == mainServices[0] }) {
+                    return self.performDirectShare(service: selectedService, items: items)
+                }
+            } else if response == .alertSecondButtonReturn {
+                // 用户选择了第二个按钮
+                if availableServices.count > 1,
+                   let selectedService = availableServices.first(where: { $0.title == mainServices[1] }) {
+                    return self.performDirectShare(service: selectedService, items: items)
+                }
+            }
+            // 可以继续处理其他按钮...
+        }
+        
+        // 方法2：如果上述方法失败，尝试使用系统的分享扩展
+        return self.trySystemShareExtension(content: content)
+    }
+    
+    // 执行直接分享
+    private func performDirectShare(service: NSSharingService, items: [Any]) -> Bool {
+        NSLog("使用服务进行分享: \(service.title)")
+        
+        if service.canPerform(withItems: items) {
+            service.perform(withItems: items)
+            self.showShareNotification(platform: service.title, message: "正在通过 \(service.title) 分享...")
+            return true
+        } else {
+            NSLog("服务 \(service.title) 无法处理这些项目")
+            return false
+        }
+    }
+    
+    // 尝试使用系统分享扩展
+    private func trySystemShareExtension(content: String) -> Bool {
+        NSLog("尝试使用系统分享扩展")
+        
+        // 使用 NSWorkspace 打开系统分享
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(content, forType: .string)
+        
+        // 尝试打开系统的分享菜单（如果可能）
+        if let url = URL(string: "x-apple.systempreferences:com.apple.preference.sharing") {
+            NSWorkspace.shared.open(url, configuration: NSWorkspace.OpenConfiguration()) { app, error in
+                DispatchQueue.main.async {
+                    if error != nil {
+                        // 如果无法打开系统偏好设置，显示手动分享提示
+                        self.showManualShareDialog(content: content)
+                    }
+                }
+            }
+            return true
+        }
+        
+        return false
+    }
+    
+    // 显示手动分享对话框
+    private func showManualShareDialog(content: String) {
+        let alert = NSAlert()
+        alert.messageText = "内容已复制到剪切板"
+        alert.informativeText = "由于系统限制，无法直接打开分享面板。内容已复制到剪切板，您可以：\n\n1. 打开邮件应用并粘贴内容\n2. 打开信息应用并粘贴内容\n3. 使用 Command+V 在任何应用中粘贴\n\n内容：\(content.prefix(100))..."
+        alert.addButton(withTitle: "确定")
+        alert.addButton(withTitle: "打开邮件")
+        alert.addButton(withTitle: "打开信息")
+        
+        let response = alert.runModal()
+        
+        switch response {
+        case .alertSecondButtonReturn:
+            // 打开邮件应用
+            if let mailURL = URL(string: "mailto:") {
+                NSWorkspace.shared.open(mailURL)
+            }
+        case .alertThirdButtonReturn:
+            // 打开信息应用
+            if let messagesURL = URL(string: "sms:") {
+                NSWorkspace.shared.open(messagesURL)
+            }
+        default:
+            break
+        }
+        
+        self.showShareNotification(platform: "手动分享", message: "内容已复制到剪切板，可手动分享")
+    }
+    
+    // 方式3：备用方案
+    private func fallbackShare(content: String) {
+        NSLog("使用备用分享方案")
+        
+        // 复制内容到剪切板
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(content, forType: .string)
+        
+        // 显示提示
+        let alert = NSAlert()
+        alert.messageText = "系统分享不可用"
+        alert.informativeText = "内容已复制到剪切板。您可以手动粘贴到其他应用中进行分享。"
+        alert.addButton(withTitle: "确定")
+        alert.runModal()
+        
+        self.showShareNotification(platform: "剪切板", message: "内容已复制到剪切板，可手动分享")
+    }
+    
+    // 复制到剪切板
+    func copyToClipboard(_ item: ClipboardItem) {
+        let content = prepareShareContent(item)
+        
+        NSPasteboard.general.clearContents()
+        
+        switch item.type {
+        case .text, .url, .file:
+            NSPasteboard.general.setString(content, forType: .string)
+        case .image:
+            // 如果是图片，同时复制图片和文本
+            if let imageData = Data(base64Encoded: item.content),
+               let nsImage = NSImage(data: imageData) {
+                NSPasteboard.general.writeObjects([nsImage])
+                NSPasteboard.general.setString(content, forType: .string)
+            } else {
+                NSPasteboard.general.setString(content, forType: .string)
+            }
+        }
+        
+        showShareNotification(platform: "剪切板", message: "内容已复制到剪切板")
+    }
+    
+    // 准备分享内容
+    private func prepareShareContent(_ item: ClipboardItem) -> String {
+        var content = ""
+        
+        switch item.type {
+        case .text:
+            content = item.content
+        case .url:
+            content = item.content
+        case .image:
+            content = "分享了一张图片"
+        case .file:
+            content = "分享了文件: \(item.displayTitle)"
+        }
+        
+        // 添加来源信息
+        content += "\n\n📎 来自 CopyX 剪切板"
+        
+        return content
+    }
+    
+    // 显示分享通知
+    private func showShareNotification(platform: String, message: String) {
+        DispatchQueue.main.async {
+            // 使用现代化的 UserNotifications 框架
+            if #available(macOS 10.14, *) {
+                let center = UNUserNotificationCenter.current()
+                
+                // 请求通知权限
+                center.requestAuthorization(options: [.alert, .sound]) { granted, error in
+                    if granted {
+                        let content = UNMutableNotificationContent()
+                        content.title = "分享到\(platform)"
+                        content.body = message
+                        content.sound = .default
+                        
+                        let request = UNNotificationRequest(
+                            identifier: UUID().uuidString,
+                            content: content,
+                            trigger: nil
+                        )
+                        
+                        center.add(request) { error in
+                            if let error = error {
+                                NSLog("通知发送失败: \(error.localizedDescription)")
+                            }
+                        }
+                    }
+                }
+            } else {
+                // 为旧版本系统保留兼容性（虽然已废弃）
+                let notification = NSUserNotification()
+                notification.title = "分享到\(platform)"
+                notification.informativeText = message
+                notification.soundName = NSUserNotificationDefaultSoundName
+                NSUserNotificationCenter.default.deliver(notification)
+            }
+        }
+    }
+}
+
+// MARK: - 动画配置
+struct AnimationConfig {
+    static let multiScreenOptimized = Animation.spring(
+        response: 0.4,
+        dampingFraction: 0.8,
+        blendDuration: 0
+    )
+    
+    static let quickTransition = Animation.spring(
+        response: 0.3,
+        dampingFraction: 0.8,
+        blendDuration: 0
+    )
+    
+    // 检测是否为多屏幕环境
+    static var isMultiScreen: Bool {
+        return NSScreen.screens.count > 1
+    }
+    
+    // 根据环境选择最佳动画
+    static var optimal: Animation {
+        return isMultiScreen ? multiScreenOptimized : quickTransition
+    }
+}
+
+// MARK: - 键盘事件处理器
+struct KeyboardEventHandler: NSViewRepresentable {
+    let onKeyEvent: (NSEvent) -> Bool
+    
+    func makeNSView(context: Context) -> NSView {
+        let view = KeyEventView()
+        view.onKeyEvent = onKeyEvent
+        return view
+    }
+    
+    func updateNSView(_ nsView: NSView, context: Context) {
+        if let keyView = nsView as? KeyEventView {
+            keyView.onKeyEvent = onKeyEvent
+        }
+    }
+}
+
+class KeyEventView: NSView {
+    var onKeyEvent: ((NSEvent) -> Bool)?
+    
+    override var acceptsFirstResponder: Bool { true }
+    
+    override func keyDown(with event: NSEvent) {
+        if let handler = onKeyEvent, handler(event) {
+            return // 事件已处理
+        }
+        super.keyDown(with: event)
+    }
+    
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        window?.makeFirstResponder(self)
+    }
 } 

@@ -29,6 +29,7 @@ class ClipboardManager: ObservableObject {
     @AppStorage("autoCleanup") var autoCleanup: Bool = false
     @AppStorage("enableTextHistory") var enableTextHistory: Bool = true
     @AppStorage("enableImageHistory") var enableImageHistory: Bool = true
+    @AppStorage("useModalShareView") var useModalShareView: Bool = true
     
     // 方便访问的别名
     var skipPasswords: Bool {
@@ -333,6 +334,108 @@ class ClipboardManager: ObservableObject {
         return nil
     }
     
+    // MARK: - 剪切板操作
+    func copyToPasteboard(_ item: ClipboardItem) {
+        if let index = clipboardHistory.firstIndex(where: { $0.id == item.id }) {
+            clipboardHistory[index].updateUsageStats()
+            saveClipboardHistory()
+        }
+        
+        // 复制到剪切板
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        
+        switch item.type {
+        case .text, .url:
+            pasteboard.setString(item.content, forType: .string)
+        case .image:
+            if let data = Data(base64Encoded: item.content) {
+                pasteboard.setData(data, forType: .tiff)
+            }
+        case .file:
+            pasteboard.setString(item.content, forType: .fileURL)
+        }
+    }
+    
+    // MARK: - 收藏夹管理
+    func toggleFavorite(_ item: ClipboardItem) {
+        if let index = clipboardHistory.firstIndex(where: { $0.id == item.id }) {
+            clipboardHistory[index].toggleFavorite()
+            saveClipboardHistory()
+        }
+    }
+    
+    func addTag(to item: ClipboardItem, tag: String) {
+        if let index = clipboardHistory.firstIndex(where: { $0.id == item.id }) {
+            clipboardHistory[index].addTag(tag)
+            saveClipboardHistory()
+        }
+    }
+    
+    func removeTag(from item: ClipboardItem, tag: String) {
+        if let index = clipboardHistory.firstIndex(where: { $0.id == item.id }) {
+            clipboardHistory[index].removeTag(tag)
+            saveClipboardHistory()
+        }
+    }
+    
+    func setCustomTitle(for item: ClipboardItem, title: String?) {
+        if let index = clipboardHistory.firstIndex(where: { $0.id == item.id }) {
+            clipboardHistory[index].setCustomTitle(title)
+            saveClipboardHistory()
+        }
+    }
+    
+    // 获取所有标签
+    var allTags: [String] {
+        let tags = clipboardHistory.flatMap { $0.tags }
+        return Array(Set(tags)).sorted()
+    }
+    
+    // 获取收藏的项目
+    var favoriteItems: [ClipboardItem] {
+        return clipboardHistory.filter { $0.isFavorite }
+    }
+    
+    // MARK: - 文本处理功能
+    func processText(_ text: String, operation: TextOperation) -> String {
+        return operation.apply(to: text)
+    }
+    
+    func getTextStats(_ text: String) -> TextStats {
+        return TextProcessor.getTextStats(text)
+    }
+    
+    func extractURLs(from text: String) -> [String] {
+        return TextProcessor.extractURLs(text)
+    }
+    
+    func extractEmails(from text: String) -> [String] {
+        return TextProcessor.extractEmails(text)
+    }
+    
+    func extractPhoneNumbers(from text: String) -> [String] {
+        return TextProcessor.extractPhoneNumbers(text)
+    }
+    
+    // MARK: - 统计分析
+    func getUsageStats() -> UsageStats {
+        let totalItems = clipboardHistory.count
+        let favoriteItems = clipboardHistory.filter { $0.isFavorite }.count
+        let itemsByType = Dictionary(grouping: clipboardHistory, by: { $0.type })
+            .mapValues { $0.count }
+        let totalUsage = clipboardHistory.reduce(0) { $0 + $1.usageCount }
+        let mostUsedItem = clipboardHistory.max(by: { $0.usageCount < $1.usageCount })
+        
+        return UsageStats(
+            totalItems: totalItems,
+            favoriteItems: favoriteItems,
+            itemsByType: itemsByType,
+            totalUsage: totalUsage,
+            mostUsedItem: mostUsedItem
+        )
+    }
+    
     // MARK: - 数据导入导出
     func exportData() {
         let savePanel = NSSavePanel()
@@ -435,5 +538,33 @@ class ClipboardManager: ObservableObject {
     
     deinit {
         stopMonitoring()
+    }
+}
+
+// MARK: - 使用统计结构
+struct UsageStats {
+    let totalItems: Int
+    let favoriteItems: Int
+    let itemsByType: [ClipboardItem.ClipboardItemType: Int]
+    let totalUsage: Int
+    let mostUsedItem: ClipboardItem?
+    
+    var description: String {
+        var result = """
+        总项目数: \(totalItems)
+        收藏项目数: \(favoriteItems)
+        总使用次数: \(totalUsage)
+        """
+        
+        if let mostUsed = mostUsedItem {
+            result += "\n最常用项目: \(mostUsed.displayTitle) (使用 \(mostUsed.usageCount) 次)"
+        }
+        
+        result += "\n\n按类型分布:"
+        for (type, count) in itemsByType.sorted(by: { $0.value > $1.value }) {
+            result += "\n\(type.displayName): \(count)"
+        }
+        
+        return result
     }
 } 

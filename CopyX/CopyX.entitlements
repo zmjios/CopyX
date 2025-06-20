@@ -4,25 +4,44 @@
 <dict>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
+	<key>com.apple.security.automation.apple-events</key>
+	<true/>
+	<key>com.apple.security.device.audio-input</key>
+	<true/>
+	<key>com.apple.security.device.bluetooth</key>
+	<true/>
+	<key>com.apple.security.device.camera</key>
+	<true/>
+	<key>com.apple.security.device.usb</key>
+	<true/>
 	<key>com.apple.security.files.user-selected.read-only</key>
 	<true/>
 	<key>com.apple.security.files.user-selected.read-write</key>
 	<true/>
+	<key>com.apple.security.network.client</key>
+	<true/>
 	<key>com.apple.security.network.outgoing</key>
 	<true/>
-	<key>com.apple.security.device.audio-input</key>
-	<false/>
-	<key>com.apple.security.device.camera</key>
-	<false/>
+	<key>com.apple.security.network.server</key>
+	<true/>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.copyx.app</string>
+	</array>
+	<key>com.apple.security.temporary-exception.shared-preference.read-only</key>
+	<array>
+		<string>com.apple.NetworkBrowser</string>
+		<string>com.apple.sharingd</string>
+	</array>
 	<key>com.apple.security.personal-information.addressbook</key>
-	<false/>
+	<true/>
 	<key>com.apple.security.personal-information.calendars</key>
-	<false/>
+	<true/>
 	<key>com.apple.security.personal-information.location</key>
-	<false/>
+	<true/>
 	<key>com.apple.security.personal-information.photos-library</key>
 	<false/>
-	<key>com.apple.security.automation.apple-events</key>
+	<key>com.apple.security.print</key>
 	<true/>
 	<key>com.apple.security.scripting-targets</key>
 	<dict>
@@ -32,4 +51,4 @@
 		</array>
 	</dict>
 </dict>
-</plist> 
+</plist>

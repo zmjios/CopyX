@@ -40,6 +40,20 @@ struct SettingsView: View {
                         title: "数据备份",
                         subtitle: "导入导出数据"
                     )
+                    
+                    SettingsNavItem(
+                        tab: .advanced,
+                        icon: "gearshape.2.fill",
+                        title: "高级功能",
+                        subtitle: "文本处理和统计"
+                    )
+                    
+                    SettingsNavItem(
+                        tab: .favorites,
+                        icon: "heart.fill",
+                        title: "收藏夹",
+                        subtitle: "管理收藏的项目"
+                    )
                 }
                 
                 Section("信息") {
@@ -69,6 +83,12 @@ struct SettingsView: View {
                 case .data:
                     ModernDataSettingsView()
                         .environmentObject(clipboardManager)
+                case .advanced:
+                    ModernAdvancedSettingsView()
+                        .environmentObject(clipboardManager)
+                case .favorites:
+                    ModernFavoritesSettingsView()
+                        .environmentObject(clipboardManager)
                 case .about:
                     ModernAboutView()
                 }
@@ -82,6 +102,8 @@ struct SettingsView: View {
         case hotkeys = "hotkeys"
         case clipboard = "clipboard"
         case data = "data"
+        case advanced = "advanced"
+        case favorites = "favorites"
         case about = "about"
     }
 }
@@ -177,6 +199,12 @@ struct ModernGeneralSettingsView: View {
                         subtitle: "复制内容时播放系统音效",
                         isOn: $clipboardManager.enableSound
                     )
+                    
+                    SettingsToggle(
+                        title: "使用模态分享窗口",
+                        subtitle: "使用居中弹框而非右下角菜单分享",
+                        isOn: $clipboardManager.useModalShareView
+                    )
                 }
             }
             .padding(30)
@@ -244,11 +272,15 @@ struct SettingsToggle: View {
             
             Spacer()
             
-            Toggle("", isOn: $isOn)
-                .toggleStyle(SwitchToggleStyle())
-                .onChange(of: isOn) { _, newValue in
-                    onChange?(newValue)
-                }
+            if #available(macOS 14.0, *) {
+                Toggle("", isOn: $isOn)
+                    .toggleStyle(SwitchToggleStyle())
+                    .onChange(of: isOn) { _, newValue in
+                        onChange?(newValue)
+                    }
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
 }
@@ -537,6 +569,354 @@ struct ModernDataSettingsView: View {
     
     private func importData() {
         clipboardManager.importData()
+    }
+}
+
+// MARK: - 高级功能设置页面
+struct ModernAdvancedSettingsView: View {
+    @EnvironmentObject var clipboardManager: ClipboardManager
+    @State private var selectedText = ""
+    @State private var processedText = ""
+    @State private var selectedOperation: TextOperation = .trimWhitespace
+    @State private var showingStats = false
+    @State private var usageStats: UsageStats?
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("高级功能")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Text("文本处理工具和使用统计")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                
+                // 文本处理工具
+                SettingsSection(title: "文本处理工具", icon: "textformat") {
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("选择文本处理操作")
+                            .font(.system(size: 14, weight: .medium))
+                        
+                        Picker("操作", selection: $selectedOperation) {
+                            ForEach(TextOperation.allCases, id: \.self) { operation in
+                                HStack {
+                                    Image(systemName: operation.icon)
+                                    Text(operation.rawValue)
+                                }
+                                .tag(operation)
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("输入文本")
+                                .font(.system(size: 13, weight: .medium))
+                            TextEditor(text: $selectedText)
+                                .font(.system(size: 12, design: .monospaced))
+                                .frame(height: 80)
+                                .padding(8)
+                                .background(Color.secondary.opacity(0.1))
+                                .cornerRadius(6)
+                        }
+                        
+                        Button("处理文本") {
+                            processedText = clipboardManager.processText(selectedText, operation: selectedOperation)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(selectedText.isEmpty)
+                        
+                        if !processedText.isEmpty {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("处理结果")
+                                    .font(.system(size: 13, weight: .medium))
+                                TextEditor(text: .constant(processedText))
+                                    .font(.system(size: 12, design: .monospaced))
+                                    .frame(height: 80)
+                                    .padding(8)
+                                    .background(Color.secondary.opacity(0.05))
+                                    .cornerRadius(6)
+                                
+                                Button("复制结果") {
+                                    NSPasteboard.general.clearContents()
+                                    NSPasteboard.general.setString(processedText, forType: .string)
+                                }
+                                .buttonStyle(.bordered)
+                            }
+                        }
+                    }
+                }
+                
+                // 使用统计
+                SettingsSection(title: "使用统计", icon: "chart.bar") {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Button("刷新统计") {
+                            usageStats = clipboardManager.getUsageStats()
+                            showingStats = true
+                        }
+                        .buttonStyle(.borderedProminent)
+                        
+                        if let stats = usageStats, showingStats {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("统计信息")
+                                    .font(.system(size: 13, weight: .medium))
+                                
+                                Text(stats.description)
+                                    .font(.system(size: 12, design: .monospaced))
+                                    .padding(12)
+                                    .background(Color.secondary.opacity(0.05))
+                                    .cornerRadius(8)
+                            }
+                        }
+                    }
+                }
+                
+                // 快速操作
+                SettingsSection(title: "快速操作", icon: "bolt") {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("从剪切板快速处理文本")
+                            .font(.system(size: 14))
+                            .foregroundColor(.secondary)
+                        
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 8) {
+                            ForEach(TextOperation.allCases.prefix(9), id: \.self) { operation in
+                                Button(action: {
+                                    if let currentText = NSPasteboard.general.string(forType: .string) {
+                                        let processed = operation.apply(to: currentText)
+                                        NSPasteboard.general.clearContents()
+                                        NSPasteboard.general.setString(processed, forType: .string)
+                                    }
+                                }) {
+                                    VStack(spacing: 4) {
+                                        Image(systemName: operation.icon)
+                                            .font(.system(size: 16))
+                                        Text(operation.rawValue)
+                                            .font(.system(size: 10))
+                                            .multilineTextAlignment(.center)
+                                    }
+                                    .frame(height: 50)
+                                    .frame(maxWidth: .infinity)
+                                }
+                                .buttonStyle(.bordered)
+                            }
+                        }
+                    }
+                }
+            }
+            .padding(30)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    }
+}
+
+// MARK: - 收藏夹设置页面
+struct ModernFavoritesSettingsView: View {
+    @EnvironmentObject var clipboardManager: ClipboardManager
+    @State private var searchText = ""
+    @State private var selectedTag = ""
+    
+    var filteredFavorites: [ClipboardItem] {
+        var items = clipboardManager.favoriteItems
+        
+        if !searchText.isEmpty {
+            items = items.filter { item in
+                item.content.localizedCaseInsensitiveContains(searchText) ||
+                item.displayTitle.localizedCaseInsensitiveContains(searchText) ||
+                item.tags.contains { $0.localizedCaseInsensitiveContains(searchText) }
+            }
+        }
+        
+        if !selectedTag.isEmpty {
+            items = items.filter { $0.tags.contains(selectedTag) }
+        }
+        
+        return items
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // 头部
+            VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("收藏夹管理")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Text("管理你收藏的剪切板项目")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                
+                // 搜索和筛选
+                HStack(spacing: 12) {
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.secondary)
+                        TextField("搜索收藏项目...", text: $searchText)
+                    }
+                    .padding(8)
+                    .background(Color.secondary.opacity(0.1))
+                    .cornerRadius(8)
+                    
+                    if !clipboardManager.allTags.isEmpty {
+                        Picker("标签", selection: $selectedTag) {
+                            Text("所有标签").tag("")
+                            ForEach(clipboardManager.allTags, id: \.self) { tag in
+                                Text(tag).tag(tag)
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        .frame(width: 120)
+                    }
+                }
+            }
+            .padding(.horizontal, 30)
+            .padding(.top, 30)
+            .padding(.bottom, 16)
+            
+            Divider()
+            
+            // 收藏项目列表
+            if filteredFavorites.isEmpty {
+                VStack(spacing: 16) {
+                    Image(systemName: "heart")
+                        .font(.system(size: 48))
+                        .foregroundColor(.secondary)
+                    Text(searchText.isEmpty ? "还没有收藏的项目" : "没有找到匹配的收藏项目")
+                        .font(.title2)
+                        .foregroundColor(.secondary)
+                    if searchText.isEmpty {
+                        Text("在剪切板历史中点击心形图标来收藏项目")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: 12) {
+                        ForEach(filteredFavorites) { item in
+                            FavoriteItemCard(item: item)
+                                .environmentObject(clipboardManager)
+                        }
+                    }
+                    .padding(.horizontal, 30)
+                    .padding(.vertical, 16)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    }
+}
+
+struct FavoriteItemCard: View {
+    let item: ClipboardItem
+    @EnvironmentObject var clipboardManager: ClipboardManager
+    @State private var isHovered = false
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            // 类型图标
+            VStack {
+                Image(systemName: item.type.iconName)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.white)
+                    .frame(width: 32, height: 32)
+                    .background(getTypeColor())
+                    .cornerRadius(8)
+                
+                Spacer()
+            }
+            
+            // 内容区域
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text(item.displayTitle)
+                        .font(.system(size: 14, weight: .medium))
+                        .lineLimit(2)
+                    
+                    Spacer()
+                    
+                    if item.usageCount > 0 {
+                        Text("使用 \(item.usageCount) 次")
+                            .font(.system(size: 11))
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.secondary.opacity(0.2))
+                            .cornerRadius(4)
+                    }
+                }
+                
+                if !item.tags.isEmpty {
+                    HStack {
+                        ForEach(item.tags, id: \.self) { tag in
+                            Text(tag)
+                                .font(.system(size: 10))
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.blue.opacity(0.2))
+                                .foregroundColor(.blue)
+                                .cornerRadius(4)
+                        }
+                        Spacer()
+                    }
+                }
+                
+                HStack {
+                    Text(item.sourceApp)
+                        .font(.system(size: 11))
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    Text(item.relativeTime)
+                        .font(.system(size: 11))
+                        .foregroundColor(.secondary)
+                }
+            }
+            
+            // 操作按钮
+            VStack(spacing: 8) {
+                Button(action: {
+                    clipboardManager.copyToPasteboard(item)
+                }) {
+                    Image(systemName: "doc.on.doc")
+                        .font(.system(size: 14))
+                }
+                .buttonStyle(.bordered)
+                .help("复制")
+                
+                Button(action: {
+                    clipboardManager.toggleFavorite(item)
+                }) {
+                    Image(systemName: "heart.slash")
+                        .font(.system(size: 14))
+                }
+                .buttonStyle(.bordered)
+                .foregroundColor(.red)
+                .help("取消收藏")
+            }
+            .opacity(isHovered ? 1 : 0.6)
+        }
+        .padding(12)
+        .background(Color.secondary.opacity(isHovered ? 0.08 : 0.04))
+        .cornerRadius(10)
+        .onHover { hovered in
+            withAnimation(.easeInOut(duration: 0.2)) {
+                isHovered = hovered
+            }
+        }
+    }
+    
+    private func getTypeColor() -> Color {
+        switch item.type.backgroundColor {
+        case "systemGreen": return .green
+        case "systemOrange": return .orange
+        case "systemBlue": return .blue
+        case "systemPurple": return .purple
+        default: return .gray
+        }
     }
 }
 
