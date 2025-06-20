@@ -1,6 +1,7 @@
 import Foundation
 import AppKit
 import SwiftUI
+import UserNotifications
 
 extension DateFormatter {
     static let backupFormatter: DateFormatter = {
@@ -394,11 +395,42 @@ class ClipboardManager: ObservableObject {
     }
     
     private func showNotification(title: String, message: String) {
-        let notification = NSUserNotification()
-        notification.title = title
-        notification.informativeText = message
-        notification.soundName = NSUserNotificationDefaultSoundName
-        NSUserNotificationCenter.default.deliver(notification)
+        // 使用现代化的 UserNotifications 框架
+        if #available(macOS 10.14, *) {
+            let center = UNUserNotificationCenter.current()
+            
+            // 请求通知权限
+            center.requestAuthorization(options: [.alert, .sound]) { granted, error in
+                if granted {
+                    let content = UNMutableNotificationContent()
+                    content.title = title
+                    content.body = message
+                    content.sound = .default
+                    
+                    let request = UNNotificationRequest(
+                        identifier: UUID().uuidString,
+                        content: content,
+                        trigger: nil
+                    )
+                    
+                    center.add(request) { error in
+                        if let error = error {
+                            NSLog("通知发送失败: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+        } else {
+            // 为旧版本系统保留兼容性
+            #if swift(>=5.0)
+            #warning("使用已废弃的 NSUserNotification API 以支持旧版本系统")
+            #endif
+            let notification = NSUserNotification()
+            notification.title = title
+            notification.informativeText = message
+            notification.soundName = NSUserNotificationDefaultSoundName
+            NSUserNotificationCenter.default.deliver(notification)
+        }
     }
     
     deinit {

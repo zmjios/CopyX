@@ -11,6 +11,13 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
     let sourceAppBundleIdentifier: String? // 应用Bundle ID
     let fileSize: String? // 文件大小（对于图片等）
     
+    // 新增收藏夹相关属性
+    var isFavorite: Bool = false
+    var tags: [String] = []
+    var customTitle: String?
+    var usageCount: Int = 0
+    var lastUsedDate: Date?
+    
     init(content: String, timestamp: Date, type: ClipboardItemType, sourceApp: String, sourceAppBundleIdentifier: String?, fileSize: String?) {
         self.id = UUID()
         self.content = content
@@ -180,15 +187,14 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
     }
     
     var relativeTime: String {
-        let now = Date()
-        let timeInterval = now.timeIntervalSince(timestamp)
+        let timeInterval = Date().timeIntervalSince(timestamp)
         
         // 1小时内显示相对时间
         if timeInterval < 3600 {
             let formatter = RelativeDateTimeFormatter()
             formatter.locale = Locale(identifier: "zh_CN")
             formatter.unitsStyle = .abbreviated
-            return formatter.localizedString(for: timestamp, relativeTo: now)
+            return formatter.localizedString(for: timestamp, relativeTo: Date())
         } else {
             // 1小时之前显示具体时间
             let formatter = DateFormatter()
@@ -239,9 +245,16 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
         
         // 新字段，支持向后兼容
         sourceAppBundleIdentifier = try container.decodeIfPresent(String.self, forKey: .sourceAppBundleIdentifier)
+        
+        // 新增收藏夹相关属性
+        isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
+        tags = try container.decode([String].self, forKey: .tags)
+        customTitle = try container.decodeIfPresent(String.self, forKey: .customTitle)
+        usageCount = try container.decode(Int.self, forKey: .usageCount)
+        lastUsedDate = try container.decodeIfPresent(Date.self, forKey: .lastUsedDate)
     }
     
     private enum CodingKeys: String, CodingKey {
-        case id, content, timestamp, type, sourceApp, sourceAppBundleIdentifier, fileSize
+        case id, content, timestamp, type, sourceApp, sourceAppBundleIdentifier, fileSize, isFavorite, tags, customTitle, usageCount, lastUsedDate
     }
 } 

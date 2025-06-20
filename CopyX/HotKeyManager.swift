@@ -46,6 +46,9 @@ class HotKeyManager: NSObject, ObservableObject {
         
         if status == noErr {
             hotKeyRef = hotKeyPtr.pointee
+            NSLog("热键注册成功")
+        } else {
+            NSLog("热键注册失败，错误代码: \(status)")
         }
         
         hotKeyPtr.deallocate()
@@ -116,7 +119,10 @@ class HotKeyManager: NSObject, ObservableObject {
     }
     
     private func createHistoryWindow() {
-        guard let screen = NSScreen.main else { return }
+        guard let screen = NSScreen.main else { 
+            NSLog("无法获取主屏幕信息")
+            return 
+        }
         
         let screenFrame = screen.frame
         let windowWidth = screenFrame.width
