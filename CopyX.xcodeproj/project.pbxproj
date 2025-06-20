@@ -17,7 +17,19 @@
 		2A1E4B3F2B1234567890008 /* ClipboardHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1E4B3E2B1234567890008 /* ClipboardHistoryView.swift */; };
 		2A1E4B412B1234567890009 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1E4B402B1234567890009 /* SettingsView.swift */; };
 		2A1E4B432B1234567890011 /* TextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1E4B422B1234567890011 /* TextProcessor.swift */; };
-/* End PBXBuildFile section */
+		BD949CBE671C4953BF55B8AB /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A14121FFA74B2E8083960A /* ShareManager.swift */; };
+		E1BD5BE712234EE78125A1DD /* ShareViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F48B7D7E934DA9AD6B75B5 /* ShareViews.swift */; };
+		086A00EFCDBB412DAC08A9E7 /* UIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E47CD17295438890587792 /* UIComponents.swift */; };
+		4F8263198DFF48CFB54A15BE /* ClipboardItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519D0C1D25E343DFA240F116 /* ClipboardItemView.swift */; };
+		288D2B9CEF8D4AF4AD25088F /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA0B7FEC3434DE58F04ECD1 /* GeneralSettingsView.swift */; };
+		193E0819B3414E779D516D55 /* HotKeySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E18790382947E395F3ED87 /* HotKeySettingsView.swift */; };
+		EBFEA6E5DE1B478FB43A79F1 /* SettingsComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9479644D465B4EFB9E99F3BE /* SettingsComponents.swift */; };
+		86514408E5024340B3FEB25F /* ClipboardSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0AFD211FA64985BEADF8C6 /* ClipboardSettingsView.swift */; };
+		8EA1A94F8FF24C93A417A24E /* DataSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D49AD0212AD47F7AF2573A6 /* DataSettingsView.swift */; };
+		333E01EEE5D5428ABD7A8657 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCD1935D8684FE5BF5A2B0A /* AdvancedSettingsView.swift */; };
+		4A2193E0594D41D681472AE6 /* FavoritesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2811A8B6D1346E38462995E /* FavoritesSettingsView.swift */; };
+		4E9615F771444DF2ADDC45D1 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB9C7A22E7E4BDE94867349 /* AboutView.swift */; };
+	/* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2A1E4B262B1234567890000 /* CopyX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CopyX.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -32,7 +44,19 @@
 		2A1E4B3E2B1234567890008 /* ClipboardHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHistoryView.swift; sourceTree = "<group>"; };
 		2A1E4B402B1234567890009 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2A1E4B422B1234567890011 /* TextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextProcessor.swift; sourceTree = "<group>"; };
-/* End PBXFileReference section */
+		84A14121FFA74B2E8083960A /* ShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
+		50F48B7D7E934DA9AD6B75B5 /* ShareViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViews.swift; sourceTree = "<group>"; };
+		53E47CD17295438890587792 /* UIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIComponents.swift; sourceTree = "<group>"; };
+		519D0C1D25E343DFA240F116 /* ClipboardItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItemView.swift; sourceTree = "<group>"; };
+		1CA0B7FEC3434DE58F04ECD1 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
+		F0E18790382947E395F3ED87 /* HotKeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeySettingsView.swift; sourceTree = "<group>"; };
+		9479644D465B4EFB9E99F3BE /* SettingsComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsComponents.swift; sourceTree = "<group>"; };
+		3E0AFD211FA64985BEADF8C6 /* ClipboardSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSettingsView.swift; sourceTree = "<group>"; };
+		8D49AD0212AD47F7AF2573A6 /* DataSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSettingsView.swift; sourceTree = "<group>"; };
+		9BCD1935D8684FE5BF5A2B0A /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
+		F2811A8B6D1346E38462995E /* FavoritesSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesSettingsView.swift; sourceTree = "<group>"; };
+		DCB9C7A22E7E4BDE94867349 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+	/* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		2A1E4B232B1234567890100 /* Frameworks */ = {
@@ -67,7 +91,11 @@
 				2A1E4B292B1234567890001 /* CopyXApp.swift */,
 				2A1E4B2B2B1234567890002 /* ContentView.swift */,
 				2A1E4B3E2B1234567890008 /* ClipboardHistoryView.swift */,
+				519D0C1D25E343DFA240F116 /* ClipboardItemView.swift */,
 				2A1E4B402B1234567890009 /* SettingsView.swift */,
+				84A14121FFA74B2E8083960A /* ShareManager.swift */,
+				50F48B7D7E934DA9AD6B75B5 /* ShareViews.swift */,
+				53E47CD17295438890587792 /* UIComponents.swift */,
 				2A1E4B382B1234567890005 /* ClipboardManager.swift */,
 				2A1E4B3C2B1234567890007 /* HotKeyManager.swift */,
 				2A1E4B3A2B1234567890006 /* ClipboardItem.swift */,
@@ -75,6 +103,14 @@
 				2A1E4B2D2B1234567890003 /* Assets.xcassets */,
 				2A1E4B372B1234567890010 /* CopyX.entitlements */,
 				2A1E4B2F2B1234567890400 /* Preview Content */,
+							1CA0B7FEC3434DE58F04ECD1 /* GeneralSettingsView.swift */,
+				F0E18790382947E395F3ED87 /* HotKeySettingsView.swift */,
+				9479644D465B4EFB9E99F3BE /* SettingsComponents.swift */,
+				3E0AFD211FA64985BEADF8C6 /* ClipboardSettingsView.swift */,
+				8D49AD0212AD47F7AF2573A6 /* DataSettingsView.swift */,
+				9BCD1935D8684FE5BF5A2B0A /* AdvancedSettingsView.swift */,
+				F2811A8B6D1346E38462995E /* FavoritesSettingsView.swift */,
+				DCB9C7A22E7E4BDE94867349 /* AboutView.swift */,
 			);
 			path = CopyX;
 			sourceTree = "<group>";
@@ -160,12 +196,24 @@
 			files = (
 				2A1E4B2C2B1234567890002 /* ContentView.swift in Sources */,
 				2A1E4B3F2B1234567890008 /* ClipboardHistoryView.swift in Sources */,
+				4F8263198DFF48CFB54A15BE /* ClipboardItemView.swift in Sources */,
 				2A1E4B3B2B1234567890006 /* ClipboardItem.swift in Sources */,
 				2A1E4B3D2B1234567890007 /* HotKeyManager.swift in Sources */,
 				2A1E4B412B1234567890009 /* SettingsView.swift in Sources */,
+				BD949CBE671C4953BF55B8AB /* ShareManager.swift in Sources */,
+				E1BD5BE712234EE78125A1DD /* ShareViews.swift in Sources */,
+				086A00EFCDBB412DAC08A9E7 /* UIComponents.swift in Sources */,
 				2A1E4B392B1234567890005 /* ClipboardManager.swift in Sources */,
 				2A1E4B432B1234567890011 /* TextProcessor.swift in Sources */,
 				2A1E4B2A2B1234567890001 /* CopyXApp.swift in Sources */,
+							288D2B9CEF8D4AF4AD25088F /* GeneralSettingsView.swift in Sources */,
+				193E0819B3414E779D516D55 /* HotKeySettingsView.swift in Sources */,
+				EBFEA6E5DE1B478FB43A79F1 /* SettingsComponents.swift in Sources */,
+				86514408E5024340B3FEB25F /* ClipboardSettingsView.swift in Sources */,
+				8EA1A94F8FF24C93A417A24E /* DataSettingsView.swift in Sources */,
+				333E01EEE5D5428ABD7A8657 /* AdvancedSettingsView.swift in Sources */,
+				4A2193E0594D41D681472AE6 /* FavoritesSettingsView.swift in Sources */,
+				4E9615F771444DF2ADDC45D1 /* AboutView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +343,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = CopyX/CopyX.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -330,6 +379,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = CopyX/CopyX.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;

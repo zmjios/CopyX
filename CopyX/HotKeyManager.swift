@@ -3,6 +3,19 @@ import AppKit
 import Carbon
 import SwiftUI
 
+// MARK: - 显示模式枚举
+enum WindowDisplayMode: String, CaseIterable {
+    case bottom = "bottom"
+    case center = "center"
+    
+    var windowLevel: NSWindow.Level {
+        switch self {
+        case .bottom: return NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.overlayWindow)))
+        case .center: return .floating
+        }
+    }
+}
+
 class HotKeyManager: NSObject, ObservableObject {
     var clipboardManager: ClipboardManager?
     private var historyWindow: NSWindow?
@@ -12,6 +25,7 @@ class HotKeyManager: NSObject, ObservableObject {
     @AppStorage("hotKeyEnabled") var hotKeyEnabled: Bool = true
     @AppStorage("hotKeyModifiers") var hotKeyModifiers: Int = cmdKey | shiftKey
     @AppStorage("hotKeyCode") var hotKeyCode: Int = kVK_ANSI_V
+    @AppStorage("displayMode") var displayMode: String = WindowDisplayMode.bottom.rawValue
     
     private var hotKeyRef: EventHotKeyRef?
     private let hotKeySignature = FourCharCode("CpyX".fourCharCodeValue)
@@ -21,7 +35,51 @@ class HotKeyManager: NSObject, ObservableObject {
     
     override init() {
         super.init()
+        // 从UserDefaults读取显示模式
+        displayMode = UserDefaults.standard.string(forKey: "displayMode") ?? "bottom"
         registerHotKeys()
+        setupNotificationObservers()
+    }
+    
+    private func setupNotificationObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleDisplayModeChange(_:)),
+            name: NSNotification.Name("SwitchDisplayMode"),
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleCloseRequest),
+            name: NSNotification.Name("CloseClipboardHistory"),
+            object: nil
+        )
+    }
+    
+    @objc private func handleDisplayModeChange(_ notification: Notification) {
+        if let modeString = notification.userInfo?["mode"] as? String {
+            displayMode = modeString
+            // 保存到UserDefaults
+            UserDefaults.standard.set(modeString, forKey: "displayMode")
+            // 发送状态变化通知
+            NotificationCenter.default.post(
+                name: NSNotification.Name("DisplayModeChanged"),
+                object: nil,
+                userInfo: ["mode": modeString]
+            )
+            // 如果窗口正在显示，重新创建以应用新的显示模式
+            if isHistoryWindowVisible {
+                hideClipboardHistory()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.showClipboardHistory()
+                }
+            }
+        }
+    }
+    
+    @objc private func handleCloseRequest() {
+        hideClipboardHistory()
     }
     
     func registerHotKeys() {
@@ -92,29 +150,58 @@ class HotKeyManager: NSObject, ObservableObject {
     func hideClipboardHistory() {
         guard let window = historyWindow else { return }
         
-        let currentFrame = window.frame
-        let hiddenFrame = NSRect(
-            x: currentFrame.minX,
-            y: currentFrame.minY - currentFrame.height,
-            width: currentFrame.width,
-            height: currentFrame.height
-        )
-        
-        // 添加消失动画
-        NSAnimationContext.runAnimationGroup({ context in
-            context.duration = 0.3
-            context.timingFunction = CAMediaTimingFunction(controlPoints: 0.55, 0.06, 0.68, 0.19)
-            window.animator().setFrame(hiddenFrame, display: true)
-        }, completionHandler: {
-            window.close()
-            self.historyWindow = nil
-            self.isHistoryWindowVisible = false
-        })
+        let currentDisplayMode = WindowDisplayMode(rawValue: displayMode) ?? .bottom
+        animateWindowDisappearance(window: window, mode: currentDisplayMode)
         
         // 移除点击外部监听器
         if let monitor = clickOutsideMonitor {
             NSEvent.removeMonitor(monitor)
             clickOutsideMonitor = nil
+        }
+    }
+    
+    private func animateWindowDisappearance(window: NSWindow, mode: WindowDisplayMode) {
+        let currentFrame = window.frame
+        
+        switch mode {
+        case .bottom:
+            // 底部模式：向下滑出
+            let hiddenFrame = NSRect(
+                x: currentFrame.minX,
+                y: currentFrame.minY - currentFrame.height,
+                width: currentFrame.width,
+                height: currentFrame.height
+            )
+            
+            NSAnimationContext.runAnimationGroup({ context in
+                context.duration = 0.3
+                context.timingFunction = CAMediaTimingFunction(controlPoints: 0.55, 0.06, 0.68, 0.19)
+                window.animator().setFrame(hiddenFrame, display: true)
+            }, completionHandler: {
+                window.close()
+                self.historyWindow = nil
+                self.isHistoryWindowVisible = false
+            })
+            
+        case .center:
+            // 居中模式：缩放消失
+            let hiddenFrame = NSRect(
+                x: currentFrame.midX,
+                y: currentFrame.midY,
+                width: 0,
+                height: 0
+            )
+            
+            NSAnimationContext.runAnimationGroup({ context in
+                context.duration = 0.25
+                context.timingFunction = CAMediaTimingFunction(controlPoints: 0.55, 0.06, 0.68, 0.19)
+                window.animator().setFrame(hiddenFrame, display: true)
+                window.animator().alphaValue = 0
+            }, completionHandler: {
+                window.close()
+                self.historyWindow = nil
+                self.isHistoryWindowVisible = false
+            })
         }
     }
     
@@ -124,47 +211,23 @@ class HotKeyManager: NSObject, ObservableObject {
             return 
         }
         
-        let screenFrame = screen.frame
-        let windowWidth = screenFrame.width
-        let windowHeight: CGFloat = 350 // 增加高度，给更多展示空间
-        
-        // 窗口占满全屏宽度，显示在底部
-        let windowRect = NSRect(
-            x: screenFrame.minX,
-            y: screenFrame.minY,
-            width: windowWidth,
-            height: windowHeight
-        )
-        
-        // 创建窗口，初始位置在屏幕下方（隐藏）
-        let hiddenRect = NSRect(
-            x: screenFrame.minX,
-            y: screenFrame.minY - windowHeight,
-            width: windowWidth,
-            height: windowHeight
-        )
+        let currentDisplayMode = WindowDisplayMode(rawValue: displayMode) ?? .bottom
+        let (windowRect, hiddenRect) = calculateWindowFrames(for: currentDisplayMode, screen: screen)
         
         let window = NSWindow(
             contentRect: hiddenRect,
-            styleMask: [.borderless],
+            styleMask: currentDisplayMode == .center ? [.titled, .closable, .resizable] : [.borderless],
             backing: .buffered,
             defer: false
         )
         
         // 设置窗口属性
-        window.isReleasedWhenClosed = false
-        window.level = .floating
-        window.backgroundColor = NSColor.clear
-        window.isOpaque = false
-        window.hasShadow = true  // 重新启用阴影
-        window.ignoresMouseEvents = false
-        window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+        setupWindowProperties(window, for: currentDisplayMode)
         
-        // 创建内容视图，包含动画状态
-        let contentView = ClipboardHistoryView(onClose: { [weak self] in
-            self?.hideClipboardHistory()
-        })
-        .environmentObject(clipboardManager!)
+        // 创建内容视图
+        let contentView = ClipboardHistoryView()
+            .environmentObject(clipboardManager!)
+            .environmentObject(self)
         
         window.contentView = NSHostingView(rootView: contentView)
         window.delegate = self
@@ -173,15 +236,104 @@ class HotKeyManager: NSObject, ObservableObject {
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
         
-        // 添加弹出动画
-        NSAnimationContext.runAnimationGroup({ context in
-            context.duration = 0.4
-            context.timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.46, 0.45, 0.94)
-            window.animator().setFrame(windowRect, display: true)
-        })
+        // 添加出现动画
+        animateWindowAppearance(window: window, targetFrame: windowRect, mode: currentDisplayMode)
         
         // 添加点击外部区域关闭窗口的监听
         setupClickOutsideToClose()
+    }
+    
+    private func calculateWindowFrames(for mode: WindowDisplayMode, screen: NSScreen) -> (target: NSRect, hidden: NSRect) {
+        let screenFrame = screen.frame
+        
+        switch mode {
+        case .bottom:
+            let windowWidth = screenFrame.width
+            let windowHeight: CGFloat = 380 // 增加高度以容纳底部工具栏
+            
+            let targetRect = NSRect(
+                x: screenFrame.minX,
+                y: screenFrame.minY,
+                width: windowWidth,
+                height: windowHeight
+            )
+            
+            let hiddenRect = NSRect(
+                x: screenFrame.minX,
+                y: screenFrame.minY - windowHeight,
+                width: windowWidth,
+                height: windowHeight
+            )
+            
+            return (targetRect, hiddenRect)
+            
+        case .center:
+            // 从UserDefaults读取保存的窗口大小，如果没有则使用默认值
+            let windowWidth: CGFloat = UserDefaults.standard.object(forKey: "centerWindowWidth") as? CGFloat ?? 700
+            let windowHeight: CGFloat = UserDefaults.standard.object(forKey: "centerWindowHeight") as? CGFloat ?? 600
+            
+            let targetRect = NSRect(
+                x: screenFrame.midX - windowWidth / 2,
+                y: screenFrame.midY - windowHeight / 2,
+                width: windowWidth,
+                height: windowHeight
+            )
+            
+            // 居中模式的隐藏位置是缩放到0
+            let hiddenRect = NSRect(
+                x: screenFrame.midX,
+                y: screenFrame.midY,
+                width: 0,
+                height: 0
+            )
+            
+            return (targetRect, hiddenRect)
+        }
+    }
+    
+    private func setupWindowProperties(_ window: NSWindow, for mode: WindowDisplayMode) {
+        window.isReleasedWhenClosed = false
+        window.backgroundColor = NSColor.clear
+        window.isOpaque = false
+        window.hasShadow = true
+        window.ignoresMouseEvents = false
+        window.acceptsMouseMovedEvents = true
+        
+        switch mode {
+        case .bottom:
+            // 底部模式：遮盖dock栏，使用更高的窗口级别
+            window.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.overlayWindow)))
+            window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+            
+        case .center:
+            // 居中模式：普通浮动窗口
+            window.level = .floating
+            window.collectionBehavior = [.canJoinAllSpaces]
+            window.title = "CopyX - 剪切板历史"
+            // 设置窗口大小限制
+            window.minSize = NSSize(width: 500, height: 400)
+            window.maxSize = NSSize(width: 1200, height: 800)
+        }
+    }
+    
+    private func animateWindowAppearance(window: NSWindow, targetFrame: NSRect, mode: WindowDisplayMode) {
+        switch mode {
+        case .bottom:
+            // 底部模式：从下方滑入
+            NSAnimationContext.runAnimationGroup({ context in
+                context.duration = 0.4
+                context.timingFunction = CAMediaTimingFunction(controlPoints: 0.25, 0.46, 0.45, 0.94)
+                window.animator().setFrame(targetFrame, display: true)
+            })
+            
+        case .center:
+            // 居中模式：缩放出现
+            NSAnimationContext.runAnimationGroup({ context in
+                context.duration = 0.3
+                context.timingFunction = CAMediaTimingFunction(controlPoints: 0.175, 0.885, 0.32, 1.275)
+                window.animator().setFrame(targetFrame, display: true)
+            })
+        }
     }
     
     private func setupClickOutsideToClose() {
@@ -226,12 +378,24 @@ class HotKeyManager: NSObject, ObservableObject {
     
     deinit {
         unregisterHotKeys()
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
 extension HotKeyManager: NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
         isHistoryWindowVisible = false
+    }
+    
+    func windowDidResize(_ notification: Notification) {
+        guard let window = notification.object as? NSWindow,
+              window == historyWindow,
+              displayMode == "center" else { return }
+        
+        // 保存居中模式的窗口大小
+        let frame = window.frame
+        UserDefaults.standard.set(frame.width, forKey: "centerWindowWidth")
+        UserDefaults.standard.set(frame.height, forKey: "centerWindowHeight")
     }
 }
 

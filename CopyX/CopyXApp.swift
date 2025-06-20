@@ -19,6 +19,13 @@ struct CopyXApp: App {
                         appDelegate.clipboardManager = clipboardManager
                         appDelegate.hotKeyManager = hotKeyManager
                         
+                        // 强制设置状态栏图标（在主线程中）
+                        DispatchQueue.main.async {
+                            print("SwiftUI onAppear: 正在设置状态栏图标...")
+                            appDelegate.setupStatusBar()
+                            print("SwiftUI onAppear: 状态栏图标设置完成")
+                        }
+                        
                         // 启动剪切板监控
                         clipboardManager.startMonitoring()
                         
@@ -40,45 +47,88 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var settingsWindow: NSWindow?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // 设置状态栏图标
+        print("🚀 应用启动完成，正在设置状态栏图标...")
+        
+        // 检查是否隐藏Dock图标（默认为true）
+        let hideInDock = UserDefaults.standard.object(forKey: "hideInDock") as? Bool ?? true
+        NSApp.setActivationPolicy(hideInDock ? .accessory : .regular)
+        
+        // 立即设置状态栏图标
         setupStatusBar()
         
-        // 隐藏Dock图标
-        NSApp.setActivationPolicy(.accessory)
+        // 延迟再次确认状态栏设置
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if self.statusBarItem == nil || self.statusBarItem?.button == nil {
+                print("🔄 状态栏图标未正确设置，重新设置...")
+                self.setupStatusBar()
+            } else {
+                print("✅ 状态栏图标设置确认成功")
+            }
+        }
         
         // 确保ClipboardManager和HotKeyManager已经初始化
-        // 由于.accessory模式下主窗口可能不会显示，我们需要手动初始化
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             if let clipboardManager = self.clipboardManager,
                let hotKeyManager = self.hotKeyManager {
-                print("开始启动剪切板监控...")
+                print("📋 开始启动剪切板监控...")
                 clipboardManager.startMonitoring()
                 
                 hotKeyManager.clipboardManager = clipboardManager
                 hotKeyManager.registerHotKeys()
-                print("剪切板监控和快捷键已启动")
+                print("✅ 剪切板监控和快捷键已启动")
             }
         }
     }
     
-    private func setupStatusBar() {
-        statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    func setupStatusBar() {
+        print("🔧 setupStatusBar() 被调用")
         
-        if let button = statusBarItem?.button {
-            button.image = NSImage(systemSymbolName: "doc.on.clipboard", accessibilityDescription: "CopyX")
-            button.toolTip = "CopyX - 剪切板管理器"
+        // 如果已经存在，先移除
+        if statusBarItem != nil {
+            NSStatusBar.system.removeStatusItem(statusBarItem!)
+            statusBarItem = nil
+            print("🗑️ 移除了旧的状态栏项目")
         }
         
-        let menu = NSMenu()
+        statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        print("✅ 创建了statusBarItem: \(statusBarItem != nil)")
         
-        menu.addItem(NSMenuItem(title: "显示剪切板历史", action: #selector(showClipboardHistory), keyEquivalent: ""))
-        menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "设置", action: #selector(openSettings), keyEquivalent: ","))
-        menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "关于 CopyX", action: #selector(showAbout), keyEquivalent: ""))
-        menu.addItem(NSMenuItem(title: "退出", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        if let button = statusBarItem?.button {
+            // 设置图标
+            if let image = NSImage(systemSymbolName: "doc.on.clipboard", accessibilityDescription: "CopyX") {
+                image.size = NSSize(width: 18, height: 18)
+                image.isTemplate = true
+                button.image = image
+                print("✅ 使用系统符号图标成功")
+            } else {
+                // 如果系统符号不可用，使用文本作为后备
+                button.title = "📋"
+                print("📋 使用文本图标作为后备")
+            }
+            
+            button.toolTip = "CopyX - 剪切板管理器"
+            button.target = self
+            button.action = #selector(statusBarButtonClicked)
+            button.sendAction(on: [.leftMouseUp, .rightMouseUp])
+            print("✅ 设置了按钮图标、工具提示和点击事件")
+        } else {
+            print("❌ 无法获取statusBarItem的button")
+        }
         
-        statusBarItem?.menu = menu
+        // 不设置默认菜单，通过按钮点击事件来控制
+        // statusBarItem?.menu = nil
+        print("✅ 状态栏菜单设置完成")
+    }
+    
+    @objc func statusBarButtonClicked(_ sender: NSStatusBarButton) {
+        let event = NSApp.currentEvent!
+        if event.type == .rightMouseUp {
+            // 右键点击显示菜单
+            statusBarItem?.menu?.popUp(positioning: nil, at: NSPoint(x: 0, y: sender.bounds.height), in: sender)
+        } else {
+            // 左键点击显示剪切板历史
+            showClipboardHistory()
+        }
     }
     
     @objc func showClipboardHistory() {
@@ -90,7 +140,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             createSettingsWindow()
         }
         
+        // 确保窗口显示在前面，但不持续浮动
         settingsWindow?.makeKeyAndOrderFront(nil)
+        settingsWindow?.orderFrontRegardless()
         NSApp.activate(ignoringOtherApps: true)
     }
     
@@ -139,3 +191,4 @@ extension AppDelegate: NSWindowDelegate {
         return true
     }
 } 
+
