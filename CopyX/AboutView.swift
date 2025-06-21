@@ -3,6 +3,7 @@ import AppKit
 
 // MARK: - 关于页面
 struct ModernAboutView: View {
+    @EnvironmentObject var localizationManager: LocalizationManager
     @State private var showingLicenses = false
     @State private var showingChangelog = false
     
@@ -29,6 +30,7 @@ struct ModernAboutView: View {
             }
             .padding(40)
         }
+        .id(localizationManager.revision) // Force view refresh
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(isPresented: $showingLicenses) {
             LicensesView()
@@ -52,16 +54,16 @@ struct ModernAboutView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 
-                Text("强大的剪切板管理工具")
+                LocalizedText("about_subtitle")
                     .font(.title3)
                     .foregroundColor(.secondary)
                 
                 HStack(spacing: 16) {
-                    Text("版本 \(appVersion)")
+                    Text("\("version".localized) \(appVersion)")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     
-                    Text("构建 \(buildNumber)")
+                    Text("\("build".localized) \(buildNumber)")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -69,17 +71,17 @@ struct ModernAboutView: View {
             
             // 操作按钮
             HStack(spacing: 12) {
-                Button("查看更新日志") {
+                Button("about_view_changelog_button".localized) {
                     showingChangelog = true
                 }
                 .buttonStyle(.borderedProminent)
                 
-                Button("检查更新") {
+                Button("about_check_updates_button".localized) {
                     checkForUpdates()
                 }
                 .buttonStyle(.bordered)
                 
-                Button("访问官网") {
+                Button("about_visit_website_button".localized) {
                     openWebsite()
                 }
                 .buttonStyle(.bordered)
@@ -89,45 +91,45 @@ struct ModernAboutView: View {
     
     private var featuresSection: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Text("主要功能")
+            LocalizedText("about_main_features_title")
                 .font(.title2)
                 .fontWeight(.semibold)
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 16) {
                 FeatureCard(
                     icon: "keyboard",
-                    title: "全局快捷键",
-                    description: "快速访问剪切板历史"
+                    title: "about_feature_hotkey_title".localized,
+                    description: "about_feature_hotkey_desc".localized
                 )
                 
                 FeatureCard(
                     icon: "doc.text",
-                    title: "智能识别",
-                    description: "自动识别文本、图片、链接等类型"
+                    title: "about_feature_smart_recognition_title".localized,
+                    description: "about_feature_smart_recognition_desc".localized
                 )
                 
                 FeatureCard(
                     icon: "magnifyingglass",
-                    title: "快速搜索",
-                    description: "实时搜索和类型筛选"
+                    title: "about_feature_quick_search_title".localized,
+                    description: "about_feature_quick_search_desc".localized
                 )
                 
                 FeatureCard(
                     icon: "lock.shield",
-                    title: "隐私保护",
-                    description: "智能跳过密码等敏感内容"
+                    title: "about_feature_privacy_title".localized,
+                    description: "about_feature_privacy_desc".localized
                 )
                 
                 FeatureCard(
                     icon: "externaldrive",
-                    title: "数据备份",
-                    description: "导入导出功能保护数据安全"
+                    title: "about_feature_backup_title".localized,
+                    description: "about_feature_backup_desc".localized
                 )
                 
                 FeatureCard(
                     icon: "heart",
-                    title: "收藏功能",
-                    description: "收藏重要内容便于快速访问"
+                    title: "about_feature_favorites_title".localized,
+                    description: "about_feature_favorites_desc".localized
                 )
             }
         }
@@ -135,16 +137,16 @@ struct ModernAboutView: View {
     
     private var systemInfoSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("系统信息")
+            LocalizedText("about_system_info_title")
                 .font(.title2)
                 .fontWeight(.semibold)
             
             VStack(alignment: .leading, spacing: 8) {
-                InfoRow(label: "操作系统", value: systemVersion)
-                InfoRow(label: "设备型号", value: deviceModel)
-                InfoRow(label: "处理器", value: processorInfo)
-                InfoRow(label: "内存", value: memoryInfo)
-                InfoRow(label: "安装路径", value: installPath)
+                InfoRow(label: "about_info_os".localized, value: systemVersion)
+                InfoRow(label: "about_info_model".localized, value: deviceModel)
+                InfoRow(label: "about_info_processor".localized, value: processorInfo)
+                InfoRow(label: "about_info_memory".localized, value: memoryInfo)
+                InfoRow(label: "about_info_path".localized, value: installPath)
             }
             .padding(16)
             .background(Color.secondary.opacity(0.05))
@@ -154,7 +156,7 @@ struct ModernAboutView: View {
     
     private var developerSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("开发者")
+            LocalizedText("about_developer_title")
                 .font(.title2)
                 .fontWeight(.semibold)
             
@@ -167,7 +169,7 @@ struct ModernAboutView: View {
                     Text("CopyX Team")
                         .font(.system(size: 16, weight: .medium))
                     
-                    Text("专注于提升用户生产力的工具开发")
+                    LocalizedText("about_developer_desc")
                         .font(.system(size: 14))
                         .foregroundColor(.secondary)
                 }
@@ -179,7 +181,7 @@ struct ModernAboutView: View {
             .cornerRadius(12)
             
             HStack(spacing: 12) {
-                Button("发送反馈") {
+                Button("about_send_feedback_button".localized) {
                     sendFeedback()
                 }
                 .buttonStyle(.borderedProminent)
@@ -189,7 +191,7 @@ struct ModernAboutView: View {
                 }
                 .buttonStyle(.bordered)
                 
-                Button("支持我们") {
+                Button("about_support_us_button".localized) {
                     showSupport()
                 }
                 .buttonStyle(.bordered)
@@ -199,24 +201,24 @@ struct ModernAboutView: View {
     
     private var legalSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("法律信息")
+            LocalizedText("about_legal_title")
                 .font(.title2)
                 .fontWeight(.semibold)
             
             VStack(spacing: 8) {
-                Button("开源许可证") {
+                Button("about_licenses_button".localized) {
                     showingLicenses = true
                 }
                 .buttonStyle(.bordered)
                 .frame(maxWidth: .infinity)
                 
-                Button("隐私政策") {
+                Button("about_privacy_policy_button".localized) {
                     openPrivacyPolicy()
                 }
                 .buttonStyle(.bordered)
                 .frame(maxWidth: .infinity)
                 
-                Button("使用条款") {
+                Button("about_terms_of_service_button".localized) {
                     openTermsOfService()
                 }
                 .buttonStyle(.bordered)
@@ -227,15 +229,15 @@ struct ModernAboutView: View {
     
     private var copyrightSection: some View {
         VStack(spacing: 8) {
-            Text("© 2025 CopyX. 保留所有权利。")
+            LocalizedText("about_copyright_notice")
                 .font(.caption)
                 .foregroundColor(.secondary)
             
-            Text("基于 SwiftUI 和 AppKit 构建")
+            LocalizedText("about_built_with")
                 .font(.caption)
                 .foregroundColor(.secondary)
             
-            Text("感谢所有开源项目的贡献者")
+            LocalizedText("about_open_source_thanks")
                 .font(.caption)
                 .foregroundColor(.secondary)
         }

@@ -4,20 +4,21 @@ import AppKit
 // MARK: - 剪切板设置页面
 struct ModernClipboardSettingsView: View {
     @EnvironmentObject var clipboardManager: ClipboardManager
-    
+    @EnvironmentObject var localizationManager: LocalizationManager
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 SettingsPageHeader(
-                    title: "剪切板设置",
-                    subtitle: "配置剪切板历史记录的行为和限制"
+                    title: "clipboard_title".localized,
+                    subtitle: "clipboard_settings_subtitle".localized
                 )
                 
                 // 历史记录设置
-                SettingsSection(title: "历史记录", icon: "clock") {
+                SettingsSection(title: "history".localized, icon: "clock") {
                     SettingsSlider(
-                        title: "最大保存数量",
-                        subtitle: "超过此数量时会自动删除最旧的记录",
+                        title: "max_items".localized,
+                        subtitle: "max_items_subtitle".localized,
                         value: Binding(
                             get: { Double(clipboardManager.maxHistoryCount) },
                             set: { clipboardManager.maxHistoryCount = Int($0) }
@@ -27,59 +28,59 @@ struct ModernClipboardSettingsView: View {
                     )
                     
                     SettingsToggle(
-                        title: "自动清理",
-                        subtitle: "定期清理过期的剪切板项目",
+                        title: "auto_clear".localized,
+                        subtitle: "auto_clear_subtitle".localized,
                         isOn: $clipboardManager.autoCleanup
                     )
                 }
                 
                 // 内容类型设置
-                SettingsSection(title: "内容类型", icon: "doc.text") {
+                SettingsSection(title: "content_types".localized, icon: "doc.text") {
                     SettingsToggle(
-                        title: "保存文本内容",
-                        subtitle: "自动保存复制的文本内容",
+                        title: "save_text_content".localized,
+                        subtitle: "save_text_content_subtitle".localized,
                         isOn: $clipboardManager.enableTextHistory
                     )
                     
                     SettingsToggle(
-                        title: "保存图片内容",
-                        subtitle: "自动保存复制的图片内容",
+                        title: "save_image_content".localized,
+                        subtitle: "save_image_content_subtitle".localized,
                         isOn: $clipboardManager.enableImageHistory
                     )
                 }
                 
                 // 隐私设置
-                SettingsSection(title: "隐私保护", icon: "lock.shield") {
+                SettingsSection(title: "privacy_protection".localized, icon: "lock.shield") {
                     SettingsToggle(
-                        title: "跳过密码字段",
-                        subtitle: "自动跳过密码输入框的内容",
+                        title: "skip_password_fields".localized,
+                        subtitle: "skip_password_fields_subtitle".localized,
                         isOn: $clipboardManager.excludePasswords
                     )
                 }
                 
                 // 界面设置
-                SettingsSection(title: "界面设置", icon: "eye") {
+                SettingsSection(title: "interface_settings".localized, icon: "eye") {
                     SettingsToggle(
-                        title: "使用模态分享视图",
-                        subtitle: "使用弹窗模式显示分享选项",
+                        title: "use_modal_share_view".localized,
+                        subtitle: "use_modal_share_view_subtitle".localized,
                         isOn: $clipboardManager.useModalShareView
                     )
                 }
                 
                 // 音效设置
-                SettingsSection(title: "音效提示", icon: "speaker") {
+                SettingsSection(title: "sound_tips".localized, icon: "speaker") {
                     SettingsToggle(
-                        title: "启用音效",
-                        subtitle: "复制内容时播放系统音效",
+                        title: "enable_sound_effects".localized,
+                        subtitle: "enable_sound_effects_subtitle".localized,
                         isOn: $clipboardManager.enableSound
                     )
                 }
                 
                 // 启动设置
-                SettingsSection(title: "启动设置", icon: "power") {
+                SettingsSection(title: "startup_settings".localized, icon: "power") {
                     SettingsToggle(
-                        title: "自动启动监控",
-                        subtitle: "应用启动时自动开始监控剪切板",
+                        title: "auto_start_monitoring".localized,
+                        subtitle: "auto_start_monitoring_subtitle".localized,
                         isOn: $clipboardManager.autoStart
                     )
                 }
@@ -100,10 +101,10 @@ enum AutoCleanInterval: String, CaseIterable, Codable {
     
     var displayName: String {
         switch self {
-        case .never: return "从不"
-        case .daily: return "每天"
-        case .weekly: return "每周"
-        case .monthly: return "每月"
+        case .never: return "autoclean_never".localized
+        case .daily: return "autoclean_daily".localized
+        case .weekly: return "autoclean_weekly".localized
+        case .monthly: return "autoclean_monthly".localized
         }
     }
 }
@@ -116,10 +117,10 @@ enum ImageQuality: String, CaseIterable, Codable {
     
     var displayName: String {
         switch self {
-        case .low: return "低质量"
-        case .medium: return "中等质量"
-        case .high: return "高质量"
-        case .original: return "原始质量"
+        case .low: return "imagequality_low".localized
+        case .medium: return "imagequality_medium".localized
+        case .high: return "imagequality_high".localized
+        case .original: return "imagequality_original".localized
         }
     }
     
@@ -140,9 +141,9 @@ enum NotificationDuration: String, CaseIterable, Codable {
     
     var displayName: String {
         switch self {
-        case .short: return "短 (2秒)"
-        case .medium: return "中等 (5秒)"
-        case .long: return "长 (10秒)"
+        case .short: return "notificationduration_short".localized
+        case .medium: return "notificationduration_medium".localized
+        case .long: return "notificationduration_long".localized
         }
     }
     
@@ -152,5 +153,13 @@ enum NotificationDuration: String, CaseIterable, Codable {
         case .medium: return 5.0
         case .long: return 10.0
         }
+    }
+}
+
+struct ModernClipboardSettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        ModernClipboardSettingsView()
+            .environmentObject(ClipboardManager())
+            .environmentObject(LocalizationManager.shared)
     }
 } 

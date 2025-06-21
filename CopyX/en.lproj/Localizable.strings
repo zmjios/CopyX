@@ -1,0 +1,456 @@
+/* 
+  Localizable.strings
+  CopyX
+
+  Created by AI Assistant on 2024.
+*/
+
+// MARK: - General
+"app_name" = "CopyX";
+"ok" = "OK";
+"cancel" = "Cancel";
+"save" = "Save";
+"delete" = "Delete";
+"edit" = "Edit";
+"close" = "Close";
+"settings" = "Settings";
+"done" = "Done";
+"error" = "Error";
+"warning" = "Warning";
+"success" = "Success";
+"settings_window_title" = "Settings";
+"app_tooltip" = "Click to view clipboard history, right-click for options.";
+"select_a_category" = "Select a category from the sidebar to view its settings.";
+
+// MARK: - Main Interface
+"clipboard_history" = "Clipboard History";
+"search_placeholder" = "Search clipboard history...";
+"no_items" = "No clipboard items";
+"no_items_description" = "Start copying text, images, or files to see them here";
+"empty_search" = "No matching items";
+"empty_search_description" = "Try different search terms";
+
+// MARK: - Item Actions
+"copy" = "Copy";
+"copy_success" = "Copied to clipboard";
+"favorite" = "Favorite";
+"unfavorite" = "Remove from favorites";
+"view_details" = "View details";
+"delete_item" = "Delete item";
+"share" = "Share";
+"expand" = "Expand";
+"collapse" = "Collapse";
+
+// MARK: - Display Modes
+"bottom_mode" = "Bottom Display";
+"center_mode" = "Center Display";
+"display_mode" = "Display Mode";
+
+// MARK: - Filters
+"all_types" = "All Types";
+"text_type" = "Text";
+"image_type" = "Images";
+"file_type" = "Files";
+"url_type" = "URLs";
+"color_type" = "Colors";
+"show_favorites" = "Show Favorites Only";
+"show_all" = "Show All";
+
+// MARK: - Settings
+"general_settings" = "General";
+"hotkey_settings" = "Hotkeys";
+"clipboard_settings" = "Clipboard";
+"data_settings" = "Data";
+"advanced_settings" = "Advanced";
+"favorites_settings" = "Favorites";
+"about" = "About";
+
+// MARK: - General Settings
+"launch_at_startup" = "Launch at startup";
+"show_in_dock" = "Show in Dock";
+"show_in_menu_bar" = "Show in menu bar";
+"auto_paste" = "Auto paste after selection";
+"sound_effects" = "Sound effects";
+"launch_at_startup_subtitle" = "Automatically run CopyX when the system starts";
+"show_in_menu_bar_subtitle" = "Show CopyX icon in the system menu bar";
+"hide_dock_icon" = "Hide Dock Icon";
+"hide_dock_icon_subtitle" = "Hide the application icon from the Dock";
+"notification_settings" = "Notification Settings";
+"enable_notifications" = "Enable Notifications";
+"enable_notifications_subtitle" = "Show desktop notifications for new clipboard content";
+"enable_sound_effects" = "Enable Clipboard Sound Effects";
+
+// MARK: - Hotkey Settings
+"global_hotkey" = "Global hotkey";
+"hotkey_description" = "Press keys to set hotkey";
+"hotkey_conflict" = "Hotkey conflict detected";
+"clear_hotkey" = "Clear hotkey";
+"hotkey_not_set" = "Not Set";
+"press_hotkey_prompt" = "Press hotkey...";
+"reset" = "Reset";
+"click_to_set" = "Click to set";
+
+// MARK: - Clipboard Settings
+"max_items" = "Maximum items";
+"auto_clear" = "Auto clear old items";
+"ignore_apps" = "Ignore these apps";
+"monitor_clipboard" = "Monitor clipboard";
+
+// MARK: - Data Settings
+"export_data" = "Export Data";
+"import_data" = "Import Data";
+"clear_all_data" = "Clear All Data";
+"data_location" = "Data Location";
+"backup_settings" = "Backup Settings";
+"export_default_filename" = "clipboard_backup_%@.json";
+
+// MARK: - Advanced Settings
+"performance_mode" = "Performance mode";
+"debug_mode" = "Debug mode";
+"logging_enabled" = "Enable logging";
+"memory_optimization" = "Memory optimization";
+
+// MARK: - Time Formats
+"just_now" = "Just now";
+"seconds_ago" = "%d seconds ago";
+"minute_ago" = "1 minute ago";
+"minutes_ago" = "%d minutes ago";
+"hour_ago" = "1 hour ago";
+"hours_ago" = "%d hours ago";
+"day_ago" = "1 day ago";
+"days_ago" = "%d days ago";
+
+// MARK: - Tooltips
+"resize_window" = "Drag to resize window";
+"close_window" = "Close window";
+"toggle_favorites" = "Toggle favorites filter";
+"switch_display_mode" = "Switch display mode";
+
+// MARK: - Error Messages
+"clipboard_access_error" = "Cannot access clipboard";
+"save_error" = "Failed to save data";
+"load_error" = "Failed to load data";
+"hotkey_register_error" = "Failed to register hotkey";
+"file_not_found" = "File not found";
+"permission_denied" = "Permission denied";
+
+// MARK: - Confirmation Messages
+"delete_all_confirm" = "Are you sure you want to delete all clipboard items?";
+"clear_data_confirm" = "This will permanently delete all your clipboard data. Continue?";
+"reset_settings_confirm" = "Reset all settings to default values?";
+
+// MARK: - Settings Navigation
+"settings_section" = "Settings";
+"information_section" = "Information";
+"general_settings_title" = "General Settings";
+"general_settings_subtitle" = "Startup and interface configuration";
+"hotkeys_title" = "Hotkeys";
+"hotkeys_subtitle" = "Customize hotkeys";
+"clipboard_title" = "Clipboard";
+"clipboard_subtitle" = "History settings";
+"data_backup_title" = "Data Backup";
+"data_backup_subtitle" = "Import and export data";
+"advanced_functions_title" = "Advanced Functions";
+"advanced_functions_subtitle" = "Text processing and statistics";
+"favorites_title" = "Favorites Management";
+"favorites_subtitle" = "Manage and organize your favorite items";
+"about_copyx_title" = "About CopyX";
+"about_copyx_subtitle" = "Version information";
+
+// MARK: - About CopyX
+"about_copyx" = "About CopyX";
+"powerful_clipboard_manager" = "A powerful clipboard management tool";
+"version" = "Version";
+"build" = "Build";
+"view_changelog" = "View Changelog";
+"check_for_updates" = "Check for Updates";
+"visit_website" = "Visit Website";
+"main_features" = "Main Features";
+"hotkey_activation" = "Hotkey Activation";
+"hotkey_activation_desc" = "Quickly access history with a global hotkey";
+"history_management" = "History Management";
+"history_management_desc" = "Search, filter, and manage clipboard history";
+"multi_type_support" = "Multi-Type Support";
+"multi_type_support_desc" = "Supports text, images, files, and more";
+"favorite_and_pin" = "Favorite and Pin";
+"favorite_and_pin_desc" = "Keep important items for quick access";
+"system_info" = "System Info";
+"os_version" = "OS Version";
+"memory_usage" = "Memory Usage";
+"cpu_usage" = "CPU Usage";
+"developer_info" = "Developer Info";
+"developer_name" = "Developed by Your Name";
+"contact_developer" = "Contact Developer";
+"legal_info" = "Legal Info";
+"privacy_policy" = "Privacy Policy";
+"terms_of_service" = "Terms of Service";
+"licenses" = "Licenses";
+"copyright_info" = "Copyright © 2024 Your Company. All rights reserved.";
+"advanced_features" = "Advanced Features";
+"text_processing_and_stats" = "Text processing tools and usage statistics";
+"text_processing_tool" = "Text Processing Tool";
+"select_text_operation" = "Select a text processing operation";
+"operation" = "Operation";
+"input_text" = "Input Text";
+"process_text" = "Process Text";
+"processing_result" = "Processing Result";
+"copy_result" = "Copy Result";
+"quick_actions" = "Quick Actions";
+"quick_process_from_clipboard" = "Quickly process text from the clipboard";
+"usage_statistics" = "Usage Statistics";
+"refresh_stats" = "Refresh Stats";
+"confirm_delete_item_message" = "Are you sure you want to delete this clipboard item? This action cannot be undone.";
+"clipboard_settings_subtitle" = "Configure the behavior and limits of clipboard history";
+"history" = "History";
+"max_items_subtitle" = "Automatically delete the oldest records when this number is exceeded";
+"auto_clear_subtitle" = "Periodically clean up expired clipboard items";
+"content_types" = "Content Types";
+"save_text_content" = "Save copied text content";
+"save_text_content_subtitle" = "Automatically save copied text content";
+"save_image_content" = "Save copied image content";
+"save_image_content_subtitle" = "Automatically save copied image content";
+"privacy_protection" = "Privacy Protection";
+"skip_password_fields" = "Skip password fields";
+"skip_password_fields_subtitle" = "Automatically skip content from password input fields";
+"interface_settings" = "Interface Settings";
+"use_modal_share_view" = "Use modal share view";
+"use_modal_share_view_subtitle" = "Use a pop-up window to display sharing options";
+"sound_tips" = "Sound Tips";
+"enable_sound_effects_subtitle" = "Play system sound effects when copying content";
+"startup_settings" = "Startup Settings";
+"auto_start_monitoring" = "Auto-start monitoring";
+"auto_start_monitoring_subtitle" = "Automatically start monitoring the clipboard when the app launches";
+"copyx_running_in_background" = "CopyX is running in the background";
+"use_hotkey_to_open" = "Use ⌘⇧V to open clipboard history";
+"data_backup" = "Data Backup";
+"import_export_data" = "Import and export your data";
+"auto_cleanup_subtitle" = "Periodically clean up old clipboard items";
+"backup_path" = "Backup Path";
+"not_selected" = "Not selected";
+"select" = "Select";
+"data_management" = "Data Management";
+"clear_all_history" = "Clear All History";
+"confirm_clear_all_history_title" = "Confirm Clear All History";
+"confirm_clear_all_history_message" = "This action will clear all clipboard history and cannot be undone.";
+"favorites_management" = "Favorites Management";
+"manage_and_organize_favorites" = "Manage and organize your favorite items";
+"search_favorites_placeholder" = "Search favorite items...";
+"sort" = "Sort";
+"total_favorites" = "Total %d favorite items";
+"export_favorites" = "Export Favorites";
+"delete_selected" = "Delete Selected";
+"no_favorites" = "No Favorite Items";
+"no_favorites_description" = "Add items to favorites to see them here";
+"hotkey_settings_subtitle" = "Customize global hotkeys to quickly access clipboard history";
+"main_hotkey" = "Main Hotkey";
+"show_clipboard_history" = "Show clipboard history";
+"enable_hotkey" = "Enable Hotkey";
+"hotkey_show_hide_description" = "Press the hotkey to show or hide the clipboard history window";
+"usage_tips" = "Usage Tips";
+"set_hotkey" = "Set Hotkey";
+"set_hotkey_desc" = "Click the hotkey input box, then press your desired key combination";
+"global_hotkey_desc" = "The set hotkey can be used in any application";
+"avoid_conflicts" = "Avoid Conflicts";
+"avoid_conflicts_desc" = "Please ensure it does not conflict with system or other application hotkeys";
+"recommended_combinations" = "Recommended Combinations";
+"recommended_combinations_desc" = "Recommend using combinations like Cmd+Shift+V or Cmd+Option+V";
+"current_settings" = "Current Settings";
+"hotkey" = "Hotkey";
+"status" = "Status";
+"enabled" = "Enabled";
+"disabled" = "Disabled";
+"total_items" = "%d items total";
+"total_items_stat" = "Total Items";
+"confirm_clear" = "Confirm Clear";
+"confirm_clear_message" = "Are you sure you want to clear all clipboard history? This action cannot be undone.";
+"general_settings_subtitle" = "Configure startup and interface options for CopyX";
+"language_settings" = "Language";
+"display_language" = "Display Language";
+"language_auto" = "Auto";
+"language_en" = "English";
+"language_zh_hans" = "简体中文";
+"launch_settings" = "Launch Settings";
+"hide_dock_icon" = "Hide Dock Icon";
+"hide_dock_icon_subtitle" = "Hide the application icon in the Dock";
+"notification_settings" = "Notification Settings";
+"enable_notifications" = "Enable Notifications";
+"enable_notifications_subtitle" = "Show desktop notifications for new clipboard content";
+"enable_clipboard_sounds" = "Enable Clipboard Sounds";
+"enable_clipboard_sounds_subtitle" = "Play system sound effects when copying content";
+"launch_and_interface_config" = "Launch and interface configuration";
+"customize_hotkeys" = "Customize hotkeys";
+"history_settings" = "History settings";
+"text_processing_and_stats" = "Text processing and statistics";
+"manage_favorite_items" = "Manage favorite items";
+"information" = "Information";
+"version_information" = "Version information";
+"settings" = "Settings...";
+"about_app" = "About CopyX";
+"quit_app" = "Quit CopyX";
+
+// MARK: - Enums
+"autoclean_never" = "Never";
+"autoclean_daily" = "Daily";
+"autoclean_weekly" = "Weekly";
+"autoclean_monthly" = "Monthly";
+"imagequality_low" = "Low";
+"imagequality_medium" = "Medium";
+"imagequality_high" = "High";
+"imagequality_original" = "Original";
+"notificationduration_short" = "Short (2s)";
+"notificationduration_medium" = "Medium (5s)";
+"notificationduration_long" = "Long (10s)";
+
+// MARK: - New keys
+"about_app" = "About CopyX";
+"quit_app" = "Quit CopyX"; 
+
+// MARK: - New Key for Detail Window
+"clipboard_details_title" = "Clipboard Details";
+
+// MARK: - About View Keys
+"about_subtitle" = "A Powerful Clipboard Manager";
+"about_view_changelog_button" = "View Changelog";
+"about_check_updates_button" = "Check for Updates";
+"about_visit_website_button" = "Visit Website";
+"about_main_features_title" = "Main Features";
+"about_feature_hotkey_title" = "Global Hotkey";
+"about_feature_hotkey_desc" = "Quickly access clipboard history";
+"about_feature_smart_recognition_title" = "Smart Recognition";
+"about_feature_smart_recognition_desc" = "Auto-identifies text, images, links, etc.";
+"about_feature_quick_search_title" = "Quick Search";
+"about_feature_quick_search_desc" = "Real-time search and type filtering";
+"about_feature_privacy_title" = "Privacy Protection";
+"about_feature_privacy_desc" = "Skips sensitive content like passwords";
+"about_feature_backup_title" = "Data Backup";
+"about_feature_backup_desc" = "Import/export to keep your data safe";
+"about_feature_favorites_title" = "Favorites";
+"about_feature_favorites_desc" = "Save important items for quick access";
+"about_system_info_title" = "System Information";
+"about_info_os" = "Operating System";
+"about_info_model" = "Device Model";
+"about_info_processor" = "Processor";
+"about_info_memory" = "Memory";
+"about_info_path" = "Installation Path";
+"about_developer_title" = "Developer";
+"about_developer_desc" = "Dedicated to building tools that boost productivity.";
+"about_send_feedback_button" = "Send Feedback";
+"about_support_us_button" = "Support Us";
+"about_legal_title" = "Legal Information";
+"about_licenses_button" = "Open Source Licenses";
+"about_privacy_policy_button" = "Privacy Policy";
+"about_terms_of_service_button" = "Terms of Service";
+"about_copyright_notice" = "© 2025 CopyX. All rights reserved.";
+"about_built_with" = "Built with SwiftUI and AppKit";
+"about_open_source_thanks" = "Thanks to all open-source contributors";
+"about_view_version" = "Version";
+"about_view_release_notes" = "Release Notes";
+"about_view_credits" = "Credits";
+"about_view_developed_by" = "Developed by";
+"about_view_special_thanks" = "Special Thanks";
+"about_view_source_code" = "Source Code";
+"about_view_feedback" = "Feedback & Support";
+"about_view_report_bug" = "Report a Bug";
+"about_view_request_feature" = "Request a Feature";
+"about_view_privacy_policy" = "Privacy Policy";
+
+/* Advanced Settings */
+"advanced_settings_title" = "Advanced Features";
+"advanced_settings_subtitle" = "Text processing tools and usage statistics";
+"text_processing_tool" = "Text Processing Tool";
+"select_text_operation" = "Select text processing operation";
+"operation" = "Operation";
+"input_text" = "Input Text";
+"process_text" = "Process Text";
+"processing_result" = "Result";
+"copy_result" = "Copy Result";
+"quick_actions" = "Quick Actions";
+"quick_process_from_clipboard" = "Quickly process text from the clipboard";
+"usage_statistics" = "Usage Statistics";
+"refresh_stats" = "Refresh Stats";
+"performance_settings" = "Performance";
+"enable_sound_effects" = "Enable sound effects";
+"play_sound_on_copy" = "Play sound on copy";
+"auto_clear_history" = "Auto-clear History";
+"auto_clear_history_subtitle" = "Periodically clear old clipboard history";
+"history_limit" = "History Limit";
+"history_limit_subtitle" = "Set maximum number of history items";
+"experimental_features" = "Experimental Features";
+"experimental_warning_title" = "⚠️ Experimental Features";
+"experimental_warning_desc" = "These features are under development and may be unstable or cause unexpected behavior.";
+"enable_text_history" = "Enable Text History";
+"enable_text_history_subtitle" = "Record text-type clipboard content";
+"enable_image_history" = "Enable Image History";
+"enable_image_history_subtitle" = "Record image-type clipboard content";
+"enable_sound" = "Enable Sound";
+"enable_sound_subtitle" = "Play sound when clipboard changes";
+"usage_stats_title" = "Statistics";
+"total_items_stat" = "Total Items";
+"favorite_items_stat" = "Favorites";
+"total_usage_stat" = "Total Uses";
+"most_used_item_stat" = "Most Used";
+
+/* Advanced Text Operations */
+"op_upper" = "To Uppercase";
+"op_lower" = "To Lowercase";
+"op_title" = "To Title Case";
+"op_sentence" = "To Sentence Case";
+"op_trim" = "Trim Whitespace";
+"op_remove_spaces" = "Remove Extra Spaces";
+"op_reverse" = "Reverse Text";
+"op_count_chars" = "Count Characters";
+"op_count_words" = "Count Words";
+"op_base64_encode" = "Base64 Encode";
+"op_base64_decode" = "Base64 Decode";
+"op_url_encode" = "URL Encode";
+"op_url_decode" = "URL Decode";
+"op_md5" = "Generate MD5";
+"op_sha256" = "Generate SHA-256";
+
+/* Favorites Settings */
+"favorites_search_placeholder" = "Search favorites...";
+"favorites_count_format" = "%d favorite(s)";
+"favorites_select_all" = "Select All";
+"favorites_deselect_all" = "Deselect All";
+"favorites_export_selected" = "Export Selected";
+"favorites_delete_selected" = "Delete Selected";
+"favorites_empty_title" = "No Favorites Yet";
+"favorites_no_results_title" = "No Matching Favorites Found";
+"favorites_empty_subtitle" = "Click the heart icon in the clipboard history to favorite an item.";
+"favorites_no_results_subtitle" = "Try using different search keywords.";
+"favorites_clear_search" = "Clear Search";
+"favorites_export_done_title" = "Export Complete";
+"favorites_export_done_message" = "%d favorite item(s) have been copied to the clipboard.";
+"favorites_delete_confirm_title" = "Confirm Deletion";
+"favorites_delete_confirm_message" = "This will remove %d item(s) from your favorites, but will not delete the original items from history.";
+"delete" = "Delete";
+"usage_count_format" = "Used %d time(s)";
+"favorited_at_format" = "Favorited at %@";
+
+/* Sort Options */
+"sort_by_date_added" = "Date Added";
+"sort_by_date_modified" = "Date Modified";
+"sort_by_alphabetical" = "Alphabetical";
+"sort_by_type" = "Type";
+"sort_by_usage_count" = "Usage Count";
+
+/* Share Views */
+"share_to_title" = "Share to";
+"share_system" = "System Share";
+"share_wechat" = "WeChat";
+"share_twitter" = "X (Twitter)";
+"share_weibo" = "Weibo";
+"share_qq" = "QQ";
+"share_copy_content" = "Copy Content";
+
+/* UI Components */
+"search_clipboard_history_placeholder" = "Search clipboard history...";
+"toolbar_item_count_format" = "%d item(s)";
+"toolbar_autoclean" = "Auto-Clean";
+"toolbar_clear_all" = "Clear All";
+"toolbar_clear_confirm_title" = "Confirm Clear";
+"toolbar_clear_confirm_message" = "Are you sure you want to clear all clipboard history? This action cannot be undone.";
+"empty_state_title" = "Clipboard History is Empty";
+"empty_state_subtitle" = "Copy something to get started with CopyX.";
+"search_empty_state_title" = "No Content Found";
+"search_empty_state_subtitle_format" = "No clipboard items found containing \"%@\".";

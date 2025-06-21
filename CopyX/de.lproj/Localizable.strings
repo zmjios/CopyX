@@ -1,0 +1,433 @@
+/*
+  Localizable.strings
+  CopyX
+
+  Created by AI Assistant on 2024.
+*/
+
+// MARK: - General
+"app_name" = "CopyX";
+"ok" = "OK";
+"cancel" = "Abbrechen";
+"save" = "Speichern";
+"delete" = "Löschen";
+"edit" = "Bearbeiten";
+"close" = "Schließen";
+"settings" = "Einstellungen...";
+"done" = "Fertig";
+"error" = "Fehler";
+"warning" = "Warnung";
+"success" = "Erfolg";
+"settings_window_title" = "Einstellungen";
+"app_tooltip" = "Klicken, um den Verlauf der Zwischenablage anzuzeigen, Rechtsklick für Optionen.";
+"select_a_category" = "Wählen Sie eine Kategorie aus der Seitenleiste aus, um deren Einstellungen anzuzeigen.";
+
+// MARK: - Main Interface
+"clipboard_history" = "Verlauf der Zwischenablage";
+"search_placeholder" = "Verlauf der Zwischenablage durchsuchen...";
+"no_items" = "Keine Elemente in der Zwischenablage";
+"no_items_description" = "Kopieren Sie Text, Bilder oder Dateien, um sie hier zu sehen";
+"empty_search" = "Keine passenden Elemente";
+"empty_search_description" = "Versuchen Sie andere Suchbegriffe";
+
+// MARK: - Item Actions
+"copy" = "Kopieren";
+"copy_success" = "In die Zwischenablage kopiert";
+"favorite" = "Favorit";
+"unfavorite" = "Aus Favoriten entfernen";
+"view_details" = "Details anzeigen";
+"delete_item" = "Element löschen";
+"share" = "Teilen";
+"expand" = "Erweitern";
+"collapse" = "Zusammenklappen";
+
+// MARK: - Display Modes
+"bottom_mode" = "Untere Anzeige";
+"center_mode" = "Zentrierte Anzeige";
+"display_mode" = "Anzeigemodus";
+
+// MARK: - Filters
+"all_types" = "Alle Typen";
+"text_type" = "Text";
+"image_type" = "Bilder";
+"file_type" = "Dateien";
+"url_type" = "URLs";
+"color_type" = "Farben";
+"show_favorites" = "Nur Favoriten anzeigen";
+"show_all" = "Alle anzeigen";
+
+// MARK: - Settings
+"general_settings" = "Allgemein";
+"hotkey_settings" = "Hotkeys";
+"clipboard_settings" = "Zwischenablage";
+"data_settings" = "Daten";
+"advanced_settings" = "Erweitert";
+"favorites_settings" = "Favoriten";
+"about" = "Über";
+
+// MARK: - General Settings
+"launch_at_startup" = "Beim Start starten";
+"show_in_dock" = "Im Dock anzeigen";
+"show_in_menu_bar" = "In der Menüleiste anzeigen";
+"auto_paste" = "Nach Auswahl automatisch einfügen";
+"sound_effects" = "Soundeffekte";
+"launch_at_startup_subtitle" = "CopyX automatisch ausführen, wenn das System startet";
+"show_in_menu_bar_subtitle" = "CopyX-Symbol in der Systemmenüleiste anzeigen";
+"hide_dock_icon_subtitle" = "Das Anwendungssymbol aus dem Dock ausblenden";
+"notification_settings" = "Benachrichtigungseinstellungen";
+"enable_notifications" = "Benachrichtigungen aktivieren";
+"enable_notifications_subtitle" = "Desktop-Benachrichtigungen für neue Zwischenablageinhalte anzeigen";
+"enable_sound_effects" = "Soundeffekte für die Zwischenablage aktivieren";
+
+// MARK: - Hotkey Settings
+"global_hotkey" = "Globaler Hotkey";
+"hotkey_description" = "Tasten drücken, um Hotkey festzulegen";
+"hotkey_conflict" = "Hotkey-Konflikt erkannt";
+"clear_hotkey" = "Hotkey löschen";
+"hotkey_not_set" = "Nicht festgelegt";
+"press_hotkey_prompt" = "Hotkey drücken...";
+"reset" = "Zurücksetzen";
+"click_to_set" = "Klicken zum Festlegen";
+
+// MARK: - Clipboard Settings
+"max_items" = "Maximale Elemente";
+"auto_clear" = "Alte Elemente automatisch löschen";
+"ignore_apps" = "Diese Apps ignorieren";
+"monitor_clipboard" = "Zwischenablage überwachen";
+
+// MARK: - Data Settings
+"export_data" = "Daten exportieren";
+"import_data" = "Daten importieren";
+"clear_all_data" = "Alle Daten löschen";
+"data_location" = "Datenspeicherort";
+"backup_settings" = "Sicherungseinstellungen";
+"export_default_filename" = "zwischenablage_sicherung_%@.json";
+
+// MARK: - Advanced Settings
+"performance_mode" = "Leistungsmodus";
+"debug_mode" = "Debug-Modus";
+"logging_enabled" = "Protokollierung aktivieren";
+"memory_optimization" = "Speicheroptimierung";
+
+// MARK: - Time Formats
+"just_now" = "Gerade eben";
+"seconds_ago" = "Vor %d Sekunden";
+"minute_ago" = "Vor 1 Minute";
+"minutes_ago" = "Vor %d Minuten";
+"hour_ago" = "Vor 1 Stunde";
+"hours_ago" = "Vor %d Stunden";
+"day_ago" = "Vor 1 Tag";
+"days_ago" = "Vor %d Tagen";
+
+// MARK: - Tooltips
+"resize_window" = "Ziehen, um die Fenstergröße zu ändern";
+"close_window" = "Fenster schließen";
+"toggle_favorites" = "Favoritenfilter umschalten";
+"switch_display_mode" = "Anzeigemodus wechseln";
+
+// MARK: - Error Messages
+"clipboard_access_error" = "Kann nicht auf die Zwischenablage zugreifen";
+"save_error" = "Daten konnten nicht gespeichert werden";
+"load_error" = "Daten konnten nicht geladen werden";
+"hotkey_register_error" = "Hotkey konnte nicht registriert werden";
+"file_not_found" = "Datei nicht gefunden";
+"permission_denied" = "Zugriff verweigert";
+
+// MARK: - Confirmation Messages
+"delete_all_confirm" = "Sind Sie sicher, dass Sie alle Elemente der Zwischenablage löschen möchten?";
+"clear_data_confirm" = "Dies löscht alle Ihre Zwischenablagedaten dauerhaft. Fortfahren?";
+"reset_settings_confirm" = "Alle Einstellungen auf die Standardwerte zurücksetzen?";
+
+// MARK: - Settings Navigation
+"settings_section" = "Einstellungen";
+"information_section" = "Informationen";
+"general_settings_title" = "Allgemeine Einstellungen";
+"general_settings_subtitle" = "Start- und Oberflächenkonfiguration für CopyX";
+"hotkeys_title" = "Hotkeys";
+"hotkeys_subtitle" = "Hotkeys anpassen";
+"clipboard_title" = "Zwischenablage";
+"clipboard_subtitle" = "Verlaufseinstellungen";
+"data_backup_title" = "Datensicherung";
+"data_backup_subtitle" = "Daten importieren und exportieren";
+"advanced_functions_title" = "Erweiterte Funktionen";
+"advanced_functions_subtitle" = "Textverarbeitung und Statistiken";
+"favorites_title" = "Favoritenverwaltung";
+"favorites_subtitle" = "Verwalten und Organisieren Ihrer Favoriten";
+"about_copyx_title" = "Über CopyX";
+"about_copyx_subtitle" = "Versionsinformationen";
+
+// MARK: - About CopyX
+"about_copyx" = "Über CopyX";
+"powerful_clipboard_manager" = "Ein leistungsstarkes Werkzeug zur Verwaltung der Zwischenablage";
+"version" = "Version";
+"build" = "Build";
+"view_changelog" = "Änderungsprotokoll anzeigen";
+"check_for_updates" = "Nach Updates suchen";
+"visit_website" = "Webseite besuchen";
+"main_features" = "Hauptfunktionen";
+"hotkey_activation" = "Hotkey-Aktivierung";
+"hotkey_activation_desc" = "Schneller Zugriff auf den Verlauf mit einem globalen Hotkey";
+"history_management" = "Verlaufsverwaltung";
+"history_management_desc" = "Suchen, filtern und verwalten Sie den Verlauf der Zwischenablage";
+"multi_type_support" = "Unterstützung für mehrere Typen";
+"multi_type_support_desc" = "Unterstützt Text, Bilder, Dateien und mehr";
+"favorite_and_pin" = "Favorisieren und Anheften";
+"favorite_and_pin_desc" = "Wichtige Elemente für schnellen Zugriff aufbewahren";
+"system_info" = "Systeminformationen";
+"os_version" = "Betriebssystemversion";
+"memory_usage" = "Speichernutzung";
+"cpu_usage" = "CPU-Auslastung";
+"developer_info" = "Entwicklerinformationen";
+"developer_name" = "Entwickelt von Ihrem Namen";
+"contact_developer" = "Entwickler kontaktieren";
+"legal_info" = "Rechtliche Informationen";
+"privacy_policy" = "Datenschutz-Bestimmungen";
+"terms_of_service" = "Nutzungsbedingungen";
+"licenses" = "Lizenzen";
+"copyright_info" = "Copyright © 2024 Ihr Unternehmen. Alle Rechte vorbehalten.";
+"advanced_features" = "Erweiterte Funktionen";
+"text_processing_and_stats" = "Textverarbeitungswerkzeuge und Nutzungsstatistiken";
+"text_processing_tool" = "Textverarbeitungswerkzeug";
+"select_text_operation" = "Wählen Sie eine Textverarbeitungsoperation";
+"operation" = "Operation";
+"input_text" = "Eingabetext";
+"process_text" = "Text verarbeiten";
+"processing_result" = "Verarbeitungsergebnis";
+"copy_result" = "Ergebnis kopieren";
+"quick_actions" = "Schnellaktionen";
+"quick_process_from_clipboard" = "Text schnell aus der Zwischenablage verarbeiten";
+"usage_statistics" = "Nutzungsstatistiken";
+"refresh_stats" = "Statistiken aktualisieren";
+"confirm_delete_item_message" = "Sind Sie sicher, dass Sie dieses Zwischenablageelement löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.";
+"clipboard_settings_subtitle" = "Konfigurieren Sie das Verhalten und die Grenzen des Zwischenablageverlaufs";
+"history" = "Verlauf";
+"max_items_subtitle" = "Die ältesten Einträge automatisch löschen, wenn diese Anzahl überschritten wird";
+"auto_clear_subtitle" = "Abgelaufene Zwischenablageelemente regelmäßig bereinigen";
+"content_types" = "Inhaltstypen";
+"save_text_content" = "Kopierten Textinhalt speichern";
+"save_text_content_subtitle" = "Kopierten Textinhalt automatisch speichern";
+"save_image_content" = "Kopierten Bildinhalt speichern";
+"save_image_content_subtitle" = "Kopierten Bildinhalt automatisch speichern";
+"privacy_protection" = "Datenschutz";
+"skip_password_fields" = "Passwortfelder überspringen";
+"skip_password_fields_subtitle" = "Inhalte aus Passwort-Eingabefeldern automatisch überspringen";
+"interface_settings" = "Oberflächeneinstellungen";
+"use_modal_share_view" = "Modale Freigabeansicht verwenden";
+"use_modal_share_view_subtitle" = "Ein Pop-up-Fenster zur Anzeige von Freigabeoptionen verwenden";
+"sound_tips" = "Sound-Tipps";
+"enable_sound_effects_subtitle" = "System-Soundeffekte beim Kopieren von Inhalten abspielen";
+"startup_settings" = "Starteinstellungen";
+"auto_start_monitoring" = "Überwachung automatisch starten";
+"auto_start_monitoring_subtitle" = "Überwachung der Zwischenablage automatisch starten, wenn die App startet";
+"copyx_running_in_background" = "CopyX läuft im Hintergrund";
+"use_hotkey_to_open" = "Verwenden Sie ⌘⇧V, um den Verlauf der Zwischenablage zu öffnen";
+"data_backup" = "Datensicherung";
+"import_export_data" = "Ihre Daten importieren und exportieren";
+"auto_cleanup_subtitle" = "Alte Zwischenablageelemente regelmäßig bereinigen";
+"backup_path" = "Sicherungspfad";
+"not_selected" = "Nicht ausgewählt";
+"select" = "Auswählen";
+"data_management" = "Datenverwaltung";
+"clear_all_history" = "Gesamten Verlauf löschen";
+"confirm_clear_all_history_title" = "Löschen des gesamten Verlaufs bestätigen";
+"confirm_clear_all_history_message" = "Diese Aktion löscht Ihren gesamten Zwischenablageverlauf und kann nicht rückgängig gemacht werden.";
+"favorites_management" = "Favoritenverwaltung";
+"manage_and_organize_favorites" = "Verwalten und organisieren Sie Ihre Favoriten";
+"search_favorites_placeholder" = "Favoriten durchsuchen...";
+"sort" = "Sortieren";
+"total_favorites" = "Insgesamt %d Favoriten";
+"export_favorites" = "Favoriten exportieren";
+"delete_selected" = "Ausgewählte löschen";
+"no_favorites" = "Keine Favoriten";
+"no_favorites_description" = "Fügen Sie Elemente zu den Favoriten hinzu, um sie hier zu sehen";
+"hotkey_settings_subtitle" = "Globale Hotkeys anpassen, um schnell auf den Zwischenablageverlauf zuzugreifen";
+"main_hotkey" = "Haupt-Hotkey";
+"show_clipboard_history" = "Verlauf der Zwischenablage anzeigen";
+"enable_hotkey" = "Hotkey aktivieren";
+"hotkey_show_hide_description" = "Drücken Sie den Hotkey, um das Fenster mit dem Zwischenablageverlauf anzuzeigen oder auszublenden";
+"usage_tips" = "Nutzungstipps";
+"set_hotkey" = "Hotkey festlegen";
+"set_hotkey_desc" = "Klicken Sie auf das Hotkey-Eingabefeld und drücken Sie dann die gewünschte Tastenkombination";
+"global_hotkey_desc" = "Der festgelegte Hotkey kann in jeder Anwendung verwendet werden";
+"avoid_conflicts" = "Konflikte vermeiden";
+"avoid_conflicts_desc" = "Stellen Sie sicher, dass er nicht mit System- oder anderen Anwendungshotkeys in Konflikt steht";
+"recommended_combinations" = "Empfohlene Kombinationen";
+"recommended_combinations_desc" = "Es wird empfohlen, Kombinationen wie Cmd+Shift+V oder Cmd+Option+V zu verwenden";
+"current_settings" = "Aktuelle Einstellungen";
+"hotkey" = "Hotkey";
+"status" = "Status";
+"enabled" = "Aktiviert";
+"disabled" = "Deaktiviert";
+"total_items" = "Insgesamt %d Elemente";
+"confirm_clear" = "Löschen bestätigen";
+"confirm_clear_message" = "Sind Sie sicher, dass Sie den gesamten Verlauf der Zwischenablage löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.";
+"language_settings" = "Spracheinstellungen";
+"display_language" = "Anzeigesprache";
+"language_auto" = "Automatisch";
+"language_en" = "English";
+"language_zh_hans" = "简体中文";
+"language_de" = "Deutsch";
+"language_fr" = "Français";
+"language_es" = "Español";
+"language_ja" = "日本語";
+"launch_settings" = "Starteinstellungen";
+"hide_dock_icon" = "Dock-Symbol ausblenden";
+"enable_clipboard_sounds" = "Zwischenablage-Sounds aktivieren";
+"enable_clipboard_sounds_subtitle" = "System-Soundeffekte beim Kopieren von Inhalten abspielen";
+"launch_and_interface_config" = "Start- und Oberflächenkonfiguration";
+"customize_hotkeys" = "Hotkeys anpassen";
+"history_settings" = "Verlaufseinstellungen";
+"manage_favorite_items" = "Favoriten verwalten";
+"version_information" = "Versionsinformationen";
+"about_app" = "Über CopyX";
+"quit_app" = "CopyX beenden";
+
+// MARK: - Enums
+"autoclean_never" = "Nie";
+"autoclean_daily" = "Täglich";
+"autoclean_weekly" = "Wöchentlich";
+"autoclean_monthly" = "Monatlich";
+"imagequality_low" = "Niedrig";
+"imagequality_medium" = "Mittel";
+"imagequality_high" = "Hoch";
+"imagequality_original" = "Original";
+"notificationduration_short" = "Kurz (2s)";
+"notificationduration_medium" = "Mittel (5s)";
+"notificationduration_long" = "Lang (10s)";
+
+// MARK: - New Key for Detail Window
+"clipboard_details_title" = "Details der Zwischenablage";
+
+// MARK: - About View Keys
+"about_subtitle" = "Ein leistungsstarker Zwischenablage-Manager";
+"about_view_changelog_button" = "Änderungsprotokoll anzeigen";
+"about_check_updates_button" = "Nach Updates suchen";
+"about_visit_website_button" = "Webseite besuchen";
+"about_main_features_title" = "Hauptfunktionen";
+"about_feature_hotkey_title" = "Globaler Hotkey";
+"about_feature_hotkey_desc" = "Schneller Zugriff auf den Verlauf der Zwischenablage";
+"about_feature_smart_recognition_title" = "Intelligente Erkennung";
+"about_feature_smart_recognition_desc" = "Identifiziert automatisch Text, Bilder, Links usw.";
+"about_feature_quick_search_title" = "Schnellsuche";
+"about_feature_quick_search_desc" = "Echtzeit-Suche und Typfilterung";
+"about_feature_privacy_title" = "Datenschutz";
+"about_feature_privacy_desc" = "Überspringt sensible Inhalte wie Passwörter";
+"about_feature_backup_title" = "Datensicherung";
+"about_feature_backup_desc" = "Import/Export, um Ihre Daten sicher zu halten";
+"about_feature_favorites_title" = "Favoriten";
+"about_feature_favorites_desc" = "Wichtige Elemente für schnellen Zugriff speichern";
+"about_system_info_title" = "Systeminformationen";
+"about_info_os" = "Betriebssystem";
+"about_info_model" = "Gerätemodell";
+"about_info_processor" = "Prozessor";
+"about_info_memory" = "Speicher";
+"about_info_path" = "Installationspfad";
+"about_developer_title" = "Entwickler";
+"about_developer_desc" = "Engagiert für die Entwicklung von Tools, die die Produktivität steigern.";
+"about_send_feedback_button" = "Feedback senden";
+"about_support_us_button" = "Unterstützen Sie uns";
+"about_legal_title" = "Rechtliche Informationen";
+"about_licenses_button" = "Open-Source-Lizenzen";
+"about_privacy_policy_button" = "Datenschutz-Bestimmungen";
+"about_terms_of_service_button" = "Nutzungsbedingungen";
+"about_copyright_notice" = "© 2025 CopyX. Alle Rechte vorbehalten.";
+"about_built_with" = "Entwickelt mit SwiftUI und AppKit";
+"about_open_source_thanks" = "Dank an alle Open-Source-Mitwirkenden";
+"about_view_version" = "Version";
+"about_view_release_notes" = "Versionshinweise";
+"about_view_credits" = "Danksagungen";
+"about_view_developed_by" = "Entwickelt von";
+"about_view_special_thanks" = "Besonderer Dank";
+"about_view_source_code" = "Quellcode";
+"about_view_feedback" = "Feedback & Support";
+"about_view_report_bug" = "Fehler melden";
+"about_view_request_feature" = "Funktion anfordern";
+"about_view_privacy_policy" = "Datenschutz-Bestimmungen";
+
+/* Advanced Settings */
+"advanced_settings_title" = "Erweiterte Funktionen";
+"advanced_settings_subtitle" = "Textverarbeitungswerkzeuge und Nutzungsstatistiken";
+"performance_settings" = "Leistung";
+"play_sound_on_copy" = "Sound beim Kopieren abspielen";
+"auto_clear_history" = "Verlauf automatisch löschen";
+"auto_clear_history_subtitle" = "Alten Zwischenablageverlauf regelmäßig löschen";
+"history_limit" = "Verlaufslimit";
+"history_limit_subtitle" = "Maximale Anzahl von Verlaufseinträgen festlegen";
+"experimental_features" = "Experimentelle Funktionen";
+"experimental_warning_title" = "⚠️ Experimentelle Funktionen";
+"experimental_warning_desc" = "Diese Funktionen befinden sich in der Entwicklung und können instabil sein oder unerwartetes Verhalten verursachen.";
+"enable_text_history" = "Textverlauf aktivieren";
+"enable_text_history_subtitle" = "Inhalt der Zwischenablage vom Typ Text aufzeichnen";
+"enable_image_history" = "Bildverlauf aktivieren";
+"enable_image_history_subtitle" = "Inhalt der Zwischenablage vom Typ Bild aufzeichnen";
+"enable_sound" = "Ton aktivieren";
+"enable_sound_subtitle" = "Ton abspielen, wenn sich die Zwischenablage ändert";
+"usage_stats_title" = "Statistiken";
+"total_items_stat" = "Gesamtanzahl der Elemente";
+"favorite_items_stat" = "Favoriten";
+"total_usage_stat" = "Gesamtnutzung";
+"most_used_item_stat" = "Am häufigsten verwendet";
+
+/* Advanced Text Operations */
+"op_upper" = "In Großbuchstaben";
+"op_lower" = "In Kleinbuchstaben";
+"op_title" = "Initialen großschreiben";
+"op_sentence" = "Satzanfang groß";
+"op_trim" = "Leerzeichen entfernen";
+"op_remove_spaces" = "Zusätzliche Leerzeichen entfernen";
+"op_reverse" = "Text umkehren";
+"op_count_chars" = "Zeichen zählen";
+"op_count_words" = "Wörter zählen";
+"op_base64_encode" = "Base64-kodieren";
+"op_base64_decode" = "Base64-dekodieren";
+"op_url_encode" = "URL-kodieren";
+"op_url_decode" = "URL-dekodieren";
+"op_md5" = "MD5 generieren";
+"op_sha256" = "SHA-256 generieren";
+
+/* Favorites Settings */
+"favorites_search_placeholder" = "Favoriten durchsuchen...";
+"favorites_count_format" = "%d Favorit(en)";
+"favorites_select_all" = "Alles auswählen";
+"favorites_deselect_all" = "Auswahl aufheben";
+"favorites_export_selected" = "Ausgewählte exportieren";
+"favorites_delete_selected" = "Ausgewählte löschen";
+"favorites_empty_title" = "Noch keine Favoriten";
+"favorites_no_results_title" = "Keine passenden Favoriten gefunden";
+"favorites_empty_subtitle" = "Klicken Sie auf das Herzsymbol im Zwischenablageverlauf, um ein Element zu favorisieren.";
+"favorites_no_results_subtitle" = "Versuchen Sie es mit anderen Suchbegriffen.";
+"favorites_clear_search" = "Suche löschen";
+"favorites_export_done_title" = "Export abgeschlossen";
+"favorites_export_done_message" = "%d Favorit(en) wurden in die Zwischenablage kopiert.";
+"favorites_delete_confirm_title" = "Löschen bestätigen";
+"favorites_delete_confirm_message" = "Dadurch werden %d Element(e) aus Ihren Favoriten entfernt, aber die ursprünglichen Elemente im Verlauf werden nicht gelöscht.";
+"usage_count_format" = "%d Mal verwendet";
+"favorited_at_format" = "Favorisiert am %@";
+
+/* Sort Options */
+"sort_by_date_added" = "Hinzufügedatum";
+"sort_by_date_modified" = "Änderungsdatum";
+"sort_by_alphabetical" = "Alphabetisch";
+"sort_by_type" = "Typ";
+"sort_by_usage_count" = "Nutzungsanzahl";
+
+/* Share Views */
+"share_to_title" = "Teilen mit";
+"share_system" = "Systemfreigabe";
+"share_wechat" = "WeChat";
+"share_twitter" = "X (Twitter)";
+"share_weibo" = "Weibo";
+"share_qq" = "QQ";
+"share_copy_content" = "Inhalt kopieren";
+
+/* UI Components */
+"search_clipboard_history_placeholder" = "Zwischenablageverlauf durchsuchen...";
+"toolbar_item_count_format" = "%d Element(e)";
+"toolbar_autoclean" = "Automatisch bereinigen";
+"toolbar_clear_all" = "Alles löschen";
+"toolbar_clear_confirm_title" = "Löschen bestätigen";
+"toolbar_clear_confirm_message" = "Sind Sie sicher, dass Sie den gesamten Zwischenablageverlauf löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.";
+"empty_state_title" = "Zwischenablageverlauf ist leer";
+"empty_state_subtitle" = "Kopieren Sie etwas, um mit CopyX zu beginnen.";
+"search_empty_state_title" = "Kein Inhalt gefunden";
+"search_empty_state_subtitle_format" = "Keine Zwischenablageelemente mit \"%@\" gefunden."; 

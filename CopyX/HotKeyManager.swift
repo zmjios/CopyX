@@ -18,6 +18,8 @@ enum WindowDisplayMode: String, CaseIterable {
 
 class HotKeyManager: NSObject, ObservableObject {
     var clipboardManager: ClipboardManager?
+    var localizationManager: LocalizationManager?
+    weak var appDelegate: AppDelegate?
     private var historyWindow: NSWindow?
     private var clickOutsideMonitor: Any?
     
@@ -133,8 +135,19 @@ class HotKeyManager: NSObject, ObservableObject {
     }
     
     private func handleHotKeyEvent(_ nextHandler: EventHandlerCallRef?, _ theEvent: EventRef?) -> OSStatus {
-        showClipboardHistory()
+        DispatchQueue.main.async {
+            self.showClipboardHistory()
+        }
         return noErr
+    }
+    
+    func openSettings() {
+        print("✅ [HotKeyManager] openSettings() called.")
+        if let appDelegate = self.appDelegate {
+            appDelegate.openSettings()
+        } else {
+            print("❌ [HotKeyManager] Failed to get AppDelegate via direct property.")
+        }
     }
     
     func showClipboardHistory() {
@@ -228,6 +241,8 @@ class HotKeyManager: NSObject, ObservableObject {
         let contentView = ClipboardHistoryView()
             .environmentObject(clipboardManager!)
             .environmentObject(self)
+            .environmentObject(localizationManager!)
+            .id(localizationManager!.revision)
         
         window.contentView = NSHostingView(rootView: contentView)
         window.delegate = self

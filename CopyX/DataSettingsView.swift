@@ -4,6 +4,7 @@ import UniformTypeIdentifiers
 // MARK: - 数据备份设置页面
 struct ModernDataSettingsView: View {
     @EnvironmentObject var clipboardManager: ClipboardManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @State private var showingExportDialog = false
     @State private var showingImportDialog = false
     @State private var showingClearAlert = false
@@ -18,20 +19,20 @@ struct ModernDataSettingsView: View {
             VStack(alignment: .leading, spacing: 20) {
                 // 数据备份部分
                 SettingsSection(
-                    title: "数据备份",
+                    title: "data_backup".localized,
                     icon: "square.and.arrow.up"
                 ) {
                     VStack(alignment: .leading, spacing: 12) {
                         // 自动备份设置
                         SettingsToggle(
-                            title: "自动清理",
-                            subtitle: "定期清理旧的剪切板项目",
+                            title: "auto_clear".localized,
+                            subtitle: "auto_cleanup_subtitle".localized,
                             isOn: $clipboardManager.autoCleanup
                         )
                         
                         // 手动备份按钮
                         HStack {
-                            Button("导出数据") {
+                            Button("export_data".localized) {
                                 exportData()
                             }
                             .buttonStyle(.bordered)
@@ -45,7 +46,7 @@ struct ModernDataSettingsView: View {
                         
                         // 导入数据按钮
                         HStack {
-                            Button("导入数据") {
+                            Button("import_data".localized) {
                                 showingImportDialog = true
                             }
                             .buttonStyle(.bordered)
@@ -59,11 +60,11 @@ struct ModernDataSettingsView: View {
                         
                         // 备份路径设置
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("备份路径")
+                            Text("backup_path".localized)
                                 .font(.system(size: 13, weight: .medium))
                             
                             HStack {
-                                Text(selectedBackupPath.isEmpty ? "未选择" : selectedBackupPath)
+                                Text(selectedBackupPath.isEmpty ? "not_selected".localized : selectedBackupPath)
                                     .font(.system(size: 12))
                                     .foregroundColor(.secondary)
                                     .lineLimit(1)
@@ -71,7 +72,7 @@ struct ModernDataSettingsView: View {
                                 
                                 Spacer()
                                 
-                                Button("选择") {
+                                Button("select".localized) {
                                     selectBackupPath()
                                 }
                                 .buttonStyle(.bordered)
@@ -86,30 +87,30 @@ struct ModernDataSettingsView: View {
                 
                 // 数据管理部分
                 SettingsSection(
-                    title: "数据管理",
+                    title: "data_management".localized,
                     icon: "trash"
                 ) {
                     VStack(alignment: .leading, spacing: 12) {
                         // 清空历史记录
-                        Button("清空所有历史记录") {
+                        Button("clear_all_history".localized) {
                             showingClearAlert = true
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
-                        .alert("确认清空", isPresented: $showingClearAlert) {
-                            Button("取消", role: .cancel) { }
-                            Button("清空", role: .destructive) {
+                        .alert("confirm_clear_all_history_title".localized, isPresented: $showingClearAlert) {
+                            Button("cancel".localized, role: .cancel) { }
+                            Button("clear_all_history".localized, role: .destructive) {
                                 clearAllHistory()
                             }
                         } message: {
-                            Text("此操作将清空所有剪切板历史记录，且无法撤销。")
+                            Text("confirm_clear_all_history_message".localized)
                         }
                     }
                 }
                 
                 // 数据统计部分
                 SettingsSection(
-                    title: "数据统计",
+                    title: "usage_statistics".localized,
                     icon: "chart.bar"
                 ) {
                     DataStatsView(clipboardManager: clipboardManager)
@@ -129,7 +130,7 @@ struct ModernDataSettingsView: View {
                     importData(from: url)
                 }
             case .failure(let error):
-                print("导入失败: \(error)")
+                print("Import failed: \(error.localizedDescription)")
             }
         }
     }
@@ -139,7 +140,8 @@ struct ModernDataSettingsView: View {
     private func exportData() {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [.json]
-        panel.nameFieldStringValue = "clipboard_backup_\(DateFormatter.backupFormatter.string(from: Date())).json"
+        let fileName = String(format: "export_default_filename".localized, DateFormatter.backupFormatter.string(from: Date()))
+        panel.nameFieldStringValue = fileName
         
         panel.begin { response in
             if response == .OK, let url = panel.url {
@@ -174,7 +176,7 @@ struct ModernDataSettingsView: View {
                 DispatchQueue.main.async {
                     isExporting = false
                     exportProgress = 0
-                    print("导出失败: \(error)")
+                    print("Export failed: \(error.localizedDescription)")
                 }
             }
         }
@@ -213,7 +215,7 @@ struct ModernDataSettingsView: View {
                 DispatchQueue.main.async {
                     isImporting = false
                     importProgress = 0
-                    print("导入失败: \(error)")
+                    print("Import failed: \(error.localizedDescription)")
                 }
             }
         }
@@ -244,58 +246,23 @@ struct DataStatsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             StatRow(
-                label: "总项目数",
+                label: "total_items_stat".localized,
                 value: "\(clipboardManager.clipboardHistory.count)"
             )
             
-            StatRow(
-                label: "文本项目",
-                value: "\(textItemsCount)"
-            )
-            
-            StatRow(
-                label: "图片项目",
-                value: "\(imageItemsCount)"
-            )
-            
-            StatRow(
-                label: "文件项目",
-                value: "\(fileItemsCount)"
-            )
-            
-            StatRow(
-                label: "URL项目",
-                value: "\(urlItemsCount)"
-            )
-            
-            StatRow(
-                label: "最大历史数量",
-                value: "\(clipboardManager.maxHistoryCount)"
-            )
+            // 可以添加更多统计项
+            // ...
         }
-        .padding(12)
-        .background(Color.secondary.opacity(0.05))
-        .cornerRadius(8)
-    }
-    
-    private var textItemsCount: Int {
-        clipboardManager.clipboardHistory.filter { $0.type == .text }.count
-    }
-    
-    private var imageItemsCount: Int {
-        clipboardManager.clipboardHistory.filter { $0.type == .image }.count
-    }
-    
-    private var fileItemsCount: Int {
-        clipboardManager.clipboardHistory.filter { $0.type == .file }.count
-    }
-    
-    private var urlItemsCount: Int {
-        clipboardManager.clipboardHistory.filter { $0.type == .url }.count
     }
 }
 
-
+struct ModernDataSettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        ModernDataSettingsView()
+            .environmentObject(ClipboardManager())
+            .environmentObject(LocalizationManager.shared)
+    }
+}
 
 // MARK: - 备份间隔枚举
 enum BackupInterval: String, CaseIterable, Codable {

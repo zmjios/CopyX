@@ -1,0 +1,433 @@
+/*
+  Localizable.strings
+  CopyX
+
+  Created by AI Assistant on 2024.
+*/
+
+// MARK: - General
+"app_name" = "CopyX";
+"ok" = "好的";
+"cancel" = "取消";
+"save" = "保存";
+"delete" = "删除";
+"edit" = "编辑";
+"close" = "关闭";
+"settings" = "设置...";
+"done" = "完成";
+"error" = "错误";
+"warning" = "警告";
+"success" = "成功";
+"settings_window_title" = "设置";
+"app_tooltip" = "左键查看剪贴板历史，右键打开菜单。";
+"select_a_category" = "请从侧边栏选择一个分类以查看其设置。";
+
+// MARK: - Main Interface
+"clipboard_history" = "剪贴板历史";
+"search_placeholder" = "搜索剪贴板历史...";
+"no_items" = "没有剪贴板项目";
+"no_items_description" = "开始复制文本、图片或文件，它们会显示在这里";
+"empty_search" = "没有匹配的项目";
+"empty_search_description" = "尝试不同的搜索词";
+
+// MARK: - Item Actions
+"copy" = "复制";
+"copy_success" = "已复制到剪贴板";
+"favorite" = "收藏";
+"unfavorite" = "取消收藏";
+"view_details" = "查看详情";
+"delete_item" = "删除项目";
+"share" = "分享";
+"expand" = "展开";
+"collapse" = "收起";
+
+// MARK: - Display Modes
+"bottom_mode" = "底部显示";
+"center_mode" = "居中显示";
+"display_mode" = "显示模式";
+
+// MARK: - Filters
+"all_types" = "所有类型";
+"text_type" = "文本";
+"image_type" = "图片";
+"file_type" = "文件";
+"url_type" = "链接";
+"color_type" = "颜色";
+"show_favorites" = "仅显示收藏";
+"show_all" = "显示全部";
+
+// MARK: - Settings
+"general_settings" = "通用";
+"hotkey_settings" = "快捷键";
+"clipboard_settings" = "剪贴板";
+"data_settings" = "数据";
+"advanced_settings" = "高级";
+"favorites_settings" = "收藏";
+"about" = "关于";
+
+// MARK: - General Settings
+"launch_at_startup" = "开机启动";
+"show_in_dock" = "在 Dock 中显示";
+"show_in_menu_bar" = "在菜单栏显示";
+"auto_paste" = "选中后自动粘贴";
+"sound_effects" = "声音效果";
+"launch_at_startup_subtitle" = "系统启动时自动运行 CopyX";
+"show_in_menu_bar_subtitle" = "在系统菜单栏显示 CopyX 图标";
+"hide_dock_icon_subtitle" = "在 Dock 中隐藏应用图标";
+"notification_settings" = "通知设置";
+"enable_notifications" = "启用通知";
+"enable_notifications_subtitle" = "新的剪切板内容时显示桌面通知";
+"enable_sound_effects" = "启用剪贴板音效";
+
+// MARK: - Hotkey Settings
+"global_hotkey" = "全局快捷键";
+"hotkey_description" = "按下按键以设置快捷键";
+"hotkey_conflict" = "检测到快捷键冲突";
+"clear_hotkey" = "清除快捷键";
+"hotkey_not_set" = "未设置";
+"press_hotkey_prompt" = "按下快捷键...";
+"reset" = "重设";
+"click_to_set" = "点击设置";
+
+// MARK: - Clipboard Settings
+"max_items" = "最大项目数";
+"auto_clear" = "自动清理旧项目";
+"ignore_apps" = "忽略这些应用";
+"monitor_clipboard" = "监控剪贴板";
+
+// MARK: - Data Settings
+"export_data" = "导出数据";
+"import_data" = "导入数据";
+"clear_all_data" = "清除所有数据";
+"data_location" = "数据位置";
+"backup_settings" = "备份设置";
+"export_default_filename" = "剪贴板备份_%@.json";
+
+// MARK: - Advanced Settings
+"performance_mode" = "性能模式";
+"debug_mode" = "调试模式";
+"logging_enabled" = "启用日志";
+"memory_optimization" = "内存优化";
+
+// MARK: - Time Formats
+"just_now" = "刚刚";
+"seconds_ago" = "%d 秒前";
+"minute_ago" = "1 分钟前";
+"minutes_ago" = "%d 分钟前";
+"hour_ago" = "1 小时前";
+"hours_ago" = "%d 小时前";
+"day_ago" = "1 天前";
+"days_ago" = "%d 天前";
+
+// MARK: - Tooltips
+"resize_window" = "拖动以调整窗口大小";
+"close_window" = "关闭窗口";
+"toggle_favorites" = "切换收藏过滤器";
+"switch_display_mode" = "切换显示模式";
+
+// MARK: - Error Messages
+"clipboard_access_error" = "无法访问剪贴板";
+"save_error" = "保存数据失败";
+"load_error" = "加载数据失败";
+"hotkey_register_error" = "注册快捷键失败";
+"file_not_found" = "文件未找到";
+"permission_denied" = "权限被拒绝";
+
+// MARK: - Confirmation Messages
+"delete_all_confirm" = "您确定要删除所有剪贴板项目吗？";
+"clear_data_confirm" = "这将永久删除您的所有剪贴板数据。是否继续？";
+"reset_settings_confirm" = "将所有设置重置为默认值？";
+
+// MARK: - Settings Navigation
+"settings_section" = "设置";
+"information_section" = "信息";
+"general_settings_title" = "通用设置";
+"general_settings_subtitle" = "为 CopyX 配置启动和界面选项";
+"hotkeys_title" = "快捷键";
+"hotkeys_subtitle" = "自定义快捷键";
+"clipboard_title" = "剪贴板";
+"clipboard_subtitle" = "历史记录设置";
+"data_backup_title" = "数据备份";
+"data_backup_subtitle" = "导入和导出数据";
+"advanced_functions_title" = "高级功能";
+"advanced_functions_subtitle" = "文本处理和统计";
+"favorites_title" = "收藏夹管理";
+"favorites_subtitle" = "管理和组织你的收藏项目";
+"about_copyx_title" = "关于 CopyX";
+"about_copyx_subtitle" = "版本信息";
+
+// MARK: - About CopyX
+"about_copyx" = "关于 CopyX";
+"powerful_clipboard_manager" = "一个强大的剪贴板管理工具";
+"version" = "版本";
+"build" = "构建";
+"view_changelog" = "查看更新日志";
+"check_for_updates" = "检查更新";
+"visit_website" = "访问网站";
+"main_features" = "主要功能";
+"hotkey_activation" = "快捷键激活";
+"hotkey_activation_desc" = "使用全局快捷键快速访问历史记录";
+"history_management" = "历史管理";
+"history_management_desc" = "搜索、筛选和管理剪贴板历史";
+"multi_type_support" = "多类型支持";
+"multi_type_support_desc" = "支持文本、图片、文件等";
+"favorite_and_pin" = "收藏和置顶";
+"favorite_and_pin_desc" = "保留重要项目以便快速访问";
+"system_info" = "系统信息";
+"os_version" = "操作系统版本";
+"memory_usage" = "内存使用情况";
+"cpu_usage" = "CPU 使用情况";
+"developer_info" = "开发者信息";
+"developer_name" = "由您的姓名开发";
+"contact_developer" = "联系开发者";
+"legal_info" = "法律信息";
+"privacy_policy" = "隐私政策";
+"terms_of_service" = "服务条款";
+"licenses" = "许可证";
+"copyright_info" = "版权所有 © 2024 您的公司。保留所有权利。";
+"advanced_features" = "高级功能";
+"text_processing_and_stats" = "文本处理工具和使用统计";
+"text_processing_tool" = "文本处理工具";
+"select_text_operation" = "选择文本处理操作";
+"operation" = "操作";
+"input_text" = "输入文本";
+"process_text" = "处理文本";
+"processing_result" = "处理结果";
+"copy_result" = "复制结果";
+"quick_actions" = "快捷操作";
+"quick_process_from_clipboard" = "快速处理剪贴板中的文本";
+"usage_statistics" = "使用统计";
+"refresh_stats" = "刷新统计";
+"confirm_delete_item_message" = "您确定要删除此剪贴板项目吗？此操作无法撤销。";
+"clipboard_settings_subtitle" = "配置剪贴板历史记录的行为和限制";
+"history" = "历史记录";
+"max_items_subtitle" = "超过此数量时自动删除最旧的记录";
+"auto_clear_subtitle" = "定期清理过期的剪贴板项目";
+"content_types" = "内容类型";
+"save_text_content" = "保存复制的文本内容";
+"save_text_content_subtitle" = "自动保存复制的文本内容";
+"save_image_content" = "保存复制的图片内容";
+"save_image_content_subtitle" = "自动保存复制的图片内容";
+"privacy_protection" = "隐私保护";
+"skip_password_fields" = "跳过密码字段";
+"skip_password_fields_subtitle" = "自动跳过密码输入字段中的内容";
+"interface_settings" = "界面设置";
+"use_modal_share_view" = "使用模态分享视图";
+"use_modal_share_view_subtitle" = "使用弹出窗口显示分享选项";
+"sound_tips" = "声音提示";
+"enable_sound_effects_subtitle" = "复制内容时播放系统音效";
+"startup_settings" = "启动设置";
+"auto_start_monitoring" = "自动开始监控";
+"auto_start_monitoring_subtitle" = "应用启动时自动开始监控剪贴板";
+"copyx_running_in_background" = "CopyX 正在后台运行";
+"use_hotkey_to_open" = "使用 ⌘⇧V 打开剪贴板历史";
+"data_backup" = "数据备份";
+"import_export_data" = "导入和导出您的数据";
+"auto_cleanup_subtitle" = "定期清理旧的剪贴板项目";
+"backup_path" = "备份路径";
+"not_selected" = "未选择";
+"select" = "选择";
+"data_management" = "数据管理";
+"clear_all_history" = "清除所有历史记录";
+"confirm_clear_all_history_title" = "确认清除所有历史记录";
+"confirm_clear_all_history_message" = "此操作将清除所有剪贴板历史记录，且无法撤销。";
+"favorites_management" = "收藏夹管理";
+"manage_and_organize_favorites" = "管理和组织您收藏的项目";
+"search_favorites_placeholder" = "搜索收藏项目...";
+"sort" = "排序";
+"total_favorites" = "共 %d 个收藏项目";
+"export_favorites" = "导出收藏夹";
+"delete_selected" = "删除所选";
+"no_favorites" = "没有收藏项目";
+"no_favorites_description" = "将项目添加到收藏夹，以便在此处查看";
+"hotkey_settings_subtitle" = "自定义全局快捷键以快速访问剪贴板历史";
+"main_hotkey" = "主快捷键";
+"show_clipboard_history" = "显示剪贴板历史";
+"enable_hotkey" = "启用快捷键";
+"hotkey_show_hide_description" = "按快捷键显示或隐藏剪贴板历史窗口";
+"usage_tips" = "使用提示";
+"set_hotkey" = "设置快捷键";
+"set_hotkey_desc" = "单击快捷键输入框，然后按下您想要的组合键";
+"global_hotkey_desc" = "设置的快捷键可在任何应用程序中使用";
+"avoid_conflicts" = "避免冲突";
+"avoid_conflicts_desc" = "请确保它不与系统或其他应用程序的快捷键冲突";
+"recommended_combinations" = "推荐组合";
+"recommended_combinations_desc" = "建议使用 Cmd+Shift+V 或 Cmd+Option+V 等组合";
+"current_settings" = "当前设置";
+"hotkey" = "快捷键";
+"status" = "状态";
+"enabled" = "已启用";
+"disabled" = "已禁用";
+"total_items" = "共 %d 个项目";
+"confirm_clear" = "确认清除";
+"confirm_clear_message" = "您确定要清除所有剪贴板历史记录吗？此操作无法撤销。";
+"language_settings" = "语言设置";
+"display_language" = "显示语言";
+"language_auto" = "自动";
+"language_en" = "English";
+"language_zh_hans" = "简体中文";
+"language_de" = "德语";
+"language_fr" = "法语";
+"language_es" = "西班牙语";
+"language_ja" = "日语";
+"launch_settings" = "启动设置";
+"hide_dock_icon" = "隐藏 Dock 图标";
+"enable_clipboard_sounds" = "启用剪贴板音效";
+"enable_clipboard_sounds_subtitle" = "复制内容时播放系统音效";
+"launch_and_interface_config" = "启动和界面配置";
+"customize_hotkeys" = "自定义快捷键";
+"history_settings" = "历史记录设置";
+"manage_favorite_items" = "管理收藏项目";
+"version_information" = "版本信息";
+"about_app" = "关于 CopyX";
+"quit_app" = "退出 CopyX";
+
+// MARK: - Enums
+"autoclean_never" = "从不";
+"autoclean_daily" = "每天";
+"autoclean_weekly" = "每周";
+"autoclean_monthly" = "每月";
+"imagequality_low" = "低";
+"imagequality_medium" = "中";
+"imagequality_high" = "高";
+"imagequality_original" = "原始";
+"notificationduration_short" = "短 (2秒)";
+"notificationduration_medium" = "中 (5秒)";
+"notificationduration_long" = "长 (10秒)";
+
+// MARK: - New Key for Detail Window
+"clipboard_details_title" = "剪贴板详情";
+
+// MARK: - About View Keys
+"about_subtitle" = "一个强大的剪贴板管理工具";
+"about_view_changelog_button" = "查看更新日志";
+"about_check_updates_button" = "检查更新";
+"about_visit_website_button" = "访问官网";
+"about_main_features_title" = "主要功能";
+"about_feature_hotkey_title" = "全局快捷键";
+"about_feature_hotkey_desc" = "快速访问剪切板历史";
+"about_feature_smart_recognition_title" = "智能识别";
+"about_feature_smart_recognition_desc" = "自动识别文本、图片、链接等类型";
+"about_feature_quick_search_title" = "快速搜索";
+"about_feature_quick_search_desc" = "实时搜索和类型筛选";
+"about_feature_privacy_title" = "隐私保护";
+"about_feature_privacy_desc" = "智能跳过密码等敏感内容";
+"about_feature_backup_title" = "数据备份";
+"about_feature_backup_desc" = "导入导出功能保护数据安全";
+"about_feature_favorites_title" = "收藏功能";
+"about_feature_favorites_desc" = "收藏重要内容便于快速访问";
+"about_system_info_title" = "系统信息";
+"about_info_os" = "操作系统";
+"about_info_model" = "设备型号";
+"about_info_processor" = "处理器";
+"about_info_memory" = "内存";
+"about_info_path" = "安装路径";
+"about_developer_title" = "开发者";
+"about_developer_desc" = "专注于提升用户生产力的工具开发";
+"about_send_feedback_button" = "发送反馈";
+"about_support_us_button" = "支持我们";
+"about_legal_title" = "法律信息";
+"about_licenses_button" = "开源许可证";
+"about_privacy_policy_button" = "隐私政策";
+"about_terms_of_service_button" = "使用条款";
+"about_copyright_notice" = "© 2025 CopyX. 保留所有权利。";
+"about_built_with" = "基于 SwiftUI 和 AppKit 构建";
+"about_open_source_thanks" = "感谢所有开源项目的贡献者";
+"about_view_version" = "版本";
+"about_view_release_notes" = "发行说明";
+"about_view_credits" = "鸣谢";
+"about_view_developed_by" = "开发者";
+"about_view_special_thanks" = "特别感谢";
+"about_view_source_code" = "源代码";
+"about_view_feedback" = "反馈与支持";
+"about_view_report_bug" = "报告错误";
+"about_view_request_feature" = "功能请求";
+"about_view_privacy_policy" = "隐私政策";
+
+/* Advanced Settings */
+"advanced_settings_title" = "高级功能";
+"advanced_settings_subtitle" = "文本处理工具和使用统计";
+"performance_settings" = "性能设置";
+"play_sound_on_copy" = "复制内容时播放提示音";
+"auto_clear_history" = "自动清理历史";
+"auto_clear_history_subtitle" = "定期清理旧的剪切板历史";
+"history_limit" = "历史记录限制";
+"history_limit_subtitle" = "设置最大历史记录数量";
+"experimental_features" = "实验性功能";
+"experimental_warning_title" = "⚠️ 实验性功能";
+"experimental_warning_desc" = "这些功能仍在开发中，可能不稳定或导致意外行为。";
+"enable_text_history" = "启用文本历史";
+"enable_text_history_subtitle" = "记录文本类型的剪切板内容";
+"enable_image_history" = "启用图片历史";
+"enable_image_history_subtitle" = "记录图片类型的剪切板内容";
+"enable_sound" = "启用声音";
+"enable_sound_subtitle" = "剪切板变化时播放提示音";
+"usage_stats_title" = "统计信息";
+"favorite_items_stat" = "收藏数";
+"total_usage_stat" = "总使用次数";
+"most_used_item_stat" = "最常用项";
+
+/* Advanced Text Operations */
+"op_upper" = "转为大写";
+"op_lower" = "转为小写";
+"op_title" = "转为标题格式";
+"op_sentence" = "转为句子格式";
+"op_trim" = "修剪空格";
+"op_remove_spaces" = "移除多余空格";
+"op_reverse" = "反转文本";
+"op_count_chars" = "计算字符数";
+"op_count_words" = "计算单词数";
+"op_base64_encode" = "Base64 编码";
+"op_base64_decode" = "Base64 解码";
+"op_url_encode" = "URL 编码";
+"op_url_decode" = "URL 解码";
+"op_md5" = "生成 MD5";
+"op_sha256" = "生成 SHA-256";
+
+/* Favorites Settings */
+"favorites_search_placeholder" = "搜索收藏项目...";
+"favorites_count_format" = "共 %d 个收藏项目";
+"favorites_select_all" = "全选";
+"favorites_deselect_all" = "取消全选";
+"favorites_export_selected" = "导出选中";
+"favorites_delete_selected" = "删除选中";
+"favorites_empty_title" = "还没有收藏项目";
+"favorites_no_results_title" = "没有找到匹配的收藏项目";
+"favorites_empty_subtitle" = "在剪贴板历史中点击心形图标来收藏项目。";
+"favorites_no_results_subtitle" = "尝试使用不同的搜索关键词。";
+"favorites_clear_search" = "清除搜索";
+"favorites_export_done_title" = "导出完成";
+"favorites_export_done_message" = "已将 %d 个收藏项目复制到剪贴板。";
+"favorites_delete_confirm_title" = "确认删除";
+"favorites_delete_confirm_message" = "这将从收藏夹中移除 %d 个项目，但不会删除历史记录中的原始项目。";
+"usage_count_format" = "使用 %d 次";
+"favorited_at_format" = "收藏于 %@";
+
+/* Sort Options */
+"sort_by_date_added" = "按收藏时间";
+"sort_by_date_modified" = "按修改时间";
+"sort_by_alphabetical" = "按字母顺序";
+"sort_by_type" = "按类型";
+"sort_by_usage_count" = "按使用次数";
+
+/* Share Views */
+"share_to_title" = "分享到";
+"share_system" = "系统分享";
+"share_wechat" = "微信";
+"share_twitter" = "X (Twitter)";
+"share_weibo" = "微博";
+"share_qq" = "QQ";
+"share_copy_content" = "复制内容";
+
+/* UI Components */
+"search_clipboard_history_placeholder" = "搜索剪贴板历史...";
+"toolbar_item_count_format" = "共 %d 个项目";
+"toolbar_autoclean" = "自动清理";
+"toolbar_clear_all" = "清空全部";
+"toolbar_clear_confirm_title" = "确认清空";
+"toolbar_clear_confirm_message" = "您确定要清空所有剪贴板历史吗？此操作无法撤销。";
+"empty_state_title" = "剪贴板历史为空";
+"empty_state_subtitle" = "复制一些内容开始使用 CopyX。";
+"search_empty_state_title" = "未找到相关内容";
+"search_empty_state_subtitle_format" = "没有找到包含 \"%@\" 的剪贴板项目。";
+

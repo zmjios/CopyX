@@ -5,6 +5,7 @@ import Carbon
 // MARK: - 快捷键设置页面
 struct ModernHotKeySettingsView: View {
     @EnvironmentObject var hotKeyManager: HotKeyManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @State private var isRecording: Bool = false
     @State private var recordedKeyCode: Int = 0
     @State private var recordedModifiers: Int = 0
@@ -14,19 +15,19 @@ struct ModernHotKeySettingsView: View {
             VStack(alignment: .leading, spacing: 24) {
                 // 页面标题
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("快捷键设置")
+                    LocalizedText("hotkeys_title")
                         .font(.title)
                         .fontWeight(.bold)
-                    Text("自定义全局快捷键来快速访问剪切板历史")
+                    LocalizedText("hotkey_settings_subtitle")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
                 
                 // 主快捷键设置
-                SettingsSection(title: "主快捷键", icon: "keyboard") {
+                SettingsSection(title: "main_hotkey".localized, icon: "keyboard") {
                     VStack(alignment: .leading, spacing: 16) {
                         HStack {
-                            Text("显示剪切板历史")
+                            LocalizedText("show_clipboard_history")
                                 .font(.system(size: 15, weight: .medium))
                             
                             Spacer()
@@ -38,51 +39,51 @@ struct ModernHotKeySettingsView: View {
                             )
                         }
                         
-                        Toggle("启用快捷键", isOn: $hotKeyManager.hotKeyEnabled)
+                        Toggle("enable_hotkey".localized, isOn: $hotKeyManager.hotKeyEnabled)
                             .onChange(of: hotKeyManager.hotKeyEnabled) { enabled in
                                 hotKeyManager.enableHotKey(enabled)
                             }
                         
-                        Text("按下快捷键来显示或隐藏剪切板历史窗口")
+                        LocalizedText("hotkey_show_hide_description")
                             .font(.system(size: 13))
                             .foregroundColor(.secondary)
                     }
                 }
                 
                 // 快捷键提示
-                SettingsSection(title: "使用提示", icon: "lightbulb") {
+                SettingsSection(title: "usage_tips".localized, icon: "lightbulb") {
                     VStack(alignment: .leading, spacing: 8) {
                         HelpTip(
                             icon: "1.circle",
-                            title: "设置快捷键",
-                            description: "点击快捷键输入框，然后按下你想要的组合键"
+                            title: "set_hotkey".localized,
+                            description: "set_hotkey_desc".localized
                         )
                         
                         HelpTip(
                             icon: "2.circle",
-                            title: "全局快捷键",
-                            description: "设置的快捷键在任何应用中都可以使用"
+                            title: "global_hotkey".localized,
+                            description: "global_hotkey_desc".localized
                         )
                         
                         HelpTip(
                             icon: "3.circle",
-                            title: "避免冲突",
-                            description: "请确保不与系统或其他应用的快捷键冲突"
+                            title: "avoid_conflicts".localized,
+                            description: "avoid_conflicts_desc".localized
                         )
                         
                         HelpTip(
                             icon: "4.circle",
-                            title: "推荐组合",
-                            description: "推荐使用 Cmd+Shift+V 或 Cmd+Option+V 等组合"
+                            title: "recommended_combinations".localized,
+                            description: "recommended_combinations_desc".localized
                         )
                     }
                 }
                 
                 // 当前快捷键信息
-                SettingsSection(title: "当前设置", icon: "info.circle") {
+                SettingsSection(title: "current_settings".localized, icon: "info.circle") {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Text("快捷键:")
+                            Text("\("hotkey".localized):")
                                 .font(.system(size: 14, weight: .medium))
                             Spacer()
                             Text(currentHotKeyString())
@@ -94,10 +95,10 @@ struct ModernHotKeySettingsView: View {
                         }
                         
                         HStack {
-                            Text("状态:")
+                            Text("\("status".localized):")
                                 .font(.system(size: 14, weight: .medium))
                             Spacer()
-                            Text(hotKeyManager.hotKeyEnabled ? "已启用" : "已禁用")
+                            Text(hotKeyManager.hotKeyEnabled ? "enabled".localized : "disabled".localized)
                                 .font(.system(size: 14))
                                 .foregroundColor(hotKeyManager.hotKeyEnabled ? .green : .red)
                         }
@@ -129,7 +130,7 @@ struct ModernHotKeySettingsView: View {
         // 主键
         result += KeyCodeUtils.keyName(for: hotKeyManager.hotKeyCode)
         
-        return result.isEmpty ? "未设置" : result
+        return result.isEmpty ? "hotkey_not_set".localized : result
     }
 }
 
@@ -154,7 +155,7 @@ struct HotKeyRecorderView: View {
                         Image(systemName: "circle.fill")
                             .foregroundColor(.red)
                             .font(.system(size: 8))
-                        Text("按下快捷键...")
+                        LocalizedText("press_hotkey_prompt")
                             .foregroundColor(.secondary)
                     }
                 } else {
@@ -165,7 +166,7 @@ struct HotKeyRecorderView: View {
                 Spacer()
                 
                 if !isRecording {
-                    Button("重设") {
+                    Button("reset".localized) {
                         startRecording()
                     }
                     .buttonStyle(.borderless)
@@ -210,7 +211,7 @@ struct HotKeyRecorderView: View {
         // 主键
         result += KeyCodeUtils.keyName(for: keyCode)
         
-        return result.isEmpty ? "点击设置" : result
+        return result.isEmpty ? "click_to_set".localized : result
     }
     
     private func startRecording() {
@@ -262,5 +263,13 @@ struct HelpTip: View {
             
             Spacer()
         }
+    }
+}
+
+struct ModernHotKeySettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        ModernHotKeySettingsView()
+            .environmentObject(HotKeyManager())
+            .environmentObject(LocalizationManager.shared)
     }
 } 

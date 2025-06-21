@@ -4,7 +4,8 @@ import AppKit
 // MARK: - 通用设置页面
 struct ModernGeneralSettingsView: View {
     @EnvironmentObject var clipboardManager: ClipboardManager
-    
+    @EnvironmentObject var localizationManager: LocalizationManager
+
     @AppStorage("launchAtLogin") private var launchAtLogin: Bool = true
     @AppStorage("showInMenuBar") private var showInMenuBar: Bool = true
     @AppStorage("hideInDock") private var hideInDock: Bool = true
@@ -15,35 +16,35 @@ struct ModernGeneralSettingsView: View {
             VStack(alignment: .leading, spacing: 24) {
                 // 页面标题
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("通用设置")
+                    LocalizedText("general_settings_title")
                         .font(.title)
                         .fontWeight(.bold)
-                    Text("配置 CopyX 的启动和界面选项")
+                    LocalizedText("general_settings_subtitle")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
                 
                 // 启动设置
-                SettingsSection(title: "启动设置", icon: "power") {
+                SettingsSection(title: "startup_settings".localized, icon: "power") {
                     SettingsToggle(
-                        title: "开机启动",
-                        subtitle: "系统启动时自动运行 CopyX",
+                        title: "launch_at_startup".localized,
+                        subtitle: "launch_at_startup_subtitle".localized,
                         isOn: $launchAtLogin
                     ) { value in
                         setLaunchAtLogin(value)
                     }
                     
                     SettingsToggle(
-                        title: "在菜单栏显示",
-                        subtitle: "在系统菜单栏显示 CopyX 图标",
+                        title: "show_in_menu_bar".localized,
+                        subtitle: "show_in_menu_bar_subtitle".localized,
                         isOn: $showInMenuBar
                     ) { value in
                         updateMenuBarVisibility(value)
                     }
                     
                     SettingsToggle(
-                        title: "隐藏 Dock 图标",
-                        subtitle: "在 Dock 中隐藏应用图标",
+                        title: "hide_dock_icon".localized,
+                        subtitle: "hide_dock_icon_subtitle".localized,
                         isOn: $hideInDock
                     ) { value in
                         NSApp.setActivationPolicy(value ? .accessory : .regular)
@@ -51,24 +52,34 @@ struct ModernGeneralSettingsView: View {
                 }
                 
                 // 通知设置
-                SettingsSection(title: "通知设置", icon: "bell") {
+                SettingsSection(title: "notification_settings".localized, icon: "bell") {
                     SettingsToggle(
-                        title: "启用通知",
-                        subtitle: "新的剪切板内容时显示桌面通知",
+                        title: "enable_notifications".localized,
+                        subtitle: "enable_notifications_subtitle".localized,
                         isOn: $enableNotifications
                     )
                 }
                 
+                // 语言设置
+                SettingsSection(title: "language_settings".localized, icon: "globe") {
+                    Picker("display_language".localized, selection: $localizationManager.language) {
+                        ForEach(LocalizationManager.Language.allCases) { lang in
+                            Text(lang.localizedName).tag(lang)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                }
+                
                 // 界面设置
-                SettingsSection(title: "界面设置", icon: "paintbrush") {
+                SettingsSection(title: "interface_settings".localized, icon: "paintbrush") {
                     SettingsToggle(
-                        title: "启用剪切板音效",
-                        subtitle: "复制内容时播放系统音效",
+                        title: "enable_sound_effects".localized,
+                        subtitle: "enable_sound_effects_subtitle".localized,
                         isOn: $clipboardManager.enableSound
                     )
                 }
             }
-            .padding(30)
+            .padding(20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
@@ -80,10 +91,10 @@ struct ModernGeneralSettingsView: View {
         
         if enabled {
             // 这里可以实现添加到登录项的逻辑
-            print("启用开机启动: \(bundleIdentifier)")
+            print("Enable launch at login: \(bundleIdentifier)")
         } else {
             // 这里可以实现从登录项移除的逻辑
-            print("禁用开机启动: \(bundleIdentifier)")
+            print("Disable launch at login: \(bundleIdentifier)")
         }
     }
     
@@ -100,5 +111,13 @@ struct ModernGeneralSettingsView: View {
                 }
             }
         }
+    }
+}
+
+struct ModernGeneralSettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        ModernGeneralSettingsView()
+            .environmentObject(ClipboardManager())
+            .environmentObject(LocalizationManager.shared)
     }
 } 

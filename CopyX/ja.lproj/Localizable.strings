@@ -1,0 +1,434 @@
+/* 
+  Localizable.strings
+  CopyX
+
+  Created by AI Assistant on 2024.
+*/
+
+// MARK: - General
+"app_name" = "CopyX";
+"ok" = "OK";
+"cancel" = "キャンセル";
+"save" = "保存";
+"delete" = "削除";
+"edit" = "編集";
+"close" = "閉じる";
+"settings" = "設定...";
+"done" = "完了";
+"error" = "エラー";
+"warning" = "警告";
+"success" = "成功";
+"settings_window_title" = "設定";
+"app_tooltip" = "左クリックでクリップボードの履歴を表示、右クリックでメニューを開きます。";
+"select_a_category" = "サイドバーからカテゴリを選択して、その設定を表示してください。";
+
+// MARK: - Main Interface
+"clipboard_history" = "クリップボードの履歴";
+"search_placeholder" = "クリップボードの履歴を検索...";
+"no_items" = "クリップボードにアイテムがありません";
+"no_items_description" = "テキスト、画像、またはファイルをコピーし始めると、ここに表示されます";
+"empty_search" = "一致するアイテムがありません";
+"empty_search_description" = "別の検索語を試してください";
+
+// MARK: - Item Actions
+"copy" = "コピー";
+"copy_success" = "クリップボードにコピーしました";
+"favorite" = "お気に入り";
+"unfavorite" = "お気に入りから削除";
+"view_details" = "詳細を表示";
+"delete_item" = "アイテムを削除";
+"share" = "共有";
+"expand" = "展開";
+"collapse" = "折りたたむ";
+
+// MARK: - Display Modes
+"bottom_mode" = "下部表示";
+"center_mode" = "中央表示";
+"display_mode" = "表示モード";
+
+// MARK: - Filters
+"all_types" = "すべてのタイプ";
+"text_type" = "テキスト";
+"image_type" = "画像";
+"file_type" = "ファイル";
+"url_type" = "URL";
+"color_type" = "色";
+"show_favorites" = "お気に入りのみ表示";
+"show_all" = "すべて表示";
+
+// MARK: - Settings
+"general_settings" = "一般";
+"hotkey_settings" = "ホットキー";
+"clipboard_settings" = "クリップボード";
+"data_settings" = "データ";
+"advanced_settings" = "詳細";
+"favorites_settings" = "お気に入り";
+"about" = "概要";
+
+// MARK: - General Settings
+"launch_at_startup" = "起動時に開始";
+"show_in_dock" = "Dockに表示";
+"show_in_menu_bar" = "メニューバーに表示";
+"auto_paste" = "選択時に自動貼り付け";
+"sound_effects" = "サウンドエフェクト";
+"launch_at_startup_subtitle" = "システムの起動時にCopyXを自動的に実行します";
+"show_in_menu_bar_subtitle" = "システムメニューバーにCopyXアイコンを表示します";
+"hide_dock_icon" = "Dockアイコンを隠す";
+"hide_dock_icon_subtitle" = "Dockからアプリアイコンを隠します";
+"notification_settings" = "通知設定";
+"enable_notifications" = "通知を有効にする";
+"enable_notifications_subtitle" = "新しいクリップボードの内容のデスクトップ通知を表示します";
+"enable_sound_effects" = "クリップボードのサウンドエフェクトを有効にする";
+
+// MARK: - Hotkey Settings
+"global_hotkey" = "グローバルホットキー";
+"hotkey_description" = "キーを押してホットキーを設定します";
+"hotkey_conflict" = "ホットキーの競合が検出されました";
+"clear_hotkey" = "ホットキーをクリア";
+"hotkey_not_set" = "設定されていません";
+"press_hotkey_prompt" = "ホットキーを押してください...";
+"reset" = "リセット";
+"click_to_set" = "クリックして設定";
+
+// MARK: - Clipboard Settings
+"max_items" = "最大アイテム数";
+"auto_clear" = "古いアイテムを自動クリア";
+"ignore_apps" = "これらのアプリを無視";
+"monitor_clipboard" = "クリップボードを監視";
+
+// MARK: - Data Settings
+"export_data" = "データをエクスポート";
+"import_data" = "データをインポート";
+"clear_all_data" = "すべてのデータを消去";
+"data_location" = "データの場所";
+"backup_settings" = "バックアップ設定";
+"export_default_filename" = "クリップボードバックアップ_%@.json";
+
+// MARK: - Advanced Settings
+"performance_mode" = "パフォーマンスモード";
+"debug_mode" = "デバッグモード";
+"logging_enabled" = "ロギングを有効にする";
+"memory_optimization" = "メモリ最適化";
+
+// MARK: - Time Formats
+"just_now" = "ちょうど今";
+"seconds_ago" = "%d秒前";
+"minute_ago" = "1分前";
+"minutes_ago" = "%d分前";
+"hour_ago" = "1時間前";
+"hours_ago" = "%d時間前";
+"day_ago" = "1日前";
+"days_ago" = "%d日前";
+
+// MARK: - Tooltips
+"resize_window" = "ドラッグしてウィンドウサイズを変更";
+"close_window" = "ウィンドウを閉じる";
+"toggle_favorites" = "お気に入りフィルターを切り替える";
+"switch_display_mode" = "表示モードを切り替える";
+
+// MARK: - Error Messages
+"clipboard_access_error" = "クリップボードにアクセスできませんでした";
+"save_error" = "データの保存に失敗しました";
+"load_error" = "データの読み込みに失敗しました";
+"hotkey_register_error" = "ホットキーの登録に失敗しました";
+"file_not_found" = "ファイルが見つかりません";
+"permission_denied" = "許可が拒否されました";
+
+// MARK: - Confirmation Messages
+"delete_all_confirm" = "すべてのクリップボードアイテムを削除してもよろしいですか？";
+"clear_data_confirm" = "これにより、すべてのクリップボードデータが完全に削除されます。続行しますか？";
+"reset_settings_confirm" = "すべての設定をデフォルト値にリセットしますか？";
+
+// MARK: - Settings Navigation
+"settings_section" = "設定";
+"information_section" = "情報";
+"general_settings_title" = "一般設定";
+"general_settings_subtitle" = "起動とインターフェースの構成";
+"hotkeys_title" = "ホットキー";
+"hotkeys_subtitle" = "ショートカットをカスタマイズ";
+"clipboard_title" = "クリップボード";
+"clipboard_subtitle" = "履歴設定";
+"data_backup_title" = "データバックアップ";
+"data_backup_subtitle" = "データのインポートとエクスポート";
+"advanced_functions_title" = "高度な機能";
+"advanced_functions_subtitle" = "テキスト処理と統計";
+"favorites_title" = "お気に入り管理";
+"favorites_subtitle" = "お気に入りのアイテムを管理・整理します";
+"about_copyx_title" = "CopyXについて";
+"about_copyx_subtitle" = "バージョン情報";
+
+// MARK: - About CopyX
+"about_copyx" = "CopyXについて";
+"powerful_clipboard_manager" = "強力なクリップボードマネージャー";
+"version" = "バージョン";
+"build" = "ビルド";
+"view_changelog" = "変更履歴を表示";
+"check_for_updates" = "アップデートを確認";
+"visit_website" = "ウェブサイトにアクセス";
+"main_features" = "主な機能";
+"hotkey_activation" = "ホットキーによる有効化";
+"hotkey_activation_desc" = "グローバルホットキーで履歴に素早くアクセス";
+"history_management" = "履歴管理";
+"history_management_desc" = "クリップボードの履歴を検索、フィルタリング、管理";
+"multi_type_support" = "マルチタイプ対応";
+"multi_type_support_desc" = "テキスト、画像、ファイルなどをサポート";
+"favorite_and_pin" = "お気に入りとピン留め";
+"favorite_and_pin_desc" = "重要なアイテムを素早くアクセスできるように保持";
+"system_info" = "システム情報";
+"os_version" = "OSバージョン";
+"memory_usage" = "メモリ使用量";
+"cpu_usage" = "CPU使用率";
+"developer_info" = "開発者情報";
+"developer_name" = "あなたの名前によって開発されました";
+"contact_developer" = "開発者に連絡";
+"legal_info" = "法的情報";
+"privacy_policy" = "プライバシーポリシー";
+"terms_of_service" = "利用規約";
+"licenses" = "ライセンス";
+"copyright_info" = "Copyright © 2024 あなたの会社. All rights reserved.";
+"advanced_features" = "高度な機能";
+"text_processing_and_stats" = "テキスト処理ツールと使用統計";
+"text_processing_tool" = "テキスト処理ツール";
+"select_text_operation" = "テキスト処理操作を選択してください";
+"operation" = "操作";
+"input_text" = "入力テキスト";
+"process_text" = "テキストを処理";
+"processing_result" = "処理結果";
+"copy_result" = "結果をコピー";
+"quick_actions" = "クイックアクション";
+"quick_process_from_clipboard" = "クリップボードからテキストを素早く処理";
+"usage_statistics" = "使用統計";
+"refresh_stats" = "統計を更新";
+"confirm_delete_item_message" = "このクリップボードアイテムを削除してもよろしいですか？この操作は元に戻せません。";
+"clipboard_settings_subtitle" = "クリップボード履歴の動作と制限を設定します";
+"history" = "履歴";
+"max_items_subtitle" = "この数を超えると、最も古いレコードが自動的に削除されます";
+"auto_clear_subtitle" = "期限切れのクリップボードアイテムを定期的にクリーンアップします";
+"content_types" = "コンテンツタイプ";
+"save_text_content" = "コピーしたテキストコンテンツを保存";
+"save_text_content_subtitle" = "コピーしたテキストコンテンツを自動的に保存します";
+"save_image_content" = "コピーした画像コンテンツを保存";
+"save_image_content_subtitle" = "コピーした画像コンテンツを自動的に保存します";
+"privacy_protection" = "プライバシー保護";
+"skip_password_fields" = "パスワードフィールドをスキップ";
+"skip_password_fields_subtitle" = "パスワード入力フィールドのコンテンツを自動的にスキップします";
+"interface_settings" = "インターフェース設定";
+"use_modal_share_view" = "モーダル共有ビューを使用";
+"use_modal_share_view_subtitle" = "ポップアップウィンドウを使用して共有オプションを表示します";
+"sound_tips" = "サウンドヒント";
+"enable_sound_effects_subtitle" = "コンテンツをコピーするときにシステムサウンドエフェクトを再生します";
+"startup_settings" = "起動設定";
+"auto_start_monitoring" = "監視を自動的に開始";
+"auto_start_monitoring_subtitle" = "アプリの起動時にクリップボードの監視を自動的に開始します";
+"copyx_running_in_background" = "CopyXはバックグラウンドで実行中です";
+"use_hotkey_to_open" = "⌘⇧Vを使用してクリップボードの履歴を開きます";
+"data_backup" = "データバックアップ";
+"import_export_data" = "データをインポートおよびエクスポートします";
+"auto_cleanup_subtitle" = "古いクリップボードアイテムを定期的にクリーンアップします";
+"backup_path" = "バックアップパス";
+"not_selected" = "選択されていません";
+"select" = "選択";
+"data_management" = "データ管理";
+"clear_all_history" = "すべての履歴をクリア";
+"confirm_clear_all_history_title" = "すべての履歴のクリアを確認";
+"confirm_clear_all_history_message" = "この操作はすべてのクリップボード履歴をクリアし、元に戻すことはできません。";
+"favorites_management" = "お気に入り管理";
+"manage_and_organize_favorites" = "お気に入りのアイテムを管理および整理します";
+"favorites_search_placeholder" = "お気に入りを検索...";
+"favorites_count_format" = "%d個のお気に入り";
+"favorites_select_all" = "すべて選択";
+"favorites_deselect_all" = "選択をすべて解除";
+"favorites_export_selected" = "選択項目をエクスポート";
+"favorites_delete_selected" = "選択項目を削除";
+"favorites_empty_title" = "まだお気に入りはありません";
+"favorites_no_results_title" = "一致するお気に入りが見つかりません";
+"favorites_empty_subtitle" = "クリップボード履歴のハートアイコンをクリックして、アイテムをお気に入りに登録します。";
+"favorites_no_results_subtitle" = "別の検索キーワードで試してください。";
+"favorites_clear_search" = "検索をクリア";
+"favorites_export_done_title" = "エクスポート完了";
+"favorites_export_done_message" = "%d個のお気に入りをクリップボードにコピーしました。";
+"favorites_delete_confirm_title" = "削除の確認";
+"favorites_delete_confirm_message" = "これにより、お気に入りから%d個のアイテムが削除されますが、履歴の元のアイテムは削除されません。";
+"sort" = "並べ替え";
+"total_favorites" = "合計%d個のお気に入りアイテム";
+"export_favorites" = "お気に入りをエクスポート";
+"no_favorites" = "お気に入りアイテムがありません";
+"no_favorites_description" = "アイテムをお気に入りに追加して、ここに表示します";
+"hotkey_settings_subtitle" = "グローバルホットキーをカスタマイズして、クリップボードの履歴にすばやくアクセスします";
+"main_hotkey" = "メインホットキー";
+"show_clipboard_history" = "クリップボードの履歴を表示";
+"enable_hotkey" = "ホットキーを有効にする";
+"hotkey_show_hide_description" = "ホットキーを押して、クリップボード履歴ウィンドウを表示または非表示にします";
+"usage_tips" = "使用のヒント";
+"set_hotkey" = "ホットキーを設定";
+"set_hotkey_desc" = "ホットキー入力ボックスをクリックし、目的のキーの組み合わせを押します";
+"global_hotkey_desc" = "設定されたホットキーはどのアプリケーションでも使用できます";
+"avoid_conflicts" = "競合を避ける";
+"avoid_conflicts_desc" = "システムのホットキーや他のアプリケーションのホットキーと競合しないようにしてください";
+"recommended_combinations" = "推奨される組み合わせ";
+"recommended_combinations_desc" = "Cmd+Shift+VやCmd+Option+Vなどの組み合わせをお勧めします";
+"current_settings" = "現在の設定";
+"hotkey" = "ホットキー";
+"status" = "ステータス";
+"enabled" = "有効";
+"disabled" = "無効";
+"total_items" = "合計%d個のアイテム";
+"total_items_stat" = "総アイテム数";
+"confirm_clear" = "クリアの確認";
+"confirm_clear_message" = "すべてのクリップボード履歴をクリアしてもよろしいですか？この操作は元に戻せません。";
+"general_settings_subtitle" = "CopyXの起動とインターフェースオプションを設定します";
+"language_settings" = "言語設定";
+"display_language" = "表示言語";
+"language_auto" = "自動";
+"language_en" = "English";
+"language_zh_hans" = "简体中文";
+"language_de" = "Deutsch";
+"language_fr" = "Français";
+"language_es" = "Español";
+"language_ja" = "日本語";
+
+// MARK: - Enums
+"autoclean_never" = "なし";
+"autoclean_daily" = "毎日";
+"autoclean_weekly" = "毎週";
+"autoclean_monthly" = "毎月";
+"imagequality_low" = "低";
+"imagequality_medium" = "中";
+"imagequality_high" = "高";
+"imagequality_original" = "オリジナル";
+"notificationduration_short" = "短い（2秒）";
+"notificationduration_medium" = "中（5秒）";
+"notificationduration_long" = "長い（10秒）";
+
+// MARK: - New keys
+"about_app" = "CopyXについて";
+"quit_app" = "CopyXを終了";
+
+// MARK: - New Key for Detail Window
+"clipboard_details_title" = "クリップボードの詳細";
+
+// MARK: - About View Keys
+"about_subtitle" = "強力なクリップボードマネージャー";
+"about_view_changelog_button" = "変更履歴を表示";
+"about_check_updates_button" = "アップデートを確認";
+"about_visit_website_button" = "ウェブサイトにアクセス";
+"about_main_features_title" = "主な機能";
+"about_feature_hotkey_title" = "グローバルホットキー";
+"about_feature_hotkey_desc" = "クリップボードの履歴に素早くアクセス";
+"about_feature_smart_recognition_title" = "スマート認識";
+"about_feature_smart_recognition_desc" = "テキスト、画像、リンクなどを自動的に識別";
+"about_feature_quick_search_title" = "クイック検索";
+"about_feature_quick_search_desc" = "リアルタイム検索とタイプフィルタリング";
+"about_feature_privacy_title" = "プライバシー保護";
+"about_feature_privacy_desc" = "パスワードなどの機密コンテンツをスキップ";
+"about_feature_backup_title" = "データバックアップ";
+"about_feature_backup_desc" = "データを安全に保つためのインポート/エクスポート";
+"about_feature_favorites_title" = "お気に入り";
+"about_feature_favorites_desc" = "重要なアイテムを保存して素早くアクセス";
+"about_system_info_title" = "システム情報";
+"about_info_os" = "オペレーティングシステム";
+"about_info_model" = "デバイスモデル";
+"about_info_processor" = "プロセッサ";
+"about_info_memory" = "メモリ";
+"about_info_path" = "インストールパス";
+"about_developer_title" = "開発者";
+"about_developer_desc" = "生産性を向上させるツールの構築に専念しています。";
+"about_send_feedback_button" = "フィードバックを送信";
+"about_support_us_button" = "サポートする";
+"about_legal_title" = "法的情報";
+"about_licenses_button" = "オープンソースライセンス";
+"about_privacy_policy_button" = "プライバシーポリシー";
+"about_terms_of_service_button" = "利用規約";
+"about_copyright_notice" = "© 2025 CopyX. 全著作権所有。";
+"about_built_with" = "SwiftUIとAppKitで構築";
+"about_open_source_thanks" = "すべてのオープンソース貢献者に感謝します";
+"about_view_version" = "バージョン";
+"about_view_release_notes" = "リリースノート";
+"about_view_credits" = "クレジット";
+"about_view_developed_by" = "開発者";
+"about_view_special_thanks" = "スペシャルサンクス";
+"about_view_source_code" = "ソースコード";
+"about_view_feedback" = "フィードバックとサポート";
+"about_view_report_bug" = "バグを報告";
+"about_view_request_feature" = "機能をリクエスト";
+"about_view_privacy_policy" = "プライバシーポリシー";
+
+/* Advanced Settings */
+"advanced_settings_title" = "高度な機能";
+"advanced_settings_subtitle" = "テキスト処理ツールと使用状況の統計";
+"text_processing_tool" = "テキスト処理ツール";
+"select_text_operation" = "テキスト処理操作を選択";
+"operation" = "操作";
+"input_text" = "入力テキスト";
+"process_text" = "テキストを処理";
+"processing_result" = "結果";
+"copy_result" = "結果をコピー";
+"quick_actions" = "クイックアクション";
+"quick_process_from_clipboard" = "クリップボードからテキストをすばやく処理";
+"usage_statistics" = "使用状況の統計";
+"refresh_stats" = "統計を更新";
+"performance_settings" = "パフォーマンス";
+"play_sound_on_copy" = "コピー時にサウンドを再生";
+"auto_clear_history" = "履歴を自動的にクリア";
+"auto_clear_history_subtitle" = "古いクリップボードの履歴を定期的にクリア";
+"history_limit" = "履歴の制限";
+"history_limit_subtitle" = "履歴アイテムの最大数を設定";
+"experimental_features" = "実験的な機能";
+"experimental_warning_title" = "⚠️ 実験的な機能";
+"experimental_warning_desc" = "これらの機能は開発中であり、不安定であったり、予期しない動作を引き起こす可能性があります。";
+"enable_text_history" = "テキスト履歴を有効にする";
+"enable_text_history_subtitle" = "テキストタイプのクリップボードコンテンツを記録";
+"enable_image_history" = "画像履歴を有効にする";
+"enable_image_history_subtitle" = "画像タイプのクリップボードコンテンツを記録";
+"enable_sound" = "サウンドを有効にする";
+"enable_sound_subtitle" = "クリップボードが変更されたときにサウンドを再生";
+"usage_stats_title" = "統計";
+"total_items_stat" = "合計アイテム数";
+"favorite_items_stat" = "お気に入り";
+"total_usage_stat" = "総使用回数";
+"most_used_item_stat" = "最も使用されたアイテム";
+
+/* Advanced Text Operations */
+"op_upper" = "大文字に変換";
+"op_lower" = "小文字に変換";
+"op_title" = "タイトルケースに変換";
+"op_sentence" = "文頭を大文字に";
+"op_trim" = "空白をトリム";
+"op_remove_spaces" = "余分なスペースを削除";
+"op_reverse" = "テキストを逆順に";
+"op_count_chars" = "文字数を数える";
+"op_count_words" = "単語数を数える";
+"op_base64_encode" = "Base64エンコード";
+"op_base64_decode" = "Base64デコード";
+"op_url_encode" = "URLエンコード";
+"op_url_decode" = "URLデコード";
+"op_md5" = "MD5を生成";
+"op_sha256" = "SHA-256を生成";
+
+/* Sort Options */
+"sort_by_date_added" = "追加日順";
+"sort_by_date_modified" = "更新日順";
+"sort_by_alphabetical" = "アルファベット順";
+"sort_by_type" = "種類順";
+"sort_by_usage_count" = "使用回数順";
+
+/* Share Views */
+"share_to_title" = "共有先";
+"share_system" = "システム共有";
+"share_wechat" = "WeChat";
+"share_twitter" = "X (Twitter)";
+"share_weibo" = "Weibo";
+"share_qq" = "QQ";
+"share_copy_content" = "コンテンツをコピー";
+
+/* UI Components */
+"search_clipboard_history_placeholder" = "クリップボード履歴を検索...";
+"toolbar_item_count_format" = "%d個のアイテム";
+"toolbar_autoclean" = "自動クリーン";
+"toolbar_clear_all" = "すべてクリア";
+"toolbar_clear_confirm_title" = "クリアの確認";
+"toolbar_clear_confirm_message" = "本当にすべてのクリップボード履歴をクリアしますか？この操作は元に戻せません。";
+"empty_state_title" = "クリップボード履歴は空です";
+"empty_state_subtitle" = "何かをコピーしてCopyXを使い始めましょう。";
+"search_empty_state_title" = "コンテンツが見つかりません";
+"search_empty_state_subtitle_format" = "「%@」を含むクリップボードアイテムは見つかりませんでした。"; 

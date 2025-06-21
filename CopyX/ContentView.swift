@@ -1,16 +1,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var localizationManager: LocalizationManager
+
     var body: some View {
         VStack {
             Image(systemName: "doc.on.clipboard")
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
-            Text("CopyX 正在后台运行")
+            LocalizedText("copyx_running_in_background")
                 .font(.title2)
-            Text("使用 ⌘⇧V 快捷键打开剪切板历史")
+            LocalizedText("use_hotkey_to_open")
                 .foregroundColor(.secondary)
         }
         .padding()
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+            .environmentObject(ClipboardManager())
+            .environmentObject(LocalizationManager.shared)
     }
 }

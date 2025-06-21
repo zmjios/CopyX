@@ -6,32 +6,36 @@ struct CopyXApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var clipboardManager = ClipboardManager()
     @StateObject private var hotKeyManager = HotKeyManager()
+    @StateObject private var localizationManager = LocalizationManager.shared
     
     var body: some Scene {
         // 由于我们是状态栏应用，不需要主窗口
         // 使用一个隐藏的窗口来保持应用运行
             WindowGroup {
                 EmptyView()
+                    .environmentObject(clipboardManager)
+                    .environmentObject(hotKeyManager)
+                    .environmentObject(localizationManager)
                     .frame(width: 0, height: 0)
                     .opacity(0)
                     .onAppear {
-                        // 将ClipboardManager和HotKeyManager实例传递给AppDelegate
+                        // 将 managers 传递给需要它们的 AppKit 部分
                         appDelegate.clipboardManager = clipboardManager
                         appDelegate.hotKeyManager = hotKeyManager
+                        appDelegate.localizationManager = localizationManager
                         
-                        // 强制设置状态栏图标（在主线程中）
-                        DispatchQueue.main.async {
-                            print("SwiftUI onAppear: 正在设置状态栏图标...")
-                            appDelegate.setupStatusBar()
-                            print("SwiftUI onAppear: 状态栏图标设置完成")
-                        }
-                        
-                        // 启动剪切板监控
-                        clipboardManager.startMonitoring()
-                        
-                        // 设置HotKeyManager的clipboardManager引用
                         hotKeyManager.clipboardManager = clipboardManager
+                        hotKeyManager.localizationManager = localizationManager
+                        hotKeyManager.appDelegate = appDelegate
+                        
+                        // 启动服务
+                        clipboardManager.startMonitoring()
                         hotKeyManager.registerHotKeys()
+
+                        // 设置UI
+                        DispatchQueue.main.async {
+                            appDelegate.setupStatusBar()
+                        }
                     }
             }
             .windowStyle(HiddenTitleBarWindowStyle())
@@ -44,7 +48,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem?
     var clipboardManager: ClipboardManager?
     var hotKeyManager: HotKeyManager?
+    var localizationManager: LocalizationManager?
     var settingsWindow: NSWindow?
+    private var menu: NSMenu?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         print("🚀 应用启动完成，正在设置状态栏图标...")
@@ -78,6 +84,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 print("✅ 剪切板监控和快捷键已启动")
             }
         }
+        
+        // 不设置默认菜单，通过按钮点击事件来控制
+        // statusBarItem?.menu = nil
+        
+        // 创建状态栏菜单
+        let menu = NSMenu()
+        
+        let settingsItem = NSMenuItem(title: "settings".localized, action: #selector(openSettings), keyEquivalent: ",")
+        settingsItem.target = self
+        menu.addItem(settingsItem)
+        
+        menu.addItem(NSMenuItem.separator())
+        
+        let aboutItem = NSMenuItem(title: "about".localized, action: #selector(showAbout), keyEquivalent: "")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
+        
+        menu.addItem(NSMenuItem.separator())
+
+        let quitItem = NSMenuItem(title: "quit".localized, action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        menu.addItem(quitItem)
+
+        self.menu = menu
+        print("✅ 状态栏菜单创建完成")
     }
     
     func setupStatusBar() {
@@ -106,7 +136,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 print("📋 使用文本图标作为后备")
             }
             
-            button.toolTip = "CopyX - 剪切板管理器"
+            button.toolTip = "app_name".localized
             button.target = self
             button.action = #selector(statusBarButtonClicked)
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
@@ -124,7 +154,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let event = NSApp.currentEvent!
         if event.type == .rightMouseUp {
             // 右键点击显示菜单
-            statusBarItem?.menu?.popUp(positioning: nil, at: NSPoint(x: 0, y: sender.bounds.height), in: sender)
+            menu?.popUp(positioning: nil, at: NSPoint(x: 0, y: sender.bounds.height), in: sender)
         } else {
             // 左键点击显示剪切板历史
             showClipboardHistory()
@@ -136,18 +166,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func openSettings() {
+        print("✅ [AppDelegate] openSettings() 被调用")
         if settingsWindow == nil {
+            print("   -> settingsWindow 为 nil，正在创建新窗口...")
             createSettingsWindow()
         }
         
         // 确保窗口显示在前面，但不持续浮动
+        print("   -> 正在显示设置窗口...")
         settingsWindow?.makeKeyAndOrderFront(nil)
         settingsWindow?.orderFrontRegardless()
         NSApp.activate(ignoringOtherApps: true)
     }
     
     private func createSettingsWindow() {
-        let windowSize = NSSize(width: 900, height: 700)
+        let windowSize = NSSize(width: 780, height: 520)
         let window = NSWindow(
             contentRect: NSRect(
                 x: 0,
@@ -160,7 +193,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             defer: false
         )
         
-        window.title = "CopyX - 设置"
+        window.title = "settings".localized
         window.center()
         window.isReleasedWhenClosed = false
         
@@ -168,6 +201,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let settingsView = SettingsView()
             .environmentObject(clipboardManager!)
             .environmentObject(hotKeyManager!)
+            .environmentObject(localizationManager!)
             .frame(width: windowSize.width, height: windowSize.height)
         
         window.contentView = NSHostingView(rootView: settingsView)
@@ -190,5 +224,8 @@ extension AppDelegate: NSWindowDelegate {
         }
         return true
     }
-} 
+}
+
+
+
 

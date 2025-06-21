@@ -4,6 +4,7 @@ import AppKit
 // MARK: - 高级功能设置页面
 struct ModernAdvancedSettingsView: View {
     @EnvironmentObject var clipboardManager: ClipboardManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @State private var selectedText = ""
     @State private var processedText = ""
     @State private var selectedOperation: AdvancedTextOperation = .trimWhitespace
@@ -14,21 +15,21 @@ struct ModernAdvancedSettingsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 SettingsPageHeader(
-                    title: "高级功能",
-                    subtitle: "文本处理工具和使用统计"
+                    title: "advanced_settings_title".localized,
+                    subtitle: "advanced_settings_subtitle".localized
                 )
                 
                 // 文本处理工具
-                SettingsSection(title: "文本处理工具", icon: "textformat") {
+                SettingsSection(title: "text_processing_tool".localized, icon: "textformat") {
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("选择文本处理操作")
+                        LocalizedText("select_text_operation")
                             .font(.system(size: 14, weight: .medium))
                         
-                        Picker("操作", selection: $selectedOperation) {
+                        Picker("operation".localized, selection: $selectedOperation) {
                             ForEach(AdvancedTextOperation.allCases, id: \.self) { operation in
                                 HStack {
                                     Image(systemName: operation.icon)
-                                    Text(operation.displayName)
+                                    Text(operation.displayNameKey.localized)
                                 }
                                 .tag(operation)
                             }
@@ -36,7 +37,7 @@ struct ModernAdvancedSettingsView: View {
                         .pickerStyle(MenuPickerStyle())
                         
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("输入文本")
+                            LocalizedText("input_text")
                                 .font(.system(size: 13, weight: .medium))
                             TextEditor(text: $selectedText)
                                 .font(.system(size: 12, design: .monospaced))
@@ -46,7 +47,7 @@ struct ModernAdvancedSettingsView: View {
                                 .cornerRadius(6)
                         }
                         
-                        Button("处理文本") {
+                        Button("process_text".localized) {
                             processedText = selectedOperation.apply(to: selectedText)
                         }
                         .buttonStyle(.borderedProminent)
@@ -54,7 +55,7 @@ struct ModernAdvancedSettingsView: View {
                         
                         if !processedText.isEmpty {
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("处理结果")
+                                LocalizedText("processing_result")
                                     .font(.system(size: 13, weight: .medium))
                                 TextEditor(text: .constant(processedText))
                                     .font(.system(size: 12, design: .monospaced))
@@ -63,7 +64,7 @@ struct ModernAdvancedSettingsView: View {
                                     .background(Color.secondary.opacity(0.05))
                                     .cornerRadius(6)
                                 
-                                Button("复制结果") {
+                                Button("copy_result".localized) {
                                     NSPasteboard.general.clearContents()
                                     NSPasteboard.general.setString(processedText, forType: .string)
                                 }
@@ -74,9 +75,9 @@ struct ModernAdvancedSettingsView: View {
                 }
                 
                 // 快速操作
-                SettingsSection(title: "快速操作", icon: "bolt") {
+                SettingsSection(title: "quick_actions".localized, icon: "bolt") {
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("从剪切板快速处理文本")
+                        LocalizedText("quick_process_from_clipboard")
                             .font(.system(size: 14))
                             .foregroundColor(.secondary)
                         
@@ -89,9 +90,9 @@ struct ModernAdvancedSettingsView: View {
                 }
                 
                 // 使用统计
-                SettingsSection(title: "使用统计", icon: "chart.bar") {
+                SettingsSection(title: "usage_statistics".localized, icon: "chart.bar") {
                     VStack(alignment: .leading, spacing: 12) {
-                        Button("刷新统计") {
+                        Button("refresh_stats".localized) {
                             usageStats = clipboardManager.getUsageStats()
                             showingStats = true
                         }
@@ -104,23 +105,23 @@ struct ModernAdvancedSettingsView: View {
                 }
                 
                 // 性能设置
-                SettingsSection(title: "性能设置", icon: "speedometer") {
+                SettingsSection(title: "performance_settings".localized, icon: "speedometer") {
                     VStack(alignment: .leading, spacing: 12) {
                         SettingsToggle(
-                            title: "启用声音提示",
-                            subtitle: "复制内容时播放提示音",
+                            title: "enable_sound_effects".localized,
+                            subtitle: "play_sound_on_copy".localized,
                             isOn: $clipboardManager.enableSound
                         )
                         
                         SettingsToggle(
-                            title: "自动清理历史",
-                            subtitle: "定期清理旧的剪切板历史",
+                            title: "auto_clear_history".localized,
+                            subtitle: "auto_clear_history_subtitle".localized,
                             isOn: $clipboardManager.autoCleanup
                         )
                         
                         SettingsSlider(
-                            title: "历史记录限制",
-                            subtitle: "设置最大历史记录数量",
+                            title: "history_limit".localized,
+                            subtitle: "history_limit_subtitle".localized,
                             value: Binding(
                                 get: { Double(clipboardManager.maxHistoryCount) },
                                 set: { clipboardManager.updateMaxHistoryCount(Int($0)) }
@@ -132,30 +133,30 @@ struct ModernAdvancedSettingsView: View {
                 }
                 
                 // 实验性功能
-                SettingsSection(title: "实验性功能", icon: "flask") {
+                SettingsSection(title: "experimental_features".localized, icon: "flask") {
                     VStack(alignment: .leading, spacing: 12) {
                         SettingsInfoCard(
-                            title: "⚠️ 实验性功能",
-                            description: "这些功能仍在开发中，可能不稳定或导致意外行为",
+                            title: "experimental_warning_title".localized,
+                            description: "experimental_warning_desc".localized,
                             icon: "exclamationmark.triangle",
                             color: .orange
                         )
                         
                         SettingsToggle(
-                            title: "启用文本历史",
-                            subtitle: "记录文本类型的剪切板内容",
+                            title: "enable_text_history".localized,
+                            subtitle: "enable_text_history_subtitle".localized,
                             isOn: $clipboardManager.enableTextHistory
                         )
                         
                         SettingsToggle(
-                            title: "启用图片历史",
-                            subtitle: "记录图片类型的剪切板内容",
+                            title: "enable_image_history".localized,
+                            subtitle: "enable_image_history_subtitle".localized,
                             isOn: $clipboardManager.enableImageHistory
                         )
                         
                         SettingsToggle(
-                            title: "启用声音",
-                            subtitle: "剪切板变化时播放提示音",
+                            title: "enable_sound".localized,
+                            subtitle: "enable_sound_subtitle".localized,
                             isOn: $clipboardManager.enableSound
                         )
                     }
@@ -163,6 +164,7 @@ struct ModernAdvancedSettingsView: View {
             }
             .padding(30)
         }
+        .id(localizationManager.revision)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 }
@@ -179,7 +181,7 @@ struct QuickActionButton: View {
             VStack(spacing: 4) {
                 Image(systemName: operation.icon)
                     .font(.system(size: 16))
-                Text(operation.displayName)
+                Text(operation.displayNameKey.localized)
                     .font(.system(size: 10))
                     .multilineTextAlignment(.center)
             }
@@ -221,20 +223,20 @@ struct UsageStatsView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("统计信息")
+            LocalizedText("usage_stats_title")
                 .font(.system(size: 15, weight: .medium))
             
             VStack(alignment: .leading, spacing: 8) {
-                StatRow(label: "总项目数", value: "\(stats.totalItems)")
-                StatRow(label: "收藏项目数", value: "\(stats.favoriteItems)")
-                StatRow(label: "总使用次数", value: "\(stats.totalUsage)")
+                StatRow(label: "total_items_stat".localized, value: "\(stats.totalItems)")
+                StatRow(label: "favorite_items_stat".localized, value: "\(stats.favoriteItems)")
+                StatRow(label: "total_usage_stat".localized, value: "\(stats.totalUsage)")
                 
                 if let mostUsed = stats.mostUsedItem {
-                    StatRow(label: "最常用项目", value: mostUsed.displayTitle)
+                    StatRow(label: "most_used_item_stat".localized, value: mostUsed.displayTitle)
                 }
                 
                 ForEach(stats.itemsByType.sorted(by: { $0.value > $1.value }), id: \.key) { type, count in
-                    StatRow(label: type.displayName, value: "\(count)")
+                    StatRow(label: type.displayName.localized, value: "\(count)")
                 }
             }
             .padding(12)
@@ -252,96 +254,15 @@ struct StatRow: View {
     var body: some View {
         HStack {
             Text(label)
-                .font(.system(size: 13))
-                .foregroundColor(.secondary)
-            
             Spacer()
-            
             Text(value)
-                .font(.system(size: 13, weight: .medium))
-                .foregroundColor(.primary)
+                .foregroundColor(.secondary)
         }
     }
 }
 
-// MARK: - 文本操作枚举
-enum AdvancedTextOperation: String, CaseIterable {
-    case trimWhitespace = "去除空格"
-    case uppercase = "转大写"
-    case lowercase = "转小写"
-    case capitalizeWords = "首字母大写"
-    case removeLineBreaks = "移除换行"
-    case addLineBreaks = "添加换行"
-    case removeNumbers = "移除数字"
-    case removeSpecialChars = "移除特殊字符"
-    case urlEncode = "URL编码"
-    case urlDecode = "URL解码"
-    case base64Encode = "Base64编码"
-    case base64Decode = "Base64解码"
-    case reverseText = "反转文本"
-    case sortLines = "排序行"
-    case removeDuplicateLines = "去重行"
-    
-    var displayName: String {
-        return rawValue
-    }
-    
-    var icon: String {
-        switch self {
-        case .trimWhitespace: return "scissors"
-        case .uppercase: return "textformat.abc"
-        case .lowercase: return "textformat.abc.dottedunderline"
-        case .capitalizeWords: return "textformat.alt"
-        case .removeLineBreaks: return "arrow.left.and.right"
-        case .addLineBreaks: return "arrow.up.and.down"
-        case .removeNumbers: return "number.circle.fill"
-        case .removeSpecialChars: return "character.cursor.ibeam"
-        case .urlEncode: return "link"
-        case .urlDecode: return "link.badge.plus"
-        case .base64Encode: return "lock.fill"
-        case .base64Decode: return "lock.open.fill"
-        case .reverseText: return "arrow.left.arrow.right"
-        case .sortLines: return "arrow.up.arrow.down"
-        case .removeDuplicateLines: return "doc.on.doc"
-        }
-    }
-    
-    func apply(to text: String) -> String {
-        switch self {
-        case .trimWhitespace:
-            return text.trimmingCharacters(in: .whitespacesAndNewlines)
-        case .uppercase:
-            return text.uppercased()
-        case .lowercase:
-            return text.lowercased()
-        case .capitalizeWords:
-            return text.capitalized
-        case .removeLineBreaks:
-            return text.replacingOccurrences(of: "\n", with: " ")
-        case .addLineBreaks:
-            return text.replacingOccurrences(of: " ", with: "\n")
-        case .removeNumbers:
-            return text.replacingOccurrences(of: "\\d", with: "", options: .regularExpression)
-        case .removeSpecialChars:
-            return text.replacingOccurrences(of: "[^a-zA-Z0-9\\s]", with: "", options: .regularExpression)
-        case .urlEncode:
-            return text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? text
-        case .urlDecode:
-            return text.removingPercentEncoding ?? text
-        case .base64Encode:
-            return Data(text.utf8).base64EncodedString()
-        case .base64Decode:
-            guard let data = Data(base64Encoded: text) else { return text }
-            return String(data: data, encoding: .utf8) ?? text
-        case .reverseText:
-            return String(text.reversed())
-        case .sortLines:
-            return text.components(separatedBy: .newlines).sorted().joined(separator: "\n")
-        case .removeDuplicateLines:
-            let lines = text.components(separatedBy: .newlines)
-            return Array(Set(lines)).joined(separator: "\n")
-        }
-    }
-}
+// The following enum has been moved to TextProcessor.swift to consolidate definitions.
+// enum AdvancedTextOperation: String, CaseIterable { ... }
+// All related code that was here has been removed.
 
  

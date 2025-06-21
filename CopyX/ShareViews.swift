@@ -21,7 +21,7 @@ struct ShareModal: View {
             VStack(spacing: 0) {
                 // 标题栏
                 HStack {
-                    Text("分享到")
+                    Text("share_to_title".localized)
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.primary)
                     Spacer()
@@ -44,7 +44,7 @@ struct ShareModal: View {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 16) {
                     // 系统分享
                     ShareModalOption(
-                        title: "系统分享",
+                        title: "share_system".localized,
                         icon: "square.and.arrow.up.circle.fill",
                         color: .blue
                     ) {
@@ -56,7 +56,7 @@ struct ShareModal: View {
                     
                     // 微信分享
                     ShareModalOption(
-                        title: "微信",
+                        title: "share_wechat".localized,
                         icon: "message.fill",
                         color: .green
                     ) {
@@ -68,7 +68,7 @@ struct ShareModal: View {
                     
                     // X (Twitter) 分享
                     ShareModalOption(
-                        title: "X (Twitter)",
+                        title: "share_twitter".localized,
                         icon: "bubble.left.and.bubble.right.fill",
                         color: .cyan
                     ) {
@@ -80,7 +80,7 @@ struct ShareModal: View {
                     
                     // 微博分享
                     ShareModalOption(
-                        title: "微博",
+                        title: "share_weibo".localized,
                         icon: "globe.asia.australia.fill",
                         color: .orange
                     ) {
@@ -92,7 +92,7 @@ struct ShareModal: View {
                     
                     // QQ分享
                     ShareModalOption(
-                        title: "QQ",
+                        title: "share_qq".localized,
                         icon: "person.2.fill",
                         color: .purple
                     ) {
@@ -104,7 +104,7 @@ struct ShareModal: View {
                     
                     // 复制内容
                     ShareModalOption(
-                        title: "复制内容",
+                        title: "share_copy_content".localized,
                         icon: "doc.on.doc.fill",
                         color: .gray
                     ) {
@@ -202,7 +202,7 @@ struct ShareMenuOverlay: View {
             VStack(spacing: 8) {
                 // 系统分享
                 ShareOptionButton(
-                    title: "系统分享",
+                    title: "share_system".localized,
                     icon: "square.and.arrow.up",
                     color: .blue
                 ) {
@@ -214,7 +214,7 @@ struct ShareMenuOverlay: View {
                 
                 // 微信分享
                 ShareOptionButton(
-                    title: "微信",
+                    title: "share_wechat".localized,
                     icon: "message",
                     color: .green
                 ) {
@@ -226,7 +226,7 @@ struct ShareMenuOverlay: View {
                 
                 // X (Twitter) 分享
                 ShareOptionButton(
-                    title: "X (Twitter)",
+                    title: "share_twitter".localized,
                     icon: "bubble.left.and.bubble.right",
                     color: .cyan
                 ) {
@@ -238,7 +238,7 @@ struct ShareMenuOverlay: View {
                 
                 // 微博分享
                 ShareOptionButton(
-                    title: "微博",
+                    title: "share_weibo".localized,
                     icon: "globe.asia.australia",
                     color: .orange
                 ) {
@@ -250,7 +250,7 @@ struct ShareMenuOverlay: View {
                 
                 // QQ分享
                 ShareOptionButton(
-                    title: "QQ",
+                    title: "share_qq".localized,
                     icon: "person.2",
                     color: .purple
                 ) {
@@ -262,7 +262,7 @@ struct ShareMenuOverlay: View {
                 
                 // 复制内容
                 ShareOptionButton(
-                    title: "复制内容",
+                    title: "share_copy_content".localized,
                     icon: "doc.on.doc",
                     color: .gray
                 ) {

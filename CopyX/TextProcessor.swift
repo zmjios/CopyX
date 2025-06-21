@@ -1,5 +1,6 @@
 import Foundation
 import AppKit
+import CommonCrypto
 
 
 
@@ -51,6 +52,10 @@ class TextProcessor {
         }
         
         return result.joined(separator: "\n")
+    }
+    
+    static func removeExtraSpaces(_ text: String) -> String {
+        return text.replacingOccurrences(of: " +", with: " ", options: .regularExpression)
     }
     
     // MARK: - 大小写转换
@@ -105,6 +110,11 @@ class TextProcessor {
             .joined(separator: "-")
     }
     
+    // MARK: - 文本反转
+    static func reverseText(_ text: String) -> String {
+        return String(text.reversed())
+    }
+    
     // MARK: - 编码解码
     
     /// URL编码
@@ -152,6 +162,14 @@ class TextProcessor {
     }
     
     // MARK: - 文本分析
+    
+    static func countCharacters(_ text: String) -> String {
+        return String(text.count)
+    }
+
+    static func countWords(_ text: String) -> String {
+        return String(text.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }.count)
+    }
     
     /// 获取文本统计信息
     static func getTextStats(_ text: String) -> TextStats {
@@ -262,6 +280,24 @@ class TextProcessor {
         
         return result
     }
+
+    static func generateMD5(_ text: String) -> String {
+        let data = Data(text.utf8)
+        var hash = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
+        data.withUnsafeBytes {
+            _ = CC_MD5($0.baseAddress, CC_LONG(data.count), &hash)
+        }
+        return hash.map { String(format: "%02x", $0) }.joined()
+    }
+
+    static func generateSHA256(_ text: String) -> String {
+        let data = Data(text.utf8)
+        var hash = [UInt8](repeating: 0,  count: Int(CC_SHA256_DIGEST_LENGTH))
+        data.withUnsafeBytes {
+            _ = CC_SHA256($0.baseAddress, CC_LONG(data.count), &hash)
+        }
+        return hash.map { String(format: "%02x", $0) }.joined()
+    }
 }
 
 // MARK: - 文本统计结构
@@ -283,87 +319,96 @@ struct TextStats {
     }
 }
 
-// MARK: - 文本处理操作枚举
-enum TextOperation: String, CaseIterable {
-    case trimWhitespace = "去除空白"
-    case normalizeLineBreaks = "标准化换行"
-    case removeExtraBlankLines = "移除多余空行"
-    case formatParagraphs = "格式化段落"
-    case toUppercase = "转大写"
-    case toLowercase = "转小写"
-    case toTitleCase = "标题格式"
-    case toSentenceCase = "句子格式"
-    case toCamelCase = "驼峰命名"
-    case toSnakeCase = "蛇形命名"
-    case toKebabCase = "短横线命名"
-    case urlEncode = "URL编码"
-    case urlDecode = "URL解码"
-    case base64Encode = "Base64编码"
-    case base64Decode = "Base64解码"
-    case htmlEscape = "HTML转义"
-    case htmlUnescape = "HTML反转义"
-    case formatAsJSON = "格式化JSON"
-    case compactJSON = "压缩JSON"
+enum AdvancedTextOperation: String, CaseIterable, Identifiable {
+    var id: String { self.rawValue }
+    
+    case toUpperCase
+    case toLowerCase
+    case toTitleCase
+    case toSentenceCase
+    case trimWhitespace
+    case removeExtraSpaces
+    case reverseText
+    case countCharacters
+    case countWords
+    case toBase64
+    case fromBase64
+    case urlEncode
+    case urlDecode
+    case generateMD5
+    case generateSHA256
+
+    var displayNameKey: String {
+        switch self {
+        case .toUpperCase: return "op_upper"
+        case .toLowerCase: return "op_lower"
+        case .toTitleCase: return "op_title"
+        case .toSentenceCase: return "op_sentence"
+        case .trimWhitespace: return "op_trim"
+        case .removeExtraSpaces: return "op_remove_spaces"
+        case .reverseText: return "op_reverse"
+        case .countCharacters: return "op_count_chars"
+        case .countWords: return "op_count_words"
+        case .toBase64: return "op_base64_encode"
+        case .fromBase64: return "op_base64_decode"
+        case .urlEncode: return "op_url_encode"
+        case .urlDecode: return "op_url_decode"
+        case .generateMD5: return "op_md5"
+        case .generateSHA256: return "op_sha256"
+        }
+    }
     
     var icon: String {
         switch self {
-        case .trimWhitespace, .normalizeLineBreaks, .removeExtraBlankLines, .formatParagraphs:
+        case .trimWhitespace, .removeExtraSpaces:
             return "text.alignleft"
-        case .toUppercase, .toLowercase, .toTitleCase, .toSentenceCase:
+        case .toUpperCase, .toLowerCase, .toTitleCase, .toSentenceCase:
             return "textformat.abc"
-        case .toCamelCase, .toSnakeCase, .toKebabCase:
-            return "textformat.abc.dottedunderline"
+        case .reverseText:
+            return "arrow.2.squarepath"
+        case .countCharacters, .countWords:
+            return "number"
+        case .toBase64, .fromBase64:
+            return "lock.shield"
         case .urlEncode, .urlDecode:
             return "link"
-        case .base64Encode, .base64Decode:
+        case .generateMD5, .generateSHA256:
             return "lock.shield"
-        case .htmlEscape, .htmlUnescape:
-            return "chevron.left.forwardslash.chevron.right"
-        case .formatAsJSON, .compactJSON:
-            return "curlybraces"
         }
     }
     
     func apply(to text: String) -> String {
         switch self {
-        case .trimWhitespace:
-            return TextProcessor.trimWhitespace(text)
-        case .normalizeLineBreaks:
-            return TextProcessor.normalizeLineBreaks(text)
-        case .removeExtraBlankLines:
-            return TextProcessor.removeExtraBlankLines(text)
-        case .formatParagraphs:
-            return TextProcessor.formatParagraphs(text)
-        case .toUppercase:
+        case .toUpperCase:
             return TextProcessor.toUppercase(text)
-        case .toLowercase:
+        case .toLowerCase:
             return TextProcessor.toLowercase(text)
         case .toTitleCase:
             return TextProcessor.toTitleCase(text)
         case .toSentenceCase:
             return TextProcessor.toSentenceCase(text)
-        case .toCamelCase:
-            return TextProcessor.toCamelCase(text)
-        case .toSnakeCase:
-            return TextProcessor.toSnakeCase(text)
-        case .toKebabCase:
-            return TextProcessor.toKebabCase(text)
+        case .trimWhitespace:
+            return TextProcessor.trimWhitespace(text)
+        case .removeExtraSpaces:
+            return TextProcessor.removeExtraSpaces(text)
+        case .reverseText:
+            return TextProcessor.reverseText(text)
+        case .countCharacters:
+            return TextProcessor.countCharacters(text)
+        case .countWords:
+            return TextProcessor.countWords(text)
+        case .toBase64:
+            return TextProcessor.base64Encode(text)
+        case .fromBase64:
+            return TextProcessor.base64Decode(text)
         case .urlEncode:
             return TextProcessor.urlEncode(text)
         case .urlDecode:
             return TextProcessor.urlDecode(text)
-        case .base64Encode:
-            return TextProcessor.base64Encode(text)
-        case .base64Decode:
-            return TextProcessor.base64Decode(text)
-        case .htmlEscape:
-            return TextProcessor.htmlEscape(text)
-        case .htmlUnescape:
-            return TextProcessor.htmlUnescape(text)
-        case .formatAsJSON:
-            return TextProcessor.formatAsJSON(text)
-        case .compactJSON:
-            return TextProcessor.compactJSON(text)
+        case .generateMD5:
+            return TextProcessor.generateMD5(text)
+        case .generateSHA256:
+            return TextProcessor.generateSHA256(text)
         }
     }
-} 
+}

@@ -1,0 +1,433 @@
+/* 
+  Localizable.strings
+  CopyX
+
+  Created by AI Assistant on 2024.
+*/
+
+// MARK: - General
+"app_name" = "CopyX";
+"ok" = "OK";
+"cancel" = "Annuler";
+"save" = "Enregistrer";
+"delete" = "Supprimer";
+"edit" = "Modifier";
+"close" = "Fermer";
+"settings" = "Paramètres...";
+"done" = "Terminé";
+"error" = "Erreur";
+"warning" = "Avertissement";
+"success" = "Succès";
+"settings_window_title" = "Paramètres";
+"app_tooltip" = "Cliquez pour voir l'historique du presse-papiers, cliquez droit pour les options.";
+"select_a_category" = "Sélectionnez une catégorie dans la barre latérale pour voir ses paramètres.";
+
+// MARK: - Main Interface
+"clipboard_history" = "Historique du presse-papiers";
+"search_placeholder" = "Rechercher dans l'historique du presse-papiers...";
+"no_items" = "Aucun élément dans le presse-papiers";
+"no_items_description" = "Copiez du texte, des images ou des fichiers pour les voir ici";
+"empty_search" = "Aucun élément correspondant";
+"empty_search_description" = "Essayez d'autres termes de recherche";
+
+// MARK: - Item Actions
+"copy" = "Copier";
+"copy_success" = "Copié dans le presse-papiers";
+"favorite" = "Favori";
+"unfavorite" = "Retirer des favoris";
+"view_details" = "Voir les détails";
+"delete_item" = "Supprimer l'élément";
+"share" = "Partager";
+"expand" = "Développer";
+"collapse" = "Réduire";
+
+// MARK: - Display Modes
+"bottom_mode" = "Affichage inférieur";
+"center_mode" = "Affichage centré";
+"display_mode" = "Mode d'affichage";
+
+// MARK: - Filters
+"all_types" = "Tous les types";
+"text_type" = "Texte";
+"image_type" = "Images";
+"file_type" = "Fichiers";
+"url_type" = "URL";
+"color_type" = "Couleurs";
+"show_favorites" = "Afficher les favoris uniquement";
+"show_all" = "Afficher tout";
+
+// MARK: - Settings
+"general_settings" = "Général";
+"hotkey_settings" = "Raccourcis clavier";
+"clipboard_settings" = "Presse-papiers";
+"data_settings" = "Données";
+"advanced_settings" = "Avancé";
+"favorites_settings" = "Favoris";
+"about" = "À propos";
+
+// MARK: - General Settings
+"launch_at_startup" = "Lancer au démarrage";
+"show_in_dock" = "Afficher dans le Dock";
+"show_in_menu_bar" = "Afficher dans la barre de menus";
+"auto_paste" = "Coller automatiquement après sélection";
+"sound_effects" = "Effets sonores";
+"launch_at_startup_subtitle" = "Exécuter CopyX automatiquement au démarrage du système";
+"show_in_menu_bar_subtitle" = "Afficher l'icône de CopyX dans la barre de menus système";
+"hide_dock_icon_subtitle" = "Masquer l'icône de l'application du Dock";
+"notification_settings" = "Paramètres de notification";
+"enable_notifications" = "Activer les notifications";
+"enable_notifications_subtitle" = "Afficher les notifications de bureau pour les nouveaux éléments du presse-papiers";
+"enable_sound_effects" = "Activer les effets sonores du presse-papiers";
+
+// MARK: - Hotkey Settings
+"global_hotkey" = "Raccourci global";
+"hotkey_description" = "Appuyez sur les touches pour définir le raccourci";
+"hotkey_conflict" = "Conflit de raccourci détecté";
+"clear_hotkey" = "Effacer le raccourci";
+"hotkey_not_set" = "Non défini";
+"press_hotkey_prompt" = "Appuyez sur le raccourci...";
+"reset" = "Réinitialiser";
+"click_to_set" = "Cliquer pour définir";
+
+// MARK: - Clipboard Settings
+"max_items" = "Éléments maximum";
+"auto_clear" = "Effacer automatiquement les anciens éléments";
+"ignore_apps" = "Ignorer ces applications";
+"monitor_clipboard" = "Surveiller le presse-papiers";
+
+// MARK: - Data Settings
+"export_data" = "Exporter les données";
+"import_data" = "Importer les données";
+"clear_all_data" = "Effacer toutes les données";
+"data_location" = "Emplacement des données";
+"backup_settings" = "Paramètres de sauvegarde";
+"export_default_filename" = "sauvegarde_presse-papiers_%@.json";
+
+// MARK: - Advanced Settings
+"performance_mode" = "Mode performance";
+"debug_mode" = "Mode débogage";
+"logging_enabled" = "Activer la journalisation";
+"memory_optimization" = "Optimisation de la mémoire";
+
+// MARK: - Time Formats
+"just_now" = "À l'instant";
+"seconds_ago" = "Il y a %d secondes";
+"minute_ago" = "Il y a 1 minute";
+"minutes_ago" = "Il y a %d minutes";
+"hour_ago" = "Il y a 1 heure";
+"hours_ago" = "Il y a %d heures";
+"day_ago" = "Il y a 1 jour";
+"days_ago" = "Il y a %d jours";
+
+// MARK: - Tooltips
+"resize_window" = "Faites glisser pour redimensionner la fenêtre";
+"close_window" = "Fermer la fenêtre";
+"toggle_favorites" = "Basculer le filtre des favoris";
+"switch_display_mode" = "Changer de mode d'affichage";
+
+// MARK: - Error Messages
+"clipboard_access_error" = "Impossible d'accéder au presse-papiers";
+"save_error" = "Échec de l'enregistrement des données";
+"load_error" = "Échec du chargement des données";
+"hotkey_register_error" = "Échec de l'enregistrement du raccourci";
+"file_not_found" = "Fichier non trouvé";
+"permission_denied" = "Permission refusée";
+
+// MARK: - Confirmation Messages
+"delete_all_confirm" = "Êtes-vous sûr de vouloir supprimer tous les éléments du presse-papiers ?";
+"clear_data_confirm" = "Cela supprimera définitivement toutes vos données du presse-papiers. Continuer ?";
+"reset_settings_confirm" = "Réinitialiser tous les paramètres aux valeurs par défaut ?";
+
+// MARK: - Settings Navigation
+"settings_section" = "Paramètres";
+"information_section" = "Informations";
+"general_settings_title" = "Paramètres généraux";
+"general_settings_subtitle" = "Configuration du lancement et de l'interface pour CopyX";
+"hotkeys_title" = "Raccourcis clavier";
+"hotkeys_subtitle" = "Personnaliser les raccourcis";
+"clipboard_title" = "Presse-papiers";
+"clipboard_subtitle" = "Paramètres de l'historique";
+"data_backup_title" = "Sauvegarde des données";
+"data_backup_subtitle" = "Importer et exporter des données";
+"advanced_functions_title" = "Fonctions avancées";
+"advanced_functions_subtitle" = "Outils de traitement de texte et statistiques";
+"favorites_title" = "Gestion des favoris";
+"favorites_subtitle" = "Gérer et organiser vos favoris";
+"about_copyx_title" = "À propos de CopyX";
+"about_copyx_subtitle" = "Informations sur la version";
+
+// MARK: - About CopyX
+"about_copyx" = "À propos de CopyX";
+"powerful_clipboard_manager" = "Un puissant gestionnaire de presse-papiers";
+"version" = "Version";
+"build" = "Build";
+"view_changelog" = "Voir le journal des modifications";
+"check_for_updates" = "Vérifier les mises à jour";
+"visit_website" = "Visiter le site web";
+"main_features" = "Fonctionnalités principales";
+"hotkey_activation" = "Activation par raccourci";
+"hotkey_activation_desc" = "Accès rapide à l'historique avec un raccourci global";
+"history_management" = "Gestion de l'historique";
+"history_management_desc" = "Rechercher, filtrer et gérer l'historique du presse-papiers";
+"multi_type_support" = "Support multi-types";
+"multi_type_support_desc" = "Prend en charge le texte, les images, les fichiers, etc.";
+"favorite_and_pin" = "Favoris et épinglage";
+"favorite_and_pin_desc" = "Conserver les éléments importants pour un accès rapide";
+"system_info" = "Informations système";
+"os_version" = "Version du système d'exploitation";
+"memory_usage" = "Utilisation de la mémoire";
+"cpu_usage" = "Utilisation du CPU";
+"developer_info" = "Informations sur le développeur";
+"developer_name" = "Développé par Votre Nom";
+"contact_developer" = "Contacter le développeur";
+"legal_info" = "Informations légales";
+"privacy_policy" = "Politique de confidentialité";
+"terms_of_service" = "Conditions d'utilisation";
+"licenses" = "Licences";
+"copyright_info" = "Copyright © 2024 Votre Entreprise. Tous droits réservés.";
+"advanced_features" = "Fonctions avancées";
+"text_processing_and_stats" = "Outils de traitement de texte et statistiques d'utilisation";
+"text_processing_tool" = "Outil de traitement de texte";
+"select_text_operation" = "Sélectionnez une opération de traitement de texte";
+"operation" = "Opération";
+"input_text" = "Texte d'entrée";
+"process_text" = "Traiter le texte";
+"processing_result" = "Résultat du traitement";
+"copy_result" = "Copier le résultat";
+"quick_actions" = "Actions rapides";
+"quick_process_from_clipboard" = "Traiter rapidement le texte du presse-papiers";
+"usage_statistics" = "Statistiques d'utilisation";
+"refresh_stats" = "Actualiser les statistiques";
+"confirm_delete_item_message" = "Êtes-vous sûr de vouloir supprimer cet élément du presse-papiers ? Cette action est irréversible.";
+"clipboard_settings_subtitle" = "Configurer le comportement et les limites de l'historique du presse-papiers";
+"history" = "Historique";
+"max_items_subtitle" = "Supprimer automatiquement les entrées les plus anciennes lorsque ce nombre est dépassé";
+"auto_clear_subtitle" = "Nettoyer périodiquement les éléments expirés du presse-papiers";
+"content_types" = "Types de contenu";
+"save_text_content" = "Enregistrer le contenu texte copié";
+"save_text_content_subtitle" = "Enregistrer automatiquement le contenu texte copié";
+"save_image_content" = "Enregistrer le contenu image copié";
+"save_image_content_subtitle" = "Enregistrer automatiquement le contenu image copié";
+"privacy_protection" = "Protection de la vie privée";
+"skip_password_fields" = "Ignorer les champs de mot de passe";
+"skip_password_fields_subtitle" = "Ignorer automatiquement le contenu des champs de saisie de mot de passe";
+"interface_settings" = "Paramètres de l'interface";
+"use_modal_share_view" = "Utiliser la vue de partage modale";
+"use_modal_share_view_subtitle" = "Utiliser une fenêtre pop-up pour afficher les options de partage";
+"sound_tips" = "Conseils sonores";
+"enable_sound_effects_subtitle" = "Jouer les effets sonores du système lors de la copie de contenu";
+"startup_settings" = "Paramètres de démarrage";
+"auto_start_monitoring" = "Démarrer la surveillance automatiquement";
+"auto_start_monitoring_subtitle" = "Démarrer automatiquement la surveillance du presse-papiers au lancement de l'application";
+"copyx_running_in_background" = "CopyX s'exécute en arrière-plan";
+"use_hotkey_to_open" = "Utilisez ⌘⇧V pour ouvrir l'historique du presse-papiers";
+"data_backup" = "Sauvegarde des données";
+"import_export_data" = "Importer et exporter vos données";
+"auto_cleanup_subtitle" = "Nettoyer périodiquement les anciens éléments du presse-papiers";
+"backup_path" = "Chemin de sauvegarde";
+"not_selected" = "Non sélectionné";
+"select" = "Sélectionner";
+"data_management" = "Gestion des données";
+"clear_all_history" = "Effacer tout l'historique";
+"confirm_clear_all_history_title" = "Confirmer l'effacement de tout l'historique";
+"confirm_clear_all_history_message" = "Cette action supprimera définitivement tout l'historique de votre presse-papiers et ne peut pas être annulée.";
+"favorites_management" = "Gestion des favoris";
+"manage_and_organize_favorites" = "Gérer et organiser vos favoris";
+"search_favorites_placeholder" = "Rechercher dans les favoris...";
+"sort" = "Trier";
+"total_favorites" = "%d favoris au total";
+"export_favorites" = "Exporter les favoris";
+"delete_selected" = "Supprimer la sélection";
+"no_favorites" = "Aucun favori";
+"no_favorites_description" = "Ajoutez des éléments aux favoris pour les voir ici";
+"hotkey_settings_subtitle" = "Personnaliser les raccourcis globaux pour accéder rapidement à l'historique du presse-papiers";
+"main_hotkey" = "Raccourci principal";
+"show_clipboard_history" = "Afficher l'historique du presse-papiers";
+"enable_hotkey" = "Activer le raccourci";
+"hotkey_show_hide_description" = "Appuyez sur le raccourci pour afficher/masquer la fenêtre de l'historique du presse-papiers";
+"usage_tips" = "Conseils d'utilisation";
+"set_hotkey" = "Définir le raccourci";
+"set_hotkey_desc" = "Cliquez sur le champ de saisie du raccourci, puis appuyez sur la combinaison de touches souhaitée";
+"global_hotkey_desc" = "Le raccourci défini peut être utilisé dans n'importe quelle application";
+"avoid_conflicts" = "Éviter les conflits";
+"avoid_conflicts_desc" = "Assurez-vous qu'il n'entre pas en conflit avec les raccourcis système ou d'autres applications";
+"recommended_combinations" = "Combinaisons recommandées";
+"recommended_combinations_desc" = "Il est recommandé d'utiliser des combinaisons comme Cmd+Shift+V ou Cmd+Option+V";
+"current_settings" = "Paramètres actuels";
+"hotkey" = "Raccourci";
+"status" = "État";
+"enabled" = "Activé";
+"disabled" = "Désactivé";
+"total_items" = "%d éléments au total";
+"confirm_clear" = "Confirmer l'effacement";
+"confirm_clear_message" = "Êtes-vous sûr de vouloir effacer tout l'historique du presse-papiers ? Cette action est irréversible.";
+"language_settings" = "Paramètres de langue";
+"display_language" = "Langue d'affichage";
+"language_auto" = "Automatique";
+"language_en" = "English";
+"language_zh_hans" = "简体中文";
+"language_de" = "Deutsch";
+"language_fr" = "Français";
+"language_es" = "Español";
+"language_ja" = "日本語";
+"launch_settings" = "Paramètres de lancement";
+"hide_dock_icon" = "Masquer l'icône du Dock";
+"enable_clipboard_sounds" = "Activer les sons du presse-papiers";
+"enable_clipboard_sounds_subtitle" = "Jouer les effets sonores du système lors de la copie de contenu";
+"launch_and_interface_config" = "Configuration du lancement et de l'interface";
+"customize_hotkeys" = "Personnaliser les raccourcis";
+"history_settings" = "Paramètres de l'historique";
+"manage_favorite_items" = "Gérer les favoris";
+"version_information" = "Informations sur la version";
+"about_app" = "À propos de CopyX";
+"quit_app" = "Quitter CopyX";
+
+// MARK: - Enums
+"autoclean_never" = "Jamais";
+"autoclean_daily" = "Quotidiennement";
+"autoclean_weekly" = "Hebdomadairement";
+"autoclean_monthly" = "Mensuellement";
+"imagequality_low" = "Basse";
+"imagequality_medium" = "Moyenne";
+"imagequality_high" = "Haute";
+"imagequality_original" = "Originale";
+"notificationduration_short" = "Courte (2s)";
+"notificationduration_medium" = "Moyenne (5s)";
+"notificationduration_long" = "Longue (10s)";
+
+// MARK: - New Key for Detail Window
+"clipboard_details_title" = "Détails du presse-papiers";
+
+// MARK: - About View Keys
+"about_subtitle" = "Un puissant gestionnaire de presse-papiers";
+"about_view_changelog_button" = "Voir le journal des modifications";
+"about_check_updates_button" = "Vérifier les mises à jour";
+"about_visit_website_button" = "Visiter le site web";
+"about_main_features_title" = "Fonctionnalités principales";
+"about_feature_hotkey_title" = "Raccourci global";
+"about_feature_hotkey_desc" = "Accès rapide à l'historique du presse-papiers";
+"about_feature_smart_recognition_title" = "Reconnaissance intelligente";
+"about_feature_smart_recognition_desc" = "Identifie automatiquement le texte, les images, les liens, etc.";
+"about_feature_quick_search_title" = "Recherche rapide";
+"about_feature_quick_search_desc" = "Recherche en temps réel et filtrage par type";
+"about_feature_privacy_title" = "Protection de la vie privée";
+"about_feature_privacy_desc" = "Ignore les contenus sensibles comme les mots de passe";
+"about_feature_backup_title" = "Sauvegarde des données";
+"about_feature_backup_desc" = "Importation/exportation pour garder vos données en sécurité";
+"about_feature_favorites_title" = "Favoris";
+"about_feature_favorites_desc" = "Sauvegardez les éléments importants pour un accès rapide";
+"about_system_info_title" = "Informations système";
+"about_info_os" = "Système d'exploitation";
+"about_info_model" = "Modèle de l'appareil";
+"about_info_processor" = "Processeur";
+"about_info_memory" = "Mémoire";
+"about_info_path" = "Chemin d'installation";
+"about_developer_title" = "Développeur";
+"about_developer_desc" = "Dédié à la création d'outils qui améliorent la productivité.";
+"about_send_feedback_button" = "Envoyer des commentaires";
+"about_support_us_button" = "Soutenez-nous";
+"about_legal_title" = "Informations légales";
+"about_licenses_button" = "Licences open source";
+"about_privacy_policy_button" = "Politique de confidentialité";
+"about_terms_of_service_button" = "Conditions d'utilisation";
+"about_copyright_notice" = "© 2025 CopyX. Tous droits réservés.";
+"about_built_with" = "Construit avec SwiftUI et AppKit";
+"about_open_source_thanks" = "Merci à tous les contributeurs open source";
+"about_view_version" = "Version";
+"about_view_release_notes" = "Notes de version";
+"about_view_credits" = "Crédits";
+"about_view_developed_by" = "Développé par";
+"about_view_special_thanks" = "Remerciements spéciaux";
+"about_view_source_code" = "Code source";
+"about_view_feedback" = "Commentaires & Support";
+"about_view_report_bug" = "Signaler un bug";
+"about_view_request_feature" = "Demander une fonctionnalité";
+"about_view_privacy_policy" = "Politique de confidentialité";
+
+/* Advanced Settings */
+"advanced_settings_title" = "Fonctions avancées";
+"advanced_settings_subtitle" = "Outils de traitement de texte et statistiques d'utilisation";
+"performance_settings" = "Performance";
+"play_sound_on_copy" = "Jouer un son lors de la copie";
+"auto_clear_history" = "Effacer l'historique automatiquement";
+"auto_clear_history_subtitle" = "Nettoyer périodiquement l'ancien historique du presse-papiers";
+"history_limit" = "Limite de l'historique";
+"history_limit_subtitle" = "Définir le nombre maximum d'entrées de l'historique";
+"experimental_features" = "Fonctionnalités expérimentales";
+"experimental_warning_title" = "⚠️ Fonctionnalités expérimentales";
+"experimental_warning_desc" = "Ces fonctionnalités sont en développement et peuvent être instables ou provoquer un comportement inattendu.";
+"enable_text_history" = "Activer l'historique du texte";
+"enable_text_history_subtitle" = "Enregistrer le contenu texte du presse-papiers";
+"enable_image_history" = "Activer l'historique des images";
+"enable_image_history_subtitle" = "Enregistrer le contenu image du presse-papiers";
+"enable_sound" = "Activer le son";
+"enable_sound_subtitle" = "Jouer un son lorsque le presse-papiers change";
+"usage_stats_title" = "Statistiques";
+"total_items_stat" = "Nombre total d'éléments";
+"favorite_items_stat" = "Favoris";
+"total_usage_stat" = "Utilisation totale";
+"most_used_item_stat" = "Le plus utilisé";
+
+/* Advanced Text Operations */
+"op_upper" = "En majuscules";
+"op_lower" = "En minuscules";
+"op_title" = "Mettre en majuscules la première lettre";
+"op_sentence" = "Majuscule en début de phrase";
+"op_trim" = "Supprimer les espaces";
+"op_remove_spaces" = "Supprimer les espaces supplémentaires";
+"op_reverse" = "Inverser le texte";
+"op_count_chars" = "Compter les caractères";
+"op_count_words" = "Compter les mots";
+"op_base64_encode" = "Encoder en Base64";
+"op_base64_decode" = "Décoder de Base64";
+"op_url_encode" = "Encoder l'URL";
+"op_url_decode" = "Décoder l'URL";
+"op_md5" = "Générer MD5";
+"op_sha256" = "Générer SHA-256";
+
+/* Favorites Settings */
+"favorites_search_placeholder" = "Rechercher dans les favoris...";
+"favorites_count_format" = "%d favori(s)";
+"favorites_select_all" = "Tout sélectionner";
+"favorites_deselect_all" = "Tout désélectionner";
+"favorites_export_selected" = "Exporter la sélection";
+"favorites_delete_selected" = "Supprimer la sélection";
+"favorites_empty_title" = "Aucun favori pour le moment";
+"favorites_no_results_title" = "Aucun favori correspondant trouvé";
+"favorites_empty_subtitle" = "Cliquez sur l'icône en forme de cœur dans l'historique du presse-papiers pour ajouter un élément en favori.";
+"favorites_no_results_subtitle" = "Essayez d'utiliser des mots-clés de recherche différents.";
+"favorites_clear_search" = "Effacer la recherche";
+"favorites_export_done_title" = "Exportation terminée";
+"favorites_export_done_message" = "%d favori(s) ont été copié(s) dans le presse-papiers.";
+"favorites_delete_confirm_title" = "Confirmer la suppression";
+"favorites_delete_confirm_message" = "Ceci supprimera %d élément(s) de vos favoris, mais ne supprimera pas les éléments originaux de l'historique.";
+"usage_count_format" = "Utilisé %d fois";
+"favorited_at_format" = "Mis en favori le %@";
+
+/* Sort Options */
+"sort_by_date_added" = "Date d'ajout";
+"sort_by_date_modified" = "Date de modification";
+"sort_by_alphabetical" = "Alphabétique";
+"sort_by_type" = "Type";
+"sort_by_usage_count" = "Nombre d'utilisations";
+
+/* Share Views */
+"share_to_title" = "Partager sur";
+"share_system" = "Partage système";
+"share_wechat" = "WeChat";
+"share_twitter" = "X (Twitter)";
+"share_weibo" = "Weibo";
+"share_qq" = "QQ";
+"share_copy_content" = "Copier le contenu";
+
+/* UI Components */
+"search_clipboard_history_placeholder" = "Rechercher dans l'historique du presse-papiers...";
+"toolbar_item_count_format" = "%d élément(s)";
+"toolbar_autoclean" = "Nettoyage automatique";
+"toolbar_clear_all" = "Tout effacer";
+"toolbar_clear_confirm_title" = "Confirmer l'effacement";
+"toolbar_clear_confirm_message" = "Êtes-vous sûr de vouloir effacer tout l'historique du presse-papiers ? Cette action est irréversible.";
+"empty_state_title" = "L'historique du presse-papiers est vide";
+"empty_state_subtitle" = "Copiez quelque chose pour commencer à utiliser CopyX.";
+"search_empty_state_title" = "Aucun contenu trouvé";
+"search_empty_state_subtitle_format" = "Aucun élément du presse-papiers contenant \"%@\" n'a été trouvé.";

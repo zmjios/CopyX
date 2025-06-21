@@ -52,8 +52,8 @@ struct ModernFavoritesSettingsView: View {
     private var headerView: some View {
         VStack(alignment: .leading, spacing: 16) {
             SettingsPageHeader(
-                title: "收藏夹管理",
-                subtitle: "管理和组织你的收藏项目"
+                title: "favorites_title".localized,
+                subtitle: "favorites_subtitle".localized
             )
             
             // 搜索和筛选工具栏
@@ -63,7 +63,7 @@ struct ModernFavoritesSettingsView: View {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.secondary)
                     
-                    TextField("搜索收藏项目...", text: $searchText)
+                    TextField("favorites_search_placeholder".localized, text: $searchText)
                         .textFieldStyle(PlainTextFieldStyle())
                     
                     if !searchText.isEmpty {
@@ -80,7 +80,7 @@ struct ModernFavoritesSettingsView: View {
                 .cornerRadius(8)
                 
                 // 排序选择器
-                Picker("排序", selection: $sortOption) {
+                Picker("sort".localized, selection: $sortOption) {
                     ForEach(FavoriteSortOption.allCases, id: \.self) { option in
                         Text(option.displayName).tag(option)
                     }
@@ -91,14 +91,14 @@ struct ModernFavoritesSettingsView: View {
             
             // 操作工具栏
             HStack {
-                Text("共 \(filteredFavorites.count) 个收藏项目")
+                Text(String(format: "favorites_count_format".localized, filteredFavorites.count))
                     .font(.system(size: 13))
                     .foregroundColor(.secondary)
                 
                 Spacer()
                 
                 HStack(spacing: 8) {
-                    Button(selectedItems.isEmpty ? "全选" : "取消全选") {
+                    Button(selectedItems.isEmpty ? "favorites_select_all".localized : "favorites_deselect_all".localized) {
                         if selectedItems.isEmpty {
                             selectedItems = Set(filteredFavorites.map { $0.id.uuidString })
                         } else {
@@ -108,13 +108,13 @@ struct ModernFavoritesSettingsView: View {
                     .buttonStyle(.bordered)
                     .disabled(filteredFavorites.isEmpty)
                     
-                    Button("导出选中") {
+                    Button("favorites_export_selected".localized) {
                         exportSelectedFavorites()
                     }
                     .buttonStyle(.borderedProminent)
                     .disabled(selectedItems.isEmpty)
                     
-                    Button("删除选中") {
+                    Button("favorites_delete_selected".localized) {
                         deleteSelectedFavorites()
                     }
                     .buttonStyle(.bordered)
@@ -134,19 +134,19 @@ struct ModernFavoritesSettingsView: View {
                 .foregroundColor(.secondary)
             
             VStack(spacing: 8) {
-                Text(searchText.isEmpty ? "还没有收藏项目" : "没有找到匹配的收藏项目")
+                Text(searchText.isEmpty ? "favorites_empty_title".localized : "favorites_no_results_title".localized)
                     .font(.system(size: 18, weight: .medium))
                 
                 Text(searchText.isEmpty ? 
-                     "在剪切板历史中点击心形图标来收藏项目" : 
-                     "尝试使用不同的搜索关键词")
+                     "favorites_empty_subtitle".localized :
+                     "favorites_no_results_subtitle".localized)
                     .font(.system(size: 14))
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
             }
             
             if !searchText.isEmpty {
-                Button("清除搜索") {
+                Button("favorites_clear_search".localized) {
                     searchText = ""
                 }
                 .buttonStyle(.borderedProminent)
@@ -203,17 +203,17 @@ struct ModernFavoritesSettingsView: View {
         
         // 显示通知
         let alert = NSAlert()
-        alert.messageText = "导出完成"
-        alert.informativeText = "已将 \(selectedFavorites.count) 个收藏项目复制到剪切板"
+        alert.messageText = "favorites_export_done_title".localized
+        alert.informativeText = String(format: "favorites_export_done_message".localized, selectedFavorites.count)
         alert.runModal()
     }
     
     private func deleteSelectedFavorites() {
         let alert = NSAlert()
-        alert.messageText = "确认删除选中的收藏项目"
-        alert.informativeText = "将从收藏夹中移除 \(selectedItems.count) 个项目，但不会删除历史记录中的原始项目。"
-        alert.addButton(withTitle: "删除")
-        alert.addButton(withTitle: "取消")
+        alert.messageText = "favorites_delete_confirm_title".localized
+        alert.informativeText = String(format: "favorites_delete_confirm_message".localized, selectedItems.count)
+        alert.addButton(withTitle: "delete".localized)
+        alert.addButton(withTitle: "cancel".localized)
         alert.alertStyle = .warning
         
         if alert.runModal() == .alertFirstButtonReturn {
@@ -268,7 +268,7 @@ struct FavoriteItemRow: View {
                     Spacer()
                     
                     if item.usageCount > 0 {
-                        Text("使用 \(item.usageCount) 次")
+                        Text(String(format: "usage_count_format".localized, item.usageCount))
                             .font(.system(size: 11))
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
@@ -283,7 +283,7 @@ struct FavoriteItemRow: View {
                     .lineLimit(2)
                 
                 HStack {
-                    Text("收藏于 \(formatDate(item.timestamp))")
+                    Text(String(format: "favorited_at_format".localized, formatDate(item.timestamp)))
                         .font(.system(size: 10))
                         .foregroundColor(.secondary)
                     
@@ -313,7 +313,7 @@ struct FavoriteItemRow: View {
                             .font(.system(size: 12))
                     }
                     .buttonStyle(.bordered)
-                    .help("复制")
+                    .help("copy".localized)
                     
                     Button(action: onRemoveFromFavorites) {
                         Image(systemName: "heart.slash")
@@ -321,7 +321,7 @@ struct FavoriteItemRow: View {
                     }
                     .buttonStyle(.bordered)
                     .foregroundColor(.red)
-                    .help("取消收藏")
+                    .help("unfavorite".localized)
                 }
                 .transition(.scale.combined(with: .opacity))
             }
@@ -344,21 +344,21 @@ struct FavoriteItemRow: View {
     }
 }
 
-// MARK: - 排序选项枚举
-enum FavoriteSortOption: String, CaseIterable {
-    case dateAdded = "dateAdded"
-    case dateModified = "dateModified"
-    case alphabetical = "alphabetical"
-    case type = "type"
-    case usageCount = "usageCount"
+// MARK: - 排序选项
+enum FavoriteSortOption: String, CaseIterable, Codable {
+    case dateAdded
+    case dateModified
+    case alphabetical
+    case type
+    case usageCount
     
     var displayName: String {
         switch self {
-        case .dateAdded: return "收藏时间"
-        case .dateModified: return "修改时间"
-        case .alphabetical: return "字母顺序"
-        case .type: return "类型"
-        case .usageCount: return "使用次数"
+        case .dateAdded: return "sort_by_date_added".localized
+        case .dateModified: return "sort_by_date_modified".localized
+        case .alphabetical: return "sort_by_alphabetical".localized
+        case .type: return "sort_by_type".localized
+        case .usageCount: return "sort_by_usage_count".localized
         }
     }
 } 

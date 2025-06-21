@@ -398,7 +398,7 @@ class ClipboardManager: ObservableObject {
     }
     
     // MARK: - 文本处理功能
-    func processText(_ text: String, operation: TextOperation) -> String {
+    func processText(_ text: String, operation: AdvancedTextOperation) -> String {
         return operation.apply(to: text)
     }
     

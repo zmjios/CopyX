@@ -8,8 +8,8 @@ enum DisplayMode: String, CaseIterable {
     
     var displayName: String {
         switch self {
-        case .bottom: return "底部显示"
-        case .center: return "居中显示"
+        case .bottom: return "bottom_mode".localized
+        case .center: return "center_mode".localized
         }
     }
     
@@ -25,6 +25,7 @@ enum DisplayMode: String, CaseIterable {
 struct ClipboardHistoryView: View {
     @EnvironmentObject var clipboardManager: ClipboardManager
     @EnvironmentObject var hotKeyManager: HotKeyManager
+    @EnvironmentObject var localizationManager: LocalizationManager
     @State private var searchText = ""
     @State private var selectedTypeFilter: ClipboardItem.ClipboardItemType? = nil
     @State private var selectedIndex = 0
@@ -97,7 +98,7 @@ struct ClipboardHistoryView: View {
         )
         
         detailWindow.center()
-        detailWindow.title = "剪切板详情"
+        detailWindow.title = "clipboard_details_title".localized
         detailWindow.isReleasedWhenClosed = true
         
         let detailView = ClipboardDetailView(
@@ -115,6 +116,8 @@ struct ClipboardHistoryView: View {
                 }
             }
         )
+        .environmentObject(clipboardManager)
+        .environmentObject(localizationManager)
         
         detailWindow.contentView = NSHostingView(rootView: detailView)
         detailWindow.makeKeyAndOrderFront(nil)
@@ -128,7 +131,7 @@ struct ClipboardHistoryView: View {
                 contentArea
             }
             .background(.ultraThinMaterial)
-            .id("mainContent") // 添加稳定的ID确保布局一致性
+            .id(localizationManager.revision)
             
             // 只在居中模式显示拉伸指示符
             if displayMode == .center {
@@ -209,7 +212,7 @@ struct ClipboardHistoryView: View {
                 .font(.system(size: 14))
                 .animation(.easeInOut(duration: 0.2), value: searchText.isEmpty)
             
-            TextField("搜索", text: $searchText)
+            TextField("search_placeholder".localized, text: $searchText)
                 .textFieldStyle(PlainTextFieldStyle())
                 .font(.system(size: 14))
         }
@@ -247,16 +250,23 @@ struct ClipboardHistoryView: View {
     }
     
     private var typeFilterButtons: some View {
-        HStack(spacing: 8) {
-            ForEach([nil] + ClipboardItem.ClipboardItemType.allCases, id: \.self) { type in
-                FilterButton(
-                    title: type?.displayName ?? "全部",
-                    icon: type?.iconName ?? "square.grid.2x2",
+        HStack {
+            // "所有类型" 按钮
+            TypeFilterButton(
+                label: "all_types".localized,
+                icon: "square.grid.2x2.fill",
+                isSelected: selectedTypeFilter == nil,
+                action: { selectedTypeFilter = nil }
+            )
+
+            // 动态生成其他类型的按钮
+            ForEach(ClipboardItem.ClipboardItemType.allCases, id: \.self) { type in
+                TypeFilterButton(
+                    label: type.localized,
+                    icon: type.iconName,
                     isSelected: selectedTypeFilter == type,
-                    backgroundColor: type?.backgroundColor ?? "systemGray"
-                ) {
-                    selectedTypeFilter = type
-                }
+                    action: { selectedTypeFilter = type }
+                )
             }
         }
     }
@@ -307,7 +317,7 @@ struct ClipboardHistoryView: View {
     // 标题栏设置按钮
     private var settingsButton: some View {
         Button(action: {
-            openSettingsWindow()
+            hotKeyManager.openSettings()
         }) {
             Image(systemName: "gearshape.fill")
                 .font(.system(size: 18, weight: .medium))
@@ -402,29 +412,6 @@ struct ClipboardHistoryView: View {
         .help(showOnlyFavorites ? "显示全部" : "只显示收藏")
     }
 
-    
-    // 打开设置窗口
-    private func openSettingsWindow() {
-        let settingsWindow = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 700, height: 500),
-            styleMask: [.titled, .closable, .resizable],
-            backing: .buffered,
-            defer: false
-        )
-        
-        settingsWindow.center()
-        settingsWindow.title = "设置"
-        settingsWindow.isReleasedWhenClosed = true
-        settingsWindow.minSize = NSSize(width: 600, height: 450)
-        
-        // 使用现有的HotKeyManager实例，不要创建新的
-        let settingsView = SettingsView()
-            .environmentObject(clipboardManager)
-            .environmentObject(hotKeyManager)
-        
-        settingsWindow.contentView = NSHostingView(rootView: settingsView)
-        settingsWindow.makeKeyAndOrderFront(nil)
-    }
     
     // 标题栏显示模式切换（紧凑版）
     private var displayModeToggle: some View {
@@ -880,133 +867,31 @@ struct ResizeGripView: View {
     }
 }
 
-struct FilterButton: View {
-    let title: String
+// MARK: - 过滤按钮 (Filter Button)
+struct TypeFilterButton: View {
+    let label: String
     let icon: String
     let isSelected: Bool
-    let backgroundColor: String
     let action: () -> Void
-    
-    @State private var isHovered: Bool = false
-    
+
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 6) {
+            HStack(spacing: 4) {
                 Image(systemName: icon)
-                    .font(.system(size: 12, weight: .medium))
-                Text(title)
-                    .font(.system(size: 12, weight: .medium))
+                Text(label)
+                    .font(.system(size: 12))
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(getBackgroundGradient())
-                    .shadow(
-                        color: isSelected ? getBackgroundColor().opacity(0.4) : Color.clear,
-                        radius: isSelected ? 4 : 0,
-                        x: 0,
-                        y: 2
-                    )
-            )
-            .foregroundColor(getForegroundColor())
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(isSelected ? Color.accentColor : Color.clear)
+            .foregroundColor(isSelected ? .white : .primary)
+            .cornerRadius(8)
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(getBorderGradient(), lineWidth: isSelected ? 2 : 1)
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.gray.opacity(0.5), lineWidth: isSelected ? 0 : 1)
             )
-            .scaleEffect(isHovered ? 1.05 : 1.0)
-            .animation(.easeInOut(duration: 0.2), value: isHovered)
-            .animation(.easeInOut(duration: 0.2), value: isSelected)
         }
         .buttonStyle(PlainButtonStyle())
-        .onHover { hovering in
-            isHovered = hovering
-        }
-    }
-    
-    private func getBackgroundGradient() -> some ShapeStyle {
-        if isSelected {
-            return LinearGradient(
-                colors: [
-                    getBackgroundColor(),
-                    getBackgroundColor().opacity(0.8),
-                    getBackgroundColor()
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        } else if isHovered {
-            return LinearGradient(
-                colors: [
-                    getBackgroundColor().opacity(0.15),
-                    getBackgroundColor().opacity(0.08)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        } else {
-            return LinearGradient(
-                colors: [
-                    Color.white.opacity(0.6),
-                    Color.white.opacity(0.3)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        }
-    }
-    
-    private func getBorderGradient() -> some ShapeStyle {
-        if isSelected {
-            return LinearGradient(
-                colors: [
-                    getBackgroundColor(),
-                    getBackgroundColor().opacity(0.7)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        } else if isHovered {
-            return LinearGradient(
-                colors: [
-                    getBackgroundColor().opacity(0.5),
-                    getBackgroundColor().opacity(0.3)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        } else {
-            return LinearGradient(
-                colors: [Color.secondary.opacity(0.3)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        }
-    }
-    
-    private func getForegroundColor() -> Color {
-        if isSelected {
-            return .white
-        } else {
-            return .primary
-        }
-    }
-    
-    private func getBackgroundColor() -> Color {
-        switch backgroundColor {
-        case "systemBlue": return .blue
-        case "systemGreen": return .green
-        case "systemOrange": return .orange
-        case "systemRed": return .red
-        case "systemPurple": return .purple
-        case "systemYellow": return .yellow
-        case "systemPink": return .pink
-        case "systemTeal": return .teal
-        case "systemIndigo": return .indigo
-        case "systemCyan": return .cyan
-        case "systemMint": return .mint
-        default: return .gray
-        }
     }
 }
 
@@ -1015,6 +900,7 @@ struct ClipboardHistoryView_Previews: PreviewProvider {
     static var previews: some View {
         ClipboardHistoryView()
             .environmentObject(ClipboardManager())
+            .environmentObject(LocalizationManager.shared)
             .frame(width: 800, height: 600)
     }
 }

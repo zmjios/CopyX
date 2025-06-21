@@ -131,6 +131,19 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
             }
         }
         
+        var localized: String {
+            switch self {
+            case .text:
+                return "text_type".localized
+            case .image:
+                return "image_type".localized
+            case .url:
+                return "url_type".localized
+            case .file:
+                return "file_type".localized
+            }
+        }
+        
         var displayName: String {
             switch self {
             case .text:

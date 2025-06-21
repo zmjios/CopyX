@@ -12,7 +12,7 @@ struct SearchBar: View {
                 .font(.system(size: 14))
                 .foregroundColor(.secondary)
             
-            TextField("搜索剪切板历史...", text: $searchText)
+            TextField("search_clipboard_history_placeholder".localized, text: $searchText)
                 .textFieldStyle(PlainTextFieldStyle())
                 .font(.system(size: 13))
             
@@ -54,7 +54,7 @@ struct ToolbarView: View {
         HStack {
             // 左侧信息
             HStack(spacing: 12) {
-                Text("共 \(itemCount) 个项目")
+                Text(String(format: "toolbar_item_count_format".localized, itemCount))
                     .font(.system(size: 12))
                     .foregroundColor(.secondary)
                 
@@ -64,7 +64,7 @@ struct ToolbarView: View {
                             .font(.system(size: 12))
                             .foregroundColor(isAutoCleanEnabled ? .green : .secondary)
                         
-                        Text("自动清理")
+                        Text("toolbar_autoclean".localized)
                             .font(.system(size: 12))
                             .foregroundColor(.secondary)
                     }
@@ -75,7 +75,7 @@ struct ToolbarView: View {
             Spacer()
             
             // 右侧操作
-            Button("清空全部") {
+            Button("toolbar_clear_all".localized) {
                 showingClearConfirmation = true
             }
             .font(.system(size: 12))
@@ -86,13 +86,13 @@ struct ToolbarView: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
         .background(Color(NSColor.controlBackgroundColor).opacity(0.5))
-        .alert("确认清空", isPresented: $showingClearConfirmation) {
-            Button("取消", role: .cancel) { }
-            Button("清空", role: .destructive) {
+        .alert("toolbar_clear_confirm_title".localized, isPresented: $showingClearConfirmation) {
+            Button("cancel".localized, role: .cancel) { }
+            Button("clear".localized, role: .destructive) {
                 onClearAll()
             }
         } message: {
-            Text("确定要清空所有剪切板历史吗？此操作无法撤销。")
+            Text("toolbar_clear_confirm_message".localized)
         }
     }
 }
@@ -106,11 +106,11 @@ struct EmptyStateView: View {
                 .foregroundColor(.secondary)
             
             VStack(spacing: 8) {
-                Text("剪切板历史为空")
+                Text("empty_state_title".localized)
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(.primary)
                 
-                Text("复制一些内容开始使用 CopyX")
+                Text("empty_state_subtitle".localized)
                     .font(.system(size: 13))
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -132,11 +132,11 @@ struct SearchEmptyStateView: View {
                 .foregroundColor(.secondary)
             
             VStack(spacing: 8) {
-                Text("未找到相关内容")
+                Text("search_empty_state_title".localized)
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(.primary)
                 
-                Text("没有找到包含 \"\(searchText)\" 的剪切板项目")
+                Text(String(format: "search_empty_state_subtitle_format".localized, searchText))
                     .font(.system(size: 13))
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
