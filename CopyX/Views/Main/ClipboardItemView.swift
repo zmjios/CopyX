@@ -220,6 +220,7 @@ struct ClipboardCardView: View {
     let onCopy: () -> Void
     let onToggleFavorite: () -> Void
     let onShowDetail: () -> Void
+    let onShare: () -> Void
     
     @State private var isHovered: Bool = false
     @State private var isPressed: Bool = false
@@ -468,31 +469,10 @@ struct ClipboardCardView: View {
                     .font(.system(size: 11, weight: .medium))
                     .foregroundColor(.secondary)
                 
-                // 操作图标
-                if isHovered || isSelected {
-                    HStack(spacing: 6) {
-                        Button(action: onToggleFavorite) {
-                            Image(systemName: item.isFavorite ? "heart.fill" : "heart")
-                                .font(.system(size: 14))
-                                .foregroundColor(item.isFavorite ? .red : Color(item.getAppIconDominantColor()))
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        Button(action: onShowDetail) {
-                            Image(systemName: "arrow.up.right.square")
-                                .font(.system(size: 14))
-                                .foregroundColor(Color(item.getAppIconDominantColor()))
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        Button(action: performCopyAnimation) {
-                            Image(systemName: "doc.on.doc")
-                                .font(.system(size: 14))
-                                .foregroundColor(Color(item.getAppIconDominantColor()))
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                }
+                // 功能按钮
+                cardActionButton(icon: "doc.on.doc.fill", tooltip: "copy_to_clipboard".localized, action: onCopy)
+                cardActionButton(icon: "square.and.arrow.up.fill", tooltip: "share".localized, action: onShare)
+                cardActionButton(icon: "star.fill", tooltip: "toggle_favorite".localized, action: onToggleFavorite)
             }
         }
         .padding(.horizontal, 16)
@@ -634,6 +614,16 @@ struct ClipboardCardView: View {
                 isCopied = false
             }
         }
+    }
+    
+    private func cardActionButton(icon: String, tooltip: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: icon)
+                .font(.system(size: 14))
+                .foregroundColor(Color(item.getAppIconDominantColor()))
+        }
+        .buttonStyle(PlainButtonStyle())
+        .help(tooltip)
     }
 }
 

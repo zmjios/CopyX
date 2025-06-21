@@ -11,10 +11,24 @@ extension DateFormatter {
     }()
 }
 
+// UserDefaults keys
+private enum UserDefaultsKeys {
+    static let enableSoundOnCopy = "enableSoundOnCopy"
+    // ... 可以添加其他键
+}
+
 class ClipboardManager: ObservableObject {
     @Published var clipboardHistory: [ClipboardItem] = []
     @Published var maxHistoryCount: Int = 100
     @Published var isMonitoring: Bool = false
+    
+    // 将其变为标准的 @Published 属性
+    @Published var enableSound: Bool {
+        didSet {
+            // 当属性变化时，手动写入 UserDefaults
+            UserDefaults.standard.set(enableSound, forKey: UserDefaultsKeys.enableSoundOnCopy)
+        }
+    }
     
     private var timer: Timer?
     private var lastChangeCount: Int = 0
@@ -24,7 +38,6 @@ class ClipboardManager: ObservableObject {
     @AppStorage("maxHistoryCount") var storedMaxHistoryCount: Int = 100
     @AppStorage("enabledTypes") var enabledTypesData: Data = Data()
     @AppStorage("excludePasswords") var excludePasswords: Bool = true
-    @AppStorage("enableSoundOnCopy") var enableSound: Bool = true
     @AppStorage("autoStart") var autoStart: Bool = true
     @AppStorage("autoCleanup") var autoCleanup: Bool = false
     @AppStorage("enableTextHistory") var enableTextHistory: Bool = true
@@ -52,8 +65,10 @@ class ClipboardManager: ObservableObject {
     }
     
     init() {
+        // 在初始化时，从 UserDefaults 读取值
+        self.enableSound = UserDefaults.standard.bool(forKey: UserDefaultsKeys.enableSoundOnCopy)
+        
         NSLog("ClipboardManager初始化")
-        self.lastChangeCount = pasteboard.changeCount
         loadClipboardHistory()
         maxHistoryCount = storedMaxHistoryCount
         NSLog("加载的历史记录数量: \(clipboardHistory.count)")
@@ -132,10 +147,6 @@ class ClipboardManager: ObservableObject {
         NSLog("添加到历史记录")
         DispatchQueue.main.async {
             self.addToHistory(newItem)
-        }
-        
-        if enableSound {
-            playClipboardSound()
         }
     }
     
@@ -295,10 +306,6 @@ class ClipboardManager: ObservableObject {
         return passwordPatterns.contains { lowercased.contains($0) }
     }
     
-    private func playClipboardSound() {
-        NSSound(named: NSSound.Name("Ping"))?.play()
-    }
-    
     // MARK: - 辅助方法
     private func getCurrentFrontmostApp() -> String {
         if let frontmostApp = NSWorkspace.shared.frontmostApplication {
@@ -451,11 +458,17 @@ class ClipboardManager: ObservableObject {
                 try data.write(to: url)
                 
                 DispatchQueue.main.async {
-                    self.showNotification(title: "导出成功", message: "剪切板历史已成功导出到 \(url.lastPathComponent)")
+                    self.sendNotification(
+                        title: "export_success_title".localized,
+                        body: String(format: "export_success_body".localized, url.lastPathComponent)
+                    )
                 }
             } catch {
                 DispatchQueue.main.async {
-                    self.showNotification(title: "导出失败", message: "导出时发生错误：\(error.localizedDescription)")
+                    self.sendNotification(
+                        title: "export_fail_title".localized,
+                        body: String(format: "export_fail_body".localized, error.localizedDescription)
+                    )
                 }
             }
         }
@@ -488,54 +501,62 @@ class ClipboardManager: ObservableObject {
                     
                     self.saveClipboardHistory()
                     
-                    self.showNotification(title: "导入成功", message: "成功导入 \(newItems.count) 个剪切板项目")
+                    self.sendNotification(
+                        title: "import_success_title".localized,
+                        body: String(format: "import_success_body".localized, newItems.count)
+                    )
                 }
             } catch {
                 DispatchQueue.main.async {
-                    self.showNotification(title: "导入失败", message: "导入时发生错误：\(error.localizedDescription)")
+                    self.sendNotification(
+                        title: "import_fail_title".localized,
+                        body: String(format: "import_fail_body".localized, error.localizedDescription)
+                    )
                 }
             }
         }
     }
     
-    private func showNotification(title: String, message: String) {
-        // 使用现代化的 UserNotifications 框架
-        if #available(macOS 10.14, *) {
-            let center = UNUserNotificationCenter.current()
-            
-            // 请求通知权限
-            center.requestAuthorization(options: [.alert, .sound]) { granted, error in
-                if granted {
-                    let content = UNMutableNotificationContent()
-                    content.title = title
-                    content.body = message
-                    content.sound = .default
-                    
-                    let request = UNNotificationRequest(
-                        identifier: UUID().uuidString,
-                        content: content,
-                        trigger: nil
-                    )
-                    
-                    center.add(request) { error in
-                        if let error = error {
-                            NSLog("通知发送失败: \(error.localizedDescription)")
-                        }
-                    }
-                }
+    // MARK: - 通知功能
+
+    /// 发送现代化的用户通知
+    func sendNotification(title: String, body: String, sound: UNNotificationSound? = .default) {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        if let sound = sound {
+            content.sound = sound
+        }
+
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil) // nil trigger = deliver immediately
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                NSLog("发送通知失败: \(error.localizedDescription)")
             }
-        } else {
-            // 为旧版本系统保留兼容性
-            #if swift(>=5.0)
-            #warning("使用已废弃的 NSUserNotification API 以支持旧版本系统")
-            #endif
-            let notification = NSUserNotification()
-            notification.title = title
-            notification.informativeText = message
-            notification.soundName = NSUserNotificationDefaultSoundName
-            NSUserNotificationCenter.default.deliver(notification)
         }
     }
+
+    /// 请求通知权限
+    static func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if granted {
+                NSLog("通知权限已授予")
+            } else if let error = error {
+                NSLog("请求通知权限失败: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    #warning("使用已废弃的 NSUserNotification API 以支持旧版本系统")
+    /*
+    private func showNotification(title: String, subtitle: String) {
+        let notification = NSUserNotification()
+        notification.title = title
+        notification.subtitle = subtitle
+        notification.soundName = NSUserNotificationDefaultSoundName
+        NSUserNotificationCenter.default.deliver(notification)
+    }
+    */
     
     deinit {
         stopMonitoring()

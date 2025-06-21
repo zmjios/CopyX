@@ -45,6 +45,7 @@
 "bottom_mode" = "Affichage inférieur";
 "center_mode" = "Affichage centré";
 "display_mode" = "Mode d'affichage";
+"display_mode_title" = "Mode d'affichage de la fenêtre principale";
 
 // MARK: - Filters
 "all_types" = "Tous les types";
@@ -78,6 +79,7 @@
 "enable_notifications" = "Activer les notifications";
 "enable_notifications_subtitle" = "Afficher les notifications de bureau pour les nouveaux éléments du presse-papiers";
 "enable_sound_effects" = "Activer les effets sonores du presse-papiers";
+"enable_sound_effects_subtitle" = "Jouer des sons pour des actions comme copier et coller";
 
 // MARK: - Hotkey Settings
 "global_hotkey" = "Raccourci global";
@@ -215,7 +217,6 @@
 "use_modal_share_view" = "Utiliser la vue de partage modale";
 "use_modal_share_view_subtitle" = "Utiliser une fenêtre pop-up pour afficher les options de partage";
 "sound_tips" = "Conseils sonores";
-"enable_sound_effects_subtitle" = "Jouer les effets sonores du système lors de la copie de contenu";
 "startup_settings" = "Paramètres de démarrage";
 "auto_start_monitoring" = "Démarrer la surveillance automatiquement";
 "auto_start_monitoring_subtitle" = "Démarrer automatiquement la surveillance du presse-papiers au lancement de l'application";

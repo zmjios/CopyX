@@ -19,6 +19,9 @@ struct CopyXApp: App {
                     .frame(width: 0, height: 0)
                     .opacity(0)
                     .onAppear {
+                        // 请求通知权限
+                        ClipboardManager.requestNotificationPermission()
+
                         // 将 managers 传递给需要它们的 AppKit 部分
                         appDelegate.clipboardManager = clipboardManager
                         appDelegate.hotKeyManager = hotKeyManager

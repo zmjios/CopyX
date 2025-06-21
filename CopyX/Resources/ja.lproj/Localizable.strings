@@ -45,6 +45,7 @@
 "bottom_mode" = "下部表示";
 "center_mode" = "中央表示";
 "display_mode" = "表示モード";
+"display_mode_title" = "メインウィンドウの表示モード";
 
 // MARK: - Filters
 "all_types" = "すべてのタイプ";
@@ -78,7 +79,8 @@
 "notification_settings" = "通知設定";
 "enable_notifications" = "通知を有効にする";
 "enable_notifications_subtitle" = "新しいクリップボードの内容のデスクトップ通知を表示します";
-"enable_sound_effects" = "クリップボードのサウンドエフェクトを有効にする";
+"enable_sound_effects" = "サウンドエフェクトを有効にする";
+"enable_sound_effects_subtitle" = "コピーや貼り付けなどのアクションでサウンドを再生する";
 
 // MARK: - Hotkey Settings
 "global_hotkey" = "グローバルホットキー";
@@ -216,7 +218,6 @@
 "use_modal_share_view" = "モーダル共有ビューを使用";
 "use_modal_share_view_subtitle" = "ポップアップウィンドウを使用して共有オプションを表示します";
 "sound_tips" = "サウンドヒント";
-"enable_sound_effects_subtitle" = "コンテンツをコピーするときにシステムサウンドエフェクトを再生します";
 "startup_settings" = "起動設定";
 "auto_start_monitoring" = "監視を自動的に開始";
 "auto_start_monitoring_subtitle" = "アプリの起動時にクリップボードの監視を自動的に開始します";

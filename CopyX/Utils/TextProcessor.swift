@@ -298,6 +298,20 @@ class TextProcessor {
         }
         return hash.map { String(format: "%02x", $0) }.joined()
     }
+
+    // MARK: - 哈希计算
+    
+    /// 计算字符串的SHA256哈希值
+    static func sha256(_ text: String) -> String {
+        guard let data = text.data(using: .utf8) else {
+            return ""
+        }
+        var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+        data.withUnsafeBytes {
+            _ = CC_SHA256($0.baseAddress, CC_LONG(data.count), &hash)
+        }
+        return hash.map { String(format: "%02x", $0) }.joined()
+    }
 }
 
 // MARK: - 文本统计结构

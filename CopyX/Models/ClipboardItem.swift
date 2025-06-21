@@ -185,7 +185,6 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
     
     var formattedTimestamp: String {
         let formatter = DateFormatter()
-        let now = Date()
         let calendar = Calendar.current
         
         if calendar.isDateInToday(timestamp) {

@@ -90,7 +90,7 @@ class LocalizationManager: ObservableObject {
             targetLanguageCode = self.language.rawValue
         }
         
-        print("🔍 Localizing key '\(key)' for lang: \(targetLanguageCode)")
+//        print("🔍 Localizing key '\(key)' for lang: \(targetLanguageCode)")
         
         guard let path = Bundle.main.path(forResource: targetLanguageCode, ofType: "lproj"),
               let bundle = Bundle(path: path) else {

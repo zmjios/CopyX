@@ -45,6 +45,7 @@
 "bottom_mode" = "Affichage inférieur";
 "center_mode" = "Affichage centré";
 "display_mode" = "Mode d'affichage";
+"display_mode_title" = "Modo de visualización de la ventana principal";
 
 // MARK: - Filters
 "all_types" = "Tous les types";
@@ -78,6 +79,7 @@
 "enable_notifications" = "Activer les notifications";
 "enable_notifications_subtitle" = "Afficher les notifications de bureau pour les nouveaux éléments du presse-papiers";
 "enable_sound_effects" = "Activer les effets sonores du presse-papiers";
+"enable_sound_effects_subtitle" = "Reproducir sonidos para acciones como copiar y pegar";
 
 // MARK: - Hotkey Settings
 "global_hotkey" = "Raccourci global";
@@ -211,11 +213,10 @@
 "privacy_protection" = "Protection de la vie privée";
 "skip_password_fields" = "Ignorer les champs de mot de passe";
 "skip_password_fields_subtitle" = "Ignorer automatiquement le contenu des champs de saisie de mot de passe";
-"interface_settings" = "Paramètres de l'interface";
+"interface_settings" = "Configuración de interfaz";
 "use_modal_share_view" = "Utiliser la vue de partage modale";
-"use_modal_share_view_subtitle" = "Utiliser une fenêtre pop-up pour afficher les options de partage";
+"use_modal_share_view_subtitle" = "Utiliser una fenêtre pop-up pour afficher les options de partage";
 "sound_tips" = "Conseils sonores";
-"enable_sound_effects_subtitle" = "Jouer les effets sonores du système lors de la copie de contenu";
 "startup_settings" = "Paramètres de démarrage";
 "auto_start_monitoring" = "Démarrer la surveillance automatiquement";
 "auto_start_monitoring_subtitle" = "Démarrer automatiquement la surveillance du presse-papiers au lancement de l'application";
@@ -261,8 +262,8 @@
 "total_items" = "%d éléments au total";
 "confirm_clear" = "Confirmer l'effacement";
 "confirm_clear_message" = "Êtes-vous sûr de vouloir effacer tout l'historique du presse-papiers ? Cette action est irréversible.";
-"language_settings" = "Paramètres de langue";
-"display_language" = "Langue d'affichage";
+"language_settings" = "Configuración de idioma";
+"display_language" = "Idioma de visualización";
 "language_auto" = "Automatique";
 "language_en" = "English";
 "language_zh_hans" = "简体中文";

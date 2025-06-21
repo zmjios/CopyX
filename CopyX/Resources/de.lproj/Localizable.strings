@@ -45,6 +45,7 @@
 "bottom_mode" = "Untere Anzeige";
 "center_mode" = "Zentrierte Anzeige";
 "display_mode" = "Anzeigemodus";
+"display_mode_title" = "Anzeigemodus des Hauptfensters";
 
 // MARK: - Filters
 "all_types" = "Alle Typen";
@@ -78,6 +79,7 @@
 "enable_notifications" = "Benachrichtigungen aktivieren";
 "enable_notifications_subtitle" = "Desktop-Benachrichtigungen für neue Zwischenablageinhalte anzeigen";
 "enable_sound_effects" = "Soundeffekte für die Zwischenablage aktivieren";
+"enable_sound_effects_subtitle" = "System-Soundeffekte beim Kopieren von Inhalten abspielen";
 
 // MARK: - Hotkey Settings
 "global_hotkey" = "Globaler Hotkey";
@@ -215,7 +217,6 @@
 "use_modal_share_view" = "Modale Freigabeansicht verwenden";
 "use_modal_share_view_subtitle" = "Ein Pop-up-Fenster zur Anzeige von Freigabeoptionen verwenden";
 "sound_tips" = "Sound-Tipps";
-"enable_sound_effects_subtitle" = "System-Soundeffekte beim Kopieren von Inhalten abspielen";
 "startup_settings" = "Starteinstellungen";
 "auto_start_monitoring" = "Überwachung automatisch starten";
 "auto_start_monitoring_subtitle" = "Überwachung der Zwischenablage automatisch starten, wenn die App startet";
