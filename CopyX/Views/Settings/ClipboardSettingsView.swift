@@ -67,15 +67,6 @@ struct ModernClipboardSettingsView: View {
                     )
                 }
                 
-                // 音效设置
-                SettingsSection(title: "sound_tips".localized, icon: "speaker") {
-                    SettingsToggle(
-                        title: "enable_sound_effects".localized,
-                        subtitle: "enable_sound_effects_subtitle".localized,
-                        isOn: $clipboardManager.enableSound
-                    )
-                }
-                
                 // 启动设置
                 SettingsSection(title: "startup_settings".localized, icon: "power") {
                     SettingsToggle(

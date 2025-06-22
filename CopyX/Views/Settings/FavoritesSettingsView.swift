@@ -253,7 +253,7 @@ struct FavoriteItemRow: View {
                     .fill(item.type.color.opacity(0.15))
                     .frame(width: 32, height: 32)
                 
-                Image(systemName: item.type.icon)
+                Image(systemName: item.type.iconName)
                     .font(.system(size: 14, weight: .medium))
                     .foregroundColor(item.type.color)
             }

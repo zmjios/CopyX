@@ -409,13 +409,18 @@ extension HotKeyManager: NSWindowDelegate {
     
     func windowDidResize(_ notification: Notification) {
         guard let window = notification.object as? NSWindow,
-              window == historyWindow,
-              displayMode == "center" else { return }
+              window == historyWindow else { return }
         
-        // 保存居中模式的窗口大小
         let frame = window.frame
+        
+        // 根据不同模式保存窗口大小
+        switch displayMode {
+        case "center":
         UserDefaults.standard.set(frame.width, forKey: "centerWindowWidth")
         UserDefaults.standard.set(frame.height, forKey: "centerWindowHeight")
+        default:
+            break
+        }
     }
 }
 
@@ -447,25 +452,15 @@ struct KeyCodeUtils {
     ]
     
     static func keyName(for keyCode: Int) -> String {
-        return keyCodeMap[keyCode] ?? "未知键"
+        return keyCodeMap[keyCode] ?? "未知"
     }
     
-    static func modifierString(for modifiers: Int) -> String {
-        var components: [String] = []
-        
-        if modifiers & cmdKey != 0 {
-            components.append("⌘")
-        }
-        if modifiers & optionKey != 0 {
-            components.append("⌥")
-        }
-        if modifiers & controlKey != 0 {
-            components.append("⌃")
-        }
-        if modifiers & shiftKey != 0 {
-            components.append("⇧")
-        }
-        
-        return components.joined()
+    static func modifierName(for modifier: Int) -> String {
+        var names: [String] = []
+        if modifier & cmdKey != 0 { names.append("⌘") }
+        if modifier & optionKey != 0 { names.append("⌥") }
+        if modifier & controlKey != 0 { names.append("⌃") }
+        if modifier & shiftKey != 0 { names.append("⇧") }
+        return names.joined(separator: "")
     }
 } 

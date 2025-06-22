@@ -35,7 +35,7 @@ class ShareManager: ObservableObject {
         
         // 首先检查微信是否安装
         if isWeChatInstalled() {
-            shareToWeChatWithURLScheme(content: content, item: item)
+            shareToWeChatDirectly(content: content, item: item)
         } else {
             showWeChatNotInstalledAlert(content: content)
         }
@@ -122,6 +122,79 @@ class ShareManager: ObservableObject {
             return NSWorkspace.shared.urlForApplication(toOpen: wechatURL) != nil
         }
         return false
+    }
+    
+    private func shareToWeChatDirectly(content: String, item: ClipboardItem) {
+        // 创建临时文件用于分享
+        let tempURL = createTempFileForSharing(content: content, item: item)
+        
+        // 使用系统分享服务直接分享到微信
+        if let tempURL = tempURL {
+            let sharingItems: [Any]
+            
+            switch item.type {
+            case .text, .url:
+                sharingItems = [content]
+            case .image:
+                if let imageData = Data(base64Encoded: item.content),
+                   let nsImage = NSImage(data: imageData) {
+                    sharingItems = [nsImage, content]
+                } else {
+                    sharingItems = [content]
+                }
+            case .file:
+                sharingItems = [tempURL, "文件: \(item.displayTitle)"]
+            }
+            
+            DispatchQueue.main.async {
+                // 查找微信分享服务
+                if let wechatService = NSSharingService.sharingServices(forItems: sharingItems)
+                    .first(where: { $0.title.contains("微信") || $0.title.contains("WeChat") }) {
+                    
+                    if wechatService.canPerform(withItems: sharingItems) {
+                        wechatService.perform(withItems: sharingItems)
+                        self.showShareNotification(platform: "微信", message: "正在分享到微信...")
+                    } else {
+                        self.fallbackToWeChatURLScheme(content: content, item: item)
+                    }
+                } else {
+                    self.fallbackToWeChatURLScheme(content: content, item: item)
+                }
+            }
+        } else {
+            fallbackToWeChatURLScheme(content: content, item: item)
+        }
+    }
+    
+    private func createTempFileForSharing(content: String, item: ClipboardItem) -> URL? {
+        let tempDir = FileManager.default.temporaryDirectory
+        let fileName: String
+        
+        switch item.type {
+        case .text:
+            fileName = "shared_text.txt"
+        case .url:
+            fileName = "shared_url.txt"
+        case .image:
+            fileName = "shared_image.txt"
+        case .file:
+            fileName = "shared_file_info.txt"
+        }
+        
+        let tempURL = tempDir.appendingPathComponent(fileName)
+        
+        do {
+            try content.write(to: tempURL, atomically: true, encoding: .utf8)
+            return tempURL
+        } catch {
+            NSLog("创建临时文件失败: \(error)")
+            return nil
+        }
+    }
+    
+    private func fallbackToWeChatURLScheme(content: String, item: ClipboardItem) {
+        // 原有的URL Scheme方式作为备选
+        shareToWeChatWithURLScheme(content: content, item: item)
     }
     
     private func shareToWeChatWithURLScheme(content: String, item: ClipboardItem) {

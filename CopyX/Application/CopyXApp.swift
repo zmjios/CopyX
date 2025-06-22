@@ -183,7 +183,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func createSettingsWindow() {
-        let windowSize = NSSize(width: 780, height: 520)
+        let windowSize = NSSize(width: 714, height: 650)  // 缩小窗口大小
         let window = NSWindow(
             contentRect: NSRect(
                 x: 0,
@@ -198,6 +198,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         window.title = "settings".localized
         window.center()
+        window.minSize = NSSize(width: 714, height: 550)  // 缩小最小尺寸
+        window.maxSize = NSSize(width: 1400, height: 1000) // 适当调整最大尺寸
+        
         window.isReleasedWhenClosed = false
         
         // 创建设置视图

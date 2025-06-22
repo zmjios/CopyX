@@ -169,6 +169,19 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
                 return "systemPurple"
             }
         }
+        
+        var color: Color {
+            switch self {
+            case .text:
+                return .green
+            case .image:
+                return .orange
+            case .url:
+                return .blue
+            case .file:
+                return .purple
+            }
+        }
     }
     
     var displayContent: String {

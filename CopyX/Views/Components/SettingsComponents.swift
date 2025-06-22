@@ -10,25 +10,26 @@ struct SettingsSection<Content: View>: View {
     @ViewBuilder let content: Content
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
                 Image(systemName: icon)
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.system(size: 14, weight: .medium))
                     .foregroundColor(.accentColor)
                 Text(title)
-                    .font(.title3)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(.primary)
             }
             
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: 10) {
                 content
             }
-            .padding(.leading, 24)
+            .padding(.leading, 22)
         }
-        .padding(20)
+        .padding(16)
         .background(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: 8)
                 .fill(Color(NSColor.controlBackgroundColor))
+                .opacity(0.5)
         )
     }
 }

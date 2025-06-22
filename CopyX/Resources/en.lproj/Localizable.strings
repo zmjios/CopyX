@@ -42,8 +42,10 @@
 "collapse" = "Collapse";
 
 // MARK: - Display Modes
-"bottom_mode" = "Bottom Display";
-"center_mode" = "Center Display";
+"bottom_mode" = "Bottom Mode";
+"center_mode" = "Center Mode";
+"left_mode" = "Left Mode";
+"right_mode" = "Right Mode";
 "display_mode" = "Display Mode";
 "display_mode_title" = "Main Window Display Mode";
 
@@ -58,6 +60,7 @@
 "show_all" = "Show All";
 
 // MARK: - Settings
+"settings_title" = "Preferences";
 "general_settings" = "General";
 "hotkey_settings" = "Hotkeys";
 "clipboard_settings" = "Clipboard";
@@ -66,21 +69,33 @@
 "favorites_settings" = "Favorites";
 "about" = "About";
 
+// MARK: - Settings Subtitles
+"launch_and_interface_config" = "Launch and interface configuration";
+"customize_hotkeys" = "Customize hotkeys";
+"history_settings" = "History settings";
+"manage_favorite_items" = "Manage favorite items";
+"version_information" = "Version information";
+
 // MARK: - General Settings
+"startup_settings" = "Startup Settings";
+"language_settings" = "Language Settings";
+"interface_settings" = "Interface Settings";
+"display_language" = "Display Language";
 "launch_at_startup" = "Launch at startup";
 "show_in_dock" = "Show in Dock";
 "show_in_menu_bar" = "Show in menu bar";
+"hide_dock_icon" = "Hide Dock Icon";
 "auto_paste" = "Auto paste after selection";
 "sound_effects" = "Sound effects";
 "launch_at_startup_subtitle" = "Automatically run CopyX when the system starts";
 "show_in_menu_bar_subtitle" = "Show CopyX icon in the system menu bar";
-"hide_dock_icon" = "Hide Dock Icon";
 "hide_dock_icon_subtitle" = "Hide the application icon from the Dock";
 "notification_settings" = "Notification Settings";
 "enable_notifications" = "Enable Notifications";
 "enable_notifications_subtitle" = "Show desktop notifications for new clipboard content";
 "enable_sound_effects" = "Enable Sound Effects";
 "enable_sound_effects_subtitle" = "Play sounds for actions like copy and paste";
+"display_mode_subtitle" = "Choose where the main window appears";
 
 // MARK: - Hotkey Settings
 "global_hotkey" = "Global hotkey";
@@ -140,6 +155,9 @@
 "delete_all_confirm" = "Are you sure you want to delete all clipboard items?";
 "clear_data_confirm" = "This will permanently delete all your clipboard data. Continue?";
 "reset_settings_confirm" = "Reset all settings to default values?";
+"confirm_delete" = "Confirm Delete";
+"confirm_delete_message" = "Are you sure you want to delete this clipboard item? This action cannot be undone.";
+"characters" = "characters";
 
 // MARK: - Settings Navigation
 "settings_section" = "Settings";
@@ -215,6 +233,10 @@
 "skip_password_fields" = "Skip password fields";
 "skip_password_fields_subtitle" = "Automatically skip content from password input fields";
 "interface_settings" = "Interface Settings";
+"display_mode_title" = "Main Window Display Mode";
+"display_mode_subtitle" = "Choose where the clipboard history window appears";
+"bottom_mode" = "Bottom Mode";
+"center_mode" = "Center Mode";
 "use_modal_share_view" = "Use modal share view";
 "use_modal_share_view_subtitle" = "Use a pop-up window to display sharing options";
 "sound_tips" = "Sound Tips";
@@ -387,6 +409,8 @@
 "usage_stats_title" = "Statistics";
 "total_items_stat" = "Total Items";
 "favorite_items_stat" = "Favorites";
+"text_items_stat" = "Text Items";
+"image_items_stat" = "Image Items";
 "total_usage_stat" = "Total Uses";
 "most_used_item_stat" = "Most Used";
 
@@ -454,3 +478,115 @@
 "empty_state_subtitle" = "Copy something to get started with CopyX.";
 "search_empty_state_title" = "No Content Found";
 "search_empty_state_subtitle_format" = "No clipboard items found containing \"%@\".";
+
+/* New Features - Smart Clear and History Management */
+"smart_clear_history" = "Smart Clear History";
+"smart_clear_history_subtitle" = "Clear history but keep favorite items";
+"full_clear_history" = "Full Clear History";
+"full_clear_history_subtitle" = "Clear all history including favorites";
+"confirm_smart_clear_title" = "Confirm Smart Clear";
+"confirm_smart_clear_message" = "This will clear all non-favorite history items. Favorite items will be preserved.";
+"confirm_full_clear_title" = "Confirm Full Clear";
+"confirm_full_clear_message" = "This will clear all history items, including favorites. This action cannot be undone.";
+"smart_clear_success" = "Smart clear completed, %d favorite items preserved";
+"full_clear_success" = "History completely cleared";
+
+/* Clipboard Item View Tooltips */
+"copy_to_clipboard" = "Copy to Clipboard";
+"toggle_favorite" = "Toggle Favorite";
+"view_item_details" = "View Item Details";
+"share_item" = "Share Item";
+
+/* History Management */
+"history_count_setting" = "History Count";
+"history_count_subtitle" = "Set maximum number of history items to keep (10-1000)";
+"current_history_count" = "Current setting: %d items";
+"history_count_changed" = "History count changed to %d items";
+
+/* Card Title Enhancements */
+"unknown_app" = "Unknown App";
+"system_clipboard" = "System Clipboard";
+"copied_from_app" = "From %@";
+
+/* Search Improvements */
+"search_in_app_names" = "Search in app names";
+"search_in_content" = "Search in content";
+"search_results_count" = "Found %d results";
+"clear_search" = "Clear Search";
+
+/* UI Enhancements */
+"glassmorphism_effect" = "Glassmorphism Effect";
+"gradient_background" = "Gradient Background";
+"enhanced_visual_design" = "Enhanced Visual Design";
+"colorful_title_bars" = "Colorful Title Bars";
+
+/* Error Messages for New Features */
+"search_field_error" = "Search field click error";
+"history_limit_error" = "History limit setting error";
+"clear_operation_error" = "Clear operation error";
+
+/* Success Messages */
+"settings_saved" = "Settings Saved";
+"preferences_updated" = "Preferences Updated";
+"feature_enabled" = "Feature Enabled";
+"feature_disabled" = "Feature Disabled";
+
+/* AI Features */
+"ai_translate" = "AI Translate";
+"ai_summary" = "AI Summary";
+"ai_keywords" = "Extract Keywords";
+"ai_processing" = "AI Processing...";
+"ai_translation_complete" = "Translation completed and copied to clipboard";
+"ai_summary_complete" = "Summary completed and copied to clipboard";
+"ai_keywords_complete" = "Keywords extracted and copied to clipboard";
+"ai_text_only" = "Can only process text content";
+"ai_translation_failed" = "Translation failed";
+"ai_summary_failed" = "Summary failed";
+"ai_keywords_failed" = "Keyword extraction failed";
+"translate_failed" = "Translation Failed";
+"summarize_failed" = "Summary Failed";
+"extract_keywords_failed" = "Keyword Extraction Failed";
+
+/* Settings Page */
+"settings_title" = "Settings";
+"settings_basic" = "Basic";
+"settings_data_management" = "Data Management";
+"settings_other" = "Other";
+"settings_empty_title" = "Select Settings";
+"settings_empty_desc" = "Choose a settings item from the sidebar to get started";
+
+/* General */
+"items" = "items";
+"show_favorites_only" = "Show Favorites Only";
+
+// MARK: - Settings Items
+"settings_hotkeys" = "Hotkeys";
+"settings_hotkeys_desc" = "Configure global hotkeys";
+"settings_clipboard" = "Clipboard";
+"settings_clipboard_desc" = "Clipboard monitoring settings";
+"settings_language" = "Language";
+"settings_language_desc" = "Choose interface language";
+"settings_data" = "Data Management";
+"settings_data_desc" = "History and cleanup";
+"settings_favorites" = "Favorites";
+"settings_favorites_desc" = "Manage favorite items";
+"settings_advanced" = "Advanced";
+"settings_advanced_desc" = "Advanced features and options";
+"settings_about" = "About";
+"settings_about_desc" = "Version info and help";
+
+// MARK: - Language Settings
+"language_settings" = "Language Settings";
+"language_settings_desc" = "Choose the application display language";
+"language_auto" = "Follow System";
+"language_en" = "English";
+"language_zh_hans" = "简体中文";
+"language_de" = "Deutsch";
+"language_fr" = "Français";
+"language_es" = "Español";
+"language_ja" = "日本語";
+
+// MARK: - Interface Settings
+"interface_settings" = "Interface Settings";
+"startup_settings" = "Startup Settings";
+"hide_dock_icon" = "Hide Dock Icon";

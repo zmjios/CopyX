@@ -139,6 +139,9 @@
 "delete_all_confirm" = "Sind Sie sicher, dass Sie alle Elemente der Zwischenablage löschen möchten?";
 "clear_data_confirm" = "Dies löscht alle Ihre Zwischenablagedaten dauerhaft. Fortfahren?";
 "reset_settings_confirm" = "Alle Einstellungen auf die Standardwerte zurücksetzen?";
+"confirm_delete" = "Löschen bestätigen";
+"confirm_delete_message" = "Sind Sie sicher, dass Sie dieses Zwischenablage-Element löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.";
+"characters" = "Zeichen";
 
 // MARK: - Settings Navigation
 "settings_section" = "Einstellungen";
@@ -366,6 +369,9 @@
 "usage_stats_title" = "Statistiken";
 "total_items_stat" = "Gesamtanzahl der Elemente";
 "favorite_items_stat" = "Favoriten";
+"text_items_stat" = "Textelemente";
+"image_items_stat" = "Bildelemente";
+"favorite_items_stat" = "Favoriten";
 "total_usage_stat" = "Gesamtnutzung";
 "most_used_item_stat" = "Am häufigsten verwendet";
 
@@ -432,3 +438,90 @@
 "empty_state_subtitle" = "Kopieren Sie etwas, um mit CopyX zu beginnen.";
 "search_empty_state_title" = "Kein Inhalt gefunden";
 "search_empty_state_subtitle_format" = "Keine Zwischenablageelemente mit \"%@\" gefunden."; 
+
+/* New Features - Smart Clear and History Management */
+"smart_clear_history" = "Intelligente Verlaufslöschung";
+"smart_clear_history_subtitle" = "Verlauf löschen, aber Favoriten behalten";
+"full_clear_history" = "Vollständige Verlaufslöschung";
+"full_clear_history_subtitle" = "Alle Verläufe einschließlich Favoriten löschen";
+"confirm_smart_clear_title" = "Intelligente Löschung bestätigen";
+"confirm_smart_clear_message" = "Dies löscht alle nicht favorisierten Verlaufselemente. Favoriten bleiben erhalten.";
+"confirm_full_clear_title" = "Vollständige Löschung bestätigen";
+"confirm_full_clear_message" = "Dies löscht alle Verlaufselemente einschließlich Favoriten. Diese Aktion kann nicht rückgängig gemacht werden.";
+"smart_clear_success" = "Intelligente Löschung abgeschlossen, %d Favoriten beibehalten";
+"full_clear_success" = "Verlauf vollständig gelöscht";
+
+/* Clipboard Item View Tooltips */
+"copy_to_clipboard" = "In Zwischenablage kopieren";
+"toggle_favorite" = "Favorit umschalten";
+"view_item_details" = "Element-Details anzeigen";
+"share_item" = "Element teilen";
+
+/* History Management */
+"history_count_setting" = "Verlaufsanzahl";
+"history_count_subtitle" = "Maximale Anzahl der zu behaltenden Verlaufselemente festlegen (10-1000)";
+"current_history_count" = "Aktuelle Einstellung: %d Elemente";
+"history_count_changed" = "Verlaufsanzahl auf %d Elemente geändert";
+
+/* Card Title Enhancements */
+"unknown_app" = "Unbekannte App";
+"system_clipboard" = "System-Zwischenablage";
+"copied_from_app" = "Von %@";
+
+/* Search Improvements */
+"search_in_app_names" = "In App-Namen suchen";
+"search_in_content" = "In Inhalten suchen";
+"search_results_count" = "%d Ergebnisse gefunden";
+"clear_search" = "Suche löschen";
+
+/* UI Enhancements */
+"glassmorphism_effect" = "Glasmorphismus-Effekt";
+"gradient_background" = "Verlaufshintergrund";
+"enhanced_visual_design" = "Verbessertes visuelles Design";
+"colorful_title_bars" = "Farbige Titelleisten";
+
+/* Error Messages for New Features */
+"search_field_error" = "Suchfeld-Klick-Fehler";
+"history_limit_error" = "Verlaufslimit-Einstellungsfehler";
+"clear_operation_error" = "Löschvorgang-Fehler";
+
+/* Success Messages */
+"settings_saved" = "Einstellungen gespeichert";
+"preferences_updated" = "Einstellungen aktualisiert";
+"feature_enabled" = "Funktion aktiviert";
+"feature_disabled" = "Funktion deaktiviert";
+
+/* AI-Funktionen */
+"ai_translate" = "KI-Übersetzung";
+"ai_summarize" = "KI-Zusammenfassung";
+"ai_keywords" = "Schlüsselwörter extrahieren";
+"ai_processing" = "KI verarbeitet...";
+"ai_translation_complete" = "Übersetzung abgeschlossen und in Zwischenablage kopiert";
+"ai_summary_complete" = "Zusammenfassung abgeschlossen und in Zwischenablage kopiert";
+"ai_keywords_complete" = "Schlüsselwörter extrahiert und in Zwischenablage kopiert";
+"ai_text_only" = "Kann nur Textinhalte verarbeiten";
+"ai_translation_failed" = "Übersetzung fehlgeschlagen";
+"ai_summary_failed" = "Zusammenfassung fehlgeschlagen";
+"ai_keywords_failed" = "Schlüsselwort-Extraktion fehlgeschlagen";
+
+/* Einstellungsseite */
+"settings_title" = "Einstellungen";
+"settings_basic" = "Grundeinstellungen";
+"settings_data_management" = "Datenverwaltung";
+"settings_other" = "Sonstiges";
+"settings_hotkeys" = "Tastenkürzel";
+"settings_hotkeys_desc" = "Globale Tastenkürzel konfigurieren";
+"settings_clipboard" = "Zwischenablage";
+"settings_clipboard_desc" = "Zwischenablage-Überwachungseinstellungen";
+"settings_data" = "Datenverwaltung";
+"settings_data_desc" = "Verlauf und Bereinigung";
+"settings_favorites" = "Favoriten";
+"settings_favorites_desc" = "Favoritenelement verwalten";
+"settings_advanced" = "Erweitert";
+"settings_advanced_desc" = "Leistung und Debug-Optionen";
+"settings_about" = "Über";
+"settings_about_desc" = "App-Informationen und Version";
+"settings_language" = "Sprache";
+"settings_language_desc" = "Oberflächensprache wählen";
+"settings_empty_title" = "Einstellung auswählen";
+"settings_empty_desc" = "Wählen Sie ein Einstellungselement links aus, um mit der Konfiguration zu beginnen"; 

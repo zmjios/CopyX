@@ -19,9 +19,9 @@ struct ClipboardItemView: View {
             mainContentView
             dividerView
         }
-        .alert("确认删除", isPresented: $showingDeleteConfirmation) {
-            Button("取消", role: .cancel) { }
-            Button("删除", role: .destructive) {
+        .alert(LocalizedStringKey("confirm_delete"), isPresented: $showingDeleteConfirmation) {
+            Button(LocalizedStringKey("cancel"), role: .cancel) { }
+            Button(LocalizedStringKey("delete"), role: .destructive) {
                 withAnimation(.easeInOut(duration: 0.3)) {
                     clipboardManager.removeItem(item)
                     if selectedItem?.id == item.id {
@@ -30,7 +30,7 @@ struct ClipboardItemView: View {
                 }
             }
         } message: {
-            Text("确定要删除这个剪切板项目吗？此操作无法撤销。")
+            Text(LocalizedStringKey("confirm_delete_message"))
         }
     }
     
@@ -65,7 +65,7 @@ struct ClipboardItemView: View {
                     .fill(item.type.color.opacity(0.15))
                     .frame(width: 32, height: 32)
                 
-                Image(systemName: item.type.icon)
+                Image(systemName: item.type.iconName)
                     .font(.system(size: 14, weight: .medium))
                     .foregroundColor(item.type.color)
             }
@@ -78,17 +78,78 @@ struct ClipboardItemView: View {
     
     private var contentAreaView: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(item.displayTitle)
-                .font(.system(size: 13, weight: .medium))
-                .foregroundColor(.primary)
-                .lineLimit(2)
-                .truncationMode(.tail)
+            // 增强的标题栏设计
+            HStack(spacing: 8) {
+                // 应用图标区域
+                HStack(spacing: 6) {
+                    Image(systemName: "app.badge")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.white)
+                    
+                    Text(item.sourceApp)
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundColor(.white)
+                        .lineLimit(1)
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(
+                    ZStack {
+                        // 毛玻璃背景
+                        VisualEffectView(material: .hudWindow, blendingMode: .behindWindow)
+                        
+                        // 渐变叠加
+                        LinearGradient(
+                            colors: [
+                                getAppBasedColor().opacity(0.9),
+                                getAppBasedColor().opacity(0.7),
+                                getAppBasedColor().opacity(0.8)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.3),
+                                    Color.white.opacity(0.1)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 0.5
+                        )
+                )
+                
+                Spacer()
+                
+                // 类型标签
+                HStack(spacing: 4) {
+                    Image(systemName: item.type.iconName)
+                        .font(.system(size: 9, weight: .medium))
+                    Text(item.type.displayName)
+                        .font(.system(size: 9, weight: .medium))
+                }
+                .padding(.horizontal, 6)
+                .padding(.vertical, 3)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(item.type.color.opacity(0.15))
+                )
+                .foregroundColor(item.type.color)
+            }
             
             Text(item.displayContent)
                 .font(.system(size: 11))
                 .foregroundColor(.secondary)
                 .lineLimit(3)
                 .truncationMode(.tail)
+                .padding(.top, 2)
             
             HStack {
                 Text(formatTimestamp(item.timestamp))
@@ -98,11 +159,55 @@ struct ClipboardItemView: View {
                 Spacer()
                 
                 if !item.content.isEmpty {
-                    Text("\(item.content.count) 字符")
+                    Text("\(item.content.count) \(NSLocalizedString("characters", comment: ""))")
                         .font(.system(size: 10))
                         .foregroundColor(.secondary)
                 }
             }
+        }
+    }
+    
+    // 根据应用名称生成颜色
+    private func getAppBasedColor() -> Color {
+        let appName = item.sourceApp.lowercased()
+        
+        // 为常见应用定义特定颜色
+        switch appName {
+        case let name where name.contains("safari"):
+            return Color.blue
+        case let name where name.contains("chrome"):
+            return Color.green
+        case let name where name.contains("firefox"):
+            return Color.orange
+        case let name where name.contains("xcode"):
+            return Color.blue
+        case let name where name.contains("vscode"), let name where name.contains("code"):
+            return Color.blue
+        case let name where name.contains("finder"):
+            return Color.blue
+        case let name where name.contains("terminal"):
+            return Color.black
+        case let name where name.contains("notes"), let name where name.contains("备忘录"):
+            return Color.yellow
+        case let name where name.contains("mail"), let name where name.contains("邮件"):
+            return Color.blue
+        case let name where name.contains("messages"), let name where name.contains("信息"):
+            return Color.green
+        case let name where name.contains("slack"):
+            return Color.purple
+        case let name where name.contains("discord"):
+            return Color.indigo
+        case let name where name.contains("telegram"):
+            return Color.blue
+        case let name where name.contains("wechat"), let name where name.contains("微信"):
+            return Color.green
+        case let name where name.contains("qq"):
+            return Color.blue
+        default:
+            // 为其他应用生成基于名称的颜色
+            let hash = appName.hash
+            let colors: [Color] = [.red, .orange, .yellow, .green, .blue, .indigo, .purple, .pink, .teal, .cyan]
+            return colors[abs(hash) % colors.count]
         }
     }
     
@@ -130,7 +235,7 @@ struct ClipboardItemView: View {
                 ActionButton(
                     icon: "trash",
                     color: .red,
-                    tooltip: "删除"
+                    tooltip: NSLocalizedString("delete", comment: "")
                 ) {
                     showingDeleteConfirmation = true
                 }
@@ -183,34 +288,7 @@ struct ClipboardItemView: View {
     }
 }
 
-// MARK: - 扩展：剪切板项目类型
-extension ClipboardItem.ClipboardItemType {
-    var icon: String {
-        switch self {
-        case .text:
-            return "doc.text"
-        case .url:
-            return "link"
-        case .image:
-            return "photo"
-        case .file:
-            return "doc"
-        }
-    }
-    
-    var color: Color {
-        switch self {
-        case .text:
-            return .blue
-        case .url:
-            return .purple
-        case .image:
-            return .orange
-        case .file:
-            return .green
-        }
-    }
-}
+
 
 // MARK: - 原始精美卡片视图（完全恢复原设计）
 struct ClipboardCardView: View {
@@ -238,7 +316,7 @@ struct ClipboardCardView: View {
             // 底部信息栏
             cardBottomInfo
         }
-        .frame(width: 320, height: 260)
+        .frame(width: index == 0 ? 280 : 320, height: index == 0 ? 220 : 260)
         .background(cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay(cardBorder)
@@ -532,9 +610,23 @@ struct ClipboardCardView: View {
         RoundedRectangle(cornerRadius: 16)
             .stroke(
                 isSelected ? 
-                Color(item.getAppIconDominantColor()).opacity(0.4) :
-                (isHovered ? Color.secondary.opacity(0.2) : Color.clear),
-                lineWidth: isSelected ? 2 : 1
+                LinearGradient(
+                    colors: [
+                        Color(item.getAppIconDominantColor()).opacity(0.6),
+                        Color(item.getAppIconDominantColor()).opacity(0.3)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ) :
+                LinearGradient(
+                    colors: [
+                        Color(NSColor.separatorColor).opacity(0.3),
+                        Color(NSColor.separatorColor).opacity(0.1)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                lineWidth: isSelected ? 3 : 1
             )
     }
     
@@ -542,47 +634,66 @@ struct ClipboardCardView: View {
     private var copyFeedbackOverlay: some View {
         Group {
             if showCopyFeedback {
+                ZStack {
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.green.opacity(0.8))
-                    .overlay(
-                        VStack {
+                        .fill(Color.green.opacity(0.2))
+                    
+                    VStack(spacing: 8) {
                             Image(systemName: "checkmark.circle.fill")
-                                .font(.system(size: 32))
-                                .foregroundColor(.white)
+                            .font(.system(size: 32, weight: .medium))
+                            .foregroundColor(.green)
+                        
                             Text("已复制")
                                 .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(.white)
+                            .foregroundColor(.green)
+                    }
                         }
-                    )
-                    .transition(.scale.combined(with: .opacity))
+                .transition(.opacity.combined(with: .scale))
             }
         }
     }
     
     // 计算属性
     private var cardScale: CGFloat {
-        if isPressed { return 0.95 }
-        if isSelected { return 1.02 }
-        if isHovered { return 1.01 }
+        if isSelected {
+            return 1.08
+        } else if isPressed {
+            return 0.98
+        } else if isHovered {
+            return 1.02
+        } else {
         return 1.0
+        }
     }
     
     private var shadowColor: Color {
-        if isSelected { return Color(item.getAppIconDominantColor()).opacity(0.3) }
-        if isHovered { return .black.opacity(0.15) }
-        return .black.opacity(0.05)
+        if isSelected {
+            return Color(item.getAppIconDominantColor()).opacity(0.4)
+        } else if isHovered {
+            return Color.black.opacity(0.15)
+        } else {
+            return Color.black.opacity(0.08)
+        }
     }
     
     private var shadowRadius: CGFloat {
-        if isSelected { return 12 }
-        if isHovered { return 8 }
-        return 4
+        if isSelected {
+            return 20
+        } else if isHovered {
+            return 12
+        } else {
+            return 6
+        }
     }
     
     private var shadowOffset: CGFloat {
-        if isSelected { return 4 }
-        if isHovered { return 3 }
+        if isSelected {
+            return 8
+        } else if isHovered {
+            return 4
+        } else {
         return 2
+        }
     }
     
     // 获取类型渐变颜色
@@ -601,29 +712,49 @@ struct ClipboardCardView: View {
     
     // 执行复制动画
     private func performCopyAnimation() {
+        // 防止在按钮区域触发复制
+        guard !isHovered else { return }
+        
         withAnimation(.bouncy(duration: 0.6)) {
             isCopied = true
             showCopyFeedback = true
         }
         
+        // 执行复制操作
         onCopy()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-            withAnimation(.easeInOut(duration: 0.3)) {
-                showCopyFeedback = false
+        // 重置动画状态
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            withAnimation(.easeOut(duration: 0.3)) {
                 isCopied = false
+                showCopyFeedback = false
             }
         }
     }
     
+    // 功能按钮辅助方法
     private func cardActionButton(icon: String, tooltip: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: icon)
-                .font(.system(size: 14))
-                .foregroundColor(Color(item.getAppIconDominantColor()))
+                .font(.system(size: 12, weight: .medium))
+                .foregroundColor(.secondary)
+                .frame(width: 24, height: 24)
+                .background(
+                    Circle()
+                        .fill(Color(NSColor.controlBackgroundColor).opacity(0.8))
+                )
+                .overlay(
+                    Circle()
+                        .stroke(Color(NSColor.separatorColor).opacity(0.3), lineWidth: 0.5)
+                )
         }
         .buttonStyle(PlainButtonStyle())
         .help(tooltip)
+        .allowsHitTesting(true)
+        .contentShape(Circle())
+        .onHover { hovering in
+            // 添加悬停效果
+        }
     }
 }
 

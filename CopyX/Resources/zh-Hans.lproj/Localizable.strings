@@ -11,9 +11,12 @@
 "cancel" = "取消";
 "save" = "保存";
 "delete" = "删除";
+"confirm_delete" = "确认删除";
+"confirm_delete_message" = "确定要删除这个剪切板项目吗？此操作无法撤销。";
+"characters" = "字符";
 "edit" = "编辑";
 "close" = "关闭";
-"settings" = "设置...";
+"settings" = "设置";
 "done" = "完成";
 "error" = "错误";
 "warning" = "警告";
@@ -42,22 +45,25 @@
 "collapse" = "收起";
 
 // MARK: - Display Modes
-"bottom_mode" = "底部显示";
-"center_mode" = "居中显示";
+"bottom_mode" = "底部模式";
+"center_mode" = "居中模式";
+"left_mode" = "左侧模式";
+"right_mode" = "右侧模式";
 "display_mode" = "显示模式";
 "display_mode_title" = "主窗口显示模式";
 
 // MARK: - Filters
-"all_types" = "所有类型";
+"all_types" = "全部类型";
 "text_type" = "文本";
 "image_type" = "图片";
 "file_type" = "文件";
 "url_type" = "链接";
 "color_type" = "颜色";
-"show_favorites" = "仅显示收藏";
+"show_favorites" = "只显示收藏";
 "show_all" = "显示全部";
 
 // MARK: - Settings
+"settings_title" = "偏好设置";
 "general_settings" = "通用";
 "hotkey_settings" = "快捷键";
 "clipboard_settings" = "剪贴板";
@@ -66,10 +72,22 @@
 "favorites_settings" = "收藏";
 "about" = "关于";
 
+// MARK: - Settings Subtitles
+"launch_and_interface_config" = "启动和界面配置";
+"customize_hotkeys" = "自定义快捷键";
+"history_settings" = "历史记录设置";
+"manage_favorite_items" = "管理收藏项目";
+"version_information" = "版本信息";
+
 // MARK: - General Settings
+"startup_settings" = "启动设置";
+"language_settings" = "语言设置";
+"interface_settings" = "界面设置";
+"display_language" = "显示语言";
 "launch_at_startup" = "开机启动";
 "show_in_dock" = "在 Dock 中显示";
 "show_in_menu_bar" = "在菜单栏显示";
+"hide_dock_icon" = "隐藏 Dock 图标";
 "auto_paste" = "选中后自动粘贴";
 "sound_effects" = "声音效果";
 "launch_at_startup_subtitle" = "系统启动时自动运行 CopyX";
@@ -80,6 +98,7 @@
 "enable_notifications_subtitle" = "新的剪切板内容时显示桌面通知";
 "enable_sound_effects" = "启用音效";
 "enable_sound_effects_subtitle" = "在执行复制、粘贴等操作时播放声音";
+"display_mode_subtitle" = "选择主窗口的显示位置";
 
 // MARK: - Hotkey Settings
 "global_hotkey" = "全局快捷键";
@@ -139,6 +158,9 @@
 "delete_all_confirm" = "您确定要删除所有剪贴板项目吗？";
 "clear_data_confirm" = "这将永久删除您的所有剪贴板数据。是否继续？";
 "reset_settings_confirm" = "将所有设置重置为默认值？";
+"confirm_delete" = "确认删除";
+"confirm_delete_message" = "确定要删除这个剪切板项目吗？此操作无法撤销。";
+"characters" = "字符";
 
 // MARK: - Settings Navigation
 "settings_section" = "设置";
@@ -214,6 +236,10 @@
 "skip_password_fields" = "跳过密码字段";
 "skip_password_fields_subtitle" = "自动跳过密码输入字段中的内容";
 "interface_settings" = "界面设置";
+"display_mode_title" = "主窗口显示模式";
+"display_mode_subtitle" = "选择剪贴板历史窗口的显示位置";
+"bottom_mode" = "底部模式";
+"center_mode" = "居中模式";
 "use_modal_share_view" = "使用模态分享视图";
 "use_modal_share_view_subtitle" = "使用弹出窗口显示分享选项";
 "sound_tips" = "声音提示";
@@ -298,6 +324,12 @@
 
 // MARK: - New Key for Detail Window
 "clipboard_details_title" = "剪贴板详情";
+
+// MARK: - Data Statistics
+"total_items_stat" = "总项目数";
+"favorite_items_stat" = "收藏项目数";
+"text_items_stat" = "文本项目数";
+"image_items_stat" = "图片项目数";
 
 // MARK: - About View Keys
 "about_subtitle" = "一个强大的剪贴板管理工具";
@@ -431,4 +463,139 @@
 "empty_state_subtitle" = "复制一些内容开始使用 CopyX。";
 "search_empty_state_title" = "未找到相关内容";
 "search_empty_state_subtitle_format" = "没有找到包含 \"%@\" 的剪贴板项目。";
+
+/* New Features - Smart Clear and History Management */
+"smart_clear_history" = "智能清空历史记录";
+"smart_clear_history_subtitle" = "清空历史记录但保留收藏夹项目";
+"full_clear_history" = "完全清空历史记录";
+"full_clear_history_subtitle" = "清空所有历史记录包括收藏夹";
+"confirm_smart_clear_title" = "确认智能清空";
+"confirm_smart_clear_message" = "这将清空所有非收藏的历史记录，收藏夹项目将被保留。";
+"confirm_full_clear_title" = "确认完全清空";
+"confirm_full_clear_message" = "这将清空所有历史记录，包括收藏夹项目。此操作无法撤销。";
+"smart_clear_success" = "智能清空完成，已保留 %d 个收藏项目";
+"full_clear_success" = "历史记录已完全清空";
+
+/* Clipboard Item View Tooltips */
+"copy_to_clipboard" = "复制到剪切板";
+"toggle_favorite" = "切换收藏";
+"view_item_details" = "查看项目详情";
+"share_item" = "分享项目";
+
+/* History Management */
+"history_count_setting" = "历史记录数量";
+"history_count_subtitle" = "设置最大保存的历史记录数量 (10-1000)";
+"current_history_count" = "当前设置: %d 条记录";
+"history_count_changed" = "历史记录数量已更改为 %d 条";
+
+/* Card Title Enhancements */
+"unknown_app" = "未知应用";
+"system_clipboard" = "系统剪贴板";
+"copied_from_app" = "来自 %@";
+
+/* Search Improvements */
+"search_in_app_names" = "在应用名称中搜索";
+"search_in_content" = "在内容中搜索";
+"search_results_count" = "找到 %d 个结果";
+"clear_search" = "清除搜索";
+
+/* UI Enhancements */
+"glassmorphism_effect" = "毛玻璃效果";
+"gradient_background" = "渐变背景";
+"enhanced_visual_design" = "增强视觉设计";
+"colorful_title_bars" = "彩色标题栏";
+
+/* Error Messages for New Features */
+"search_field_error" = "搜索框点击错误";
+"history_limit_error" = "历史记录限制设置错误";
+"clear_operation_error" = "清空操作错误";
+
+/* Success Messages */
+"settings_saved" = "设置已保存";
+"preferences_updated" = "偏好设置已更新";
+"feature_enabled" = "功能已启用";
+"feature_disabled" = "功能已禁用";
+
+/* AI 功能 */
+"ai_translate" = "AI翻译";
+"ai_summary" = "AI总结";
+"ai_keywords" = "关键词提取";
+"ai_processing" = "AI处理中...";
+"ai_translation_complete" = "翻译完成并已复制到剪切板";
+"ai_summary_complete" = "总结完成并已复制到剪切板";
+"ai_keywords_complete" = "关键词提取完成并已复制到剪切板";
+"ai_text_only" = "只能处理文本内容";
+"ai_translation_failed" = "翻译失败";
+"ai_summary_failed" = "总结失败";
+"ai_keywords_failed" = "关键词提取失败";
+"translate_failed" = "翻译失败";
+"summarize_failed" = "总结失败";
+"extract_keywords_failed" = "关键词提取失败";
+
+/* 设置页面 */
+"settings_title" = "设置";
+"settings_basic" = "基础设置";
+"settings_data_management" = "数据管理";
+"settings_other" = "其他";
+"settings_hotkeys" = "快捷键";
+"settings_hotkeys_desc" = "配置全局快捷键";
+"settings_clipboard" = "剪切板";
+"settings_clipboard_desc" = "剪切板监控设置";
+"settings_data" = "数据管理";
+"settings_data_desc" = "历史记录和清理";
+"settings_favorites" = "收藏夹";
+"settings_favorites_desc" = "管理收藏的项目";
+"settings_advanced" = "高级设置";
+"settings_advanced_desc" = "高级功能和选项";
+"settings_about" = "关于";
+"settings_about_desc" = "版本信息和帮助";
+"settings_language" = "语言";
+"settings_language_desc" = "选择界面语言";
+"settings_empty_title" = "选择设置项";
+"settings_empty_desc" = "从左侧选择一个设置项来开始配置";
+
+/* 通用 */
+"items" = "项目";
+"show_favorites_only" = "只显示收藏";
+
+// MARK: - Settings Page Structure
+"settings_title" = "设置";
+"settings_basic" = "基础设置";
+"settings_data_management" = "数据管理";
+"settings_other" = "其他";
+"settings_empty_title" = "选择设置项";
+"settings_empty_desc" = "从左侧选择一个设置项来开始配置";
+
+// MARK: - Settings Items
+"settings_hotkeys" = "快捷键";
+"settings_hotkeys_desc" = "配置全局快捷键";
+"settings_clipboard" = "剪切板";
+"settings_clipboard_desc" = "剪切板监控设置";
+"settings_language" = "语言";
+"settings_language_desc" = "选择界面语言";
+"settings_data" = "数据管理";
+"settings_data_desc" = "历史记录和清理";
+"settings_favorites" = "收藏夹";
+"settings_favorites_desc" = "管理收藏的项目";
+"settings_advanced" = "高级设置";
+"settings_advanced_desc" = "高级功能和选项";
+"settings_about" = "关于";
+"settings_about_desc" = "版本信息和帮助";
+
+// MARK: - Language Settings
+"display_language" = "显示语言";
+"language_settings" = "语言设置";
+"language_settings_desc" = "选择应用程序的显示语言";
+"language_auto" = "跟随系统";
+"language_en" = "English";
+"language_zh_hans" = "简体中文";
+"language_de" = "Deutsch";
+"language_fr" = "Français";
+"language_es" = "Español";
+"language_ja" = "日本語";
+
+// MARK: - Interface Settings
+"interface_settings" = "界面设置";
+"startup_settings" = "启动设置";
+"hide_dock_icon" = "隐藏 Dock 图标";
 

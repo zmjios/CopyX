@@ -140,6 +140,9 @@
 "delete_all_confirm" = "すべてのクリップボードアイテムを削除してもよろしいですか？";
 "clear_data_confirm" = "これにより、すべてのクリップボードデータが完全に削除されます。続行しますか？";
 "reset_settings_confirm" = "すべての設定をデフォルト値にリセットしますか？";
+"confirm_delete" = "削除確認";
+"confirm_delete_message" = "このクリップボードアイテムを削除してもよろしいですか？この操作は元に戻せません。";
+"characters" = "文字";
 
 // MARK: - Settings Navigation
 "settings_section" = "設定";
@@ -275,6 +278,9 @@
 "disabled" = "無効";
 "total_items" = "合計%d個のアイテム";
 "total_items_stat" = "総アイテム数";
+"favorite_items_stat" = "お気に入りアイテム数";
+"text_items_stat" = "テキストアイテム数";
+"image_items_stat" = "画像アイテム数";
 "confirm_clear" = "クリアの確認";
 "confirm_clear_message" = "すべてのクリップボード履歴をクリアしてもよろしいですか？この操作は元に戻せません。";
 "general_settings_subtitle" = "CopyXの起動とインターフェースオプションを設定します";
@@ -433,3 +439,90 @@
 "empty_state_subtitle" = "何かをコピーしてCopyXを使い始めましょう。";
 "search_empty_state_title" = "コンテンツが見つかりません";
 "search_empty_state_subtitle_format" = "「%@」を含むクリップボードアイテムは見つかりませんでした。"; 
+
+/* New Features - Smart Clear and History Management */
+"smart_clear_history" = "スマート履歴クリア";
+"smart_clear_history_subtitle" = "履歴をクリアしてお気に入りを保持";
+"full_clear_history" = "完全履歴クリア";
+"full_clear_history_subtitle" = "お気に入りを含むすべての履歴をクリア";
+"confirm_smart_clear_title" = "スマートクリアの確認";
+"confirm_smart_clear_message" = "これによりお気に入り以外のすべての履歴項目が削除されます。お気に入りは保持されます。";
+"confirm_full_clear_title" = "完全クリアの確認";
+"confirm_full_clear_message" = "これによりお気に入りを含むすべての履歴項目が削除されます。この操作は元に戻せません。";
+"smart_clear_success" = "スマートクリア完了、%d個のお気に入りを保持";
+"full_clear_success" = "履歴を完全にクリア";
+
+/* Clipboard Item View Tooltips */
+"copy_to_clipboard" = "クリップボードにコピー";
+"toggle_favorite" = "お気に入りの切り替え";
+"view_item_details" = "項目の詳細を表示";
+"share_item" = "項目を共有";
+
+/* History Management */
+"history_count_setting" = "履歴数";
+"history_count_subtitle" = "保持する履歴項目の最大数を設定 (10-1000)";
+"current_history_count" = "現在の設定: %d項目";
+"history_count_changed" = "履歴数を%d項目に変更";
+
+/* Card Title Enhancements */
+"unknown_app" = "不明なアプリ";
+"system_clipboard" = "システムクリップボード";
+"copied_from_app" = "%@から";
+
+/* Search Improvements */
+"search_in_app_names" = "アプリ名で検索";
+"search_in_content" = "コンテンツで検索";
+"search_results_count" = "%d件の結果が見つかりました";
+"clear_search" = "検索をクリア";
+
+/* UI Enhancements */
+"glassmorphism_effect" = "グラスモーフィズム効果";
+"gradient_background" = "グラデーション背景";
+"enhanced_visual_design" = "強化されたビジュアルデザイン";
+"colorful_title_bars" = "カラフルなタイトルバー";
+
+/* Error Messages for New Features */
+"search_field_error" = "検索フィールドクリックエラー";
+"history_limit_error" = "履歴制限設定エラー";
+"clear_operation_error" = "クリア操作エラー";
+
+/* Success Messages */
+"settings_saved" = "設定が保存されました";
+"preferences_updated" = "環境設定が更新されました";
+"feature_enabled" = "機能が有効";
+"feature_disabled" = "機能が無効";
+
+/* AI機能 */
+"ai_translate" = "AI翻訳";
+"ai_summarize" = "AI要約";
+"ai_keywords" = "キーワード抽出";
+"ai_processing" = "AI処理中...";
+"ai_translation_complete" = "翻訳完了、クリップボードにコピーしました";
+"ai_summary_complete" = "要約完了、クリップボードにコピーしました";
+"ai_keywords_complete" = "キーワード抽出完了、クリップボードにコピーしました";
+"ai_text_only" = "テキストコンテンツのみ処理可能";
+"ai_translation_failed" = "翻訳に失敗しました";
+"ai_summary_failed" = "要約に失敗しました";
+"ai_keywords_failed" = "キーワード抽出に失敗しました";
+
+/* 設定ページ */
+"settings_title" = "設定";
+"settings_basic" = "基本設定";
+"settings_data_management" = "データ管理";
+"settings_other" = "その他";
+"settings_hotkeys" = "ホットキー";
+"settings_hotkeys_desc" = "グローバルホットキーを設定";
+"settings_clipboard" = "クリップボード";
+"settings_clipboard_desc" = "クリップボード監視設定";
+"settings_data" = "データ管理";
+"settings_data_desc" = "履歴とクリーンアップ";
+"settings_favorites" = "お気に入り";
+"settings_favorites_desc" = "お気に入りアイテムを管理";
+"settings_advanced" = "詳細設定";
+"settings_advanced_desc" = "パフォーマンスとデバッグオプション";
+"settings_about" = "について";
+"settings_about_desc" = "アプリ情報とバージョン";
+"settings_language" = "言語";
+"settings_language_desc" = "インターフェース言語を選択";
+"settings_empty_title" = "設定を選択";
+"settings_empty_desc" = "左側から設定項目を選択して設定を開始してください"; 

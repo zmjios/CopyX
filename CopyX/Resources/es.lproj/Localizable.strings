@@ -136,9 +136,12 @@
 "permission_denied" = "Permission refusée";
 
 // MARK: - Confirmation Messages
-"delete_all_confirm" = "Êtes-vous sûr de vouloir supprimer tous les éléments du presse-papiers ?";
-"clear_data_confirm" = "Cela supprimera définitivement toutes vos données du presse-papiers. Continuer ?";
-"reset_settings_confirm" = "Réinitialiser tous les paramètres aux valeurs par défaut ?";
+"delete_all_confirm" = "¿Está seguro de que desea eliminar todos los elementos del portapapeles?";
+"clear_data_confirm" = "Esto eliminará permanentemente todos sus datos del portapapeles. ¿Continuar?";
+"reset_settings_confirm" = "¿Restablecer todas las configuraciones a los valores predeterminados?";
+"confirm_delete" = "Confirmar eliminación";
+"confirm_delete_message" = "¿Está seguro de que desea eliminar este elemento del portapapeles? Esta acción no se puede deshacer.";
+"characters" = "caracteres";
 
 // MARK: - Settings Navigation
 "settings_section" = "Paramètres";
@@ -364,7 +367,10 @@
 "enable_sound" = "Activer le son";
 "enable_sound_subtitle" = "Jouer un son lorsque le presse-papiers change";
 "usage_stats_title" = "Statistiques";
-"total_items_stat" = "Nombre total d'éléments";
+"total_items_stat" = "Número total de elementos";
+"favorite_items_stat" = "Elementos favoritos";
+"text_items_stat" = "Elementos de texto";
+"image_items_stat" = "Elementos de imagen";
 "favorite_items_stat" = "Favoris";
 "total_usage_stat" = "Utilisation totale";
 "most_used_item_stat" = "Le plus utilisé";
@@ -432,3 +438,90 @@
 "empty_state_subtitle" = "Copiez quelque chose pour commencer à utiliser CopyX.";
 "search_empty_state_title" = "Aucun contenu trouvé";
 "search_empty_state_subtitle_format" = "Aucun élément du presse-papiers contenant \"%@\" n'a été trouvé.";
+
+/* New Features - Smart Clear and History Management */
+"smart_clear_history" = "Borrado inteligente del historial";
+"smart_clear_history_subtitle" = "Borrar historial pero mantener favoritos";
+"full_clear_history" = "Borrado completo del historial";
+"full_clear_history_subtitle" = "Borrar todo el historial incluyendo favoritos";
+"confirm_smart_clear_title" = "Confirmar borrado inteligente";
+"confirm_smart_clear_message" = "Esto borrará todos los elementos del historial no favoritos. Los favoritos se conservarán.";
+"confirm_full_clear_title" = "Confirmar borrado completo";
+"confirm_full_clear_message" = "Esto borrará todos los elementos del historial, incluyendo favoritos. Esta acción no se puede deshacer.";
+"smart_clear_success" = "Borrado inteligente completado, %d favoritos conservados";
+"full_clear_success" = "Historial completamente borrado";
+
+/* Clipboard Item View Tooltips */
+"copy_to_clipboard" = "Copiar al portapapeles";
+"toggle_favorite" = "Alternar favorito";
+"view_item_details" = "Ver detalles del elemento";
+"share_item" = "Compartir elemento";
+
+/* History Management */
+"history_count_setting" = "Cantidad de historial";
+"history_count_subtitle" = "Establecer el número máximo de elementos del historial a mantener (10-1000)";
+"current_history_count" = "Configuración actual: %d elementos";
+"history_count_changed" = "Cantidad de historial cambiada a %d elementos";
+
+/* Card Title Enhancements */
+"unknown_app" = "App desconocida";
+"system_clipboard" = "Portapapeles del sistema";
+"copied_from_app" = "De %@";
+
+/* Search Improvements */
+"search_in_app_names" = "Buscar en nombres de apps";
+"search_in_content" = "Buscar en contenido";
+"search_results_count" = "%d resultados encontrados";
+"clear_search" = "Limpiar búsqueda";
+
+/* UI Enhancements */
+"glassmorphism_effect" = "Efecto glassmorfismo";
+"gradient_background" = "Fondo degradado";
+"enhanced_visual_design" = "Diseño visual mejorado";
+"colorful_title_bars" = "Barras de título coloridas";
+
+/* Error Messages for New Features */
+"search_field_error" = "Error de clic del campo de búsqueda";
+"history_limit_error" = "Error de configuración del límite del historial";
+"clear_operation_error" = "Error de operación de borrado";
+
+/* Success Messages */
+"settings_saved" = "Configuración guardada";
+"preferences_updated" = "Preferencias actualizadas";
+"feature_enabled" = "Función habilitada";
+"feature_disabled" = "Función deshabilitada";
+
+/* Funciones de IA */
+"ai_translate" = "Traducción IA";
+"ai_summarize" = "Resumen IA";
+"ai_keywords" = "Extraer palabras clave";
+"ai_processing" = "Procesando IA...";
+"ai_translation_complete" = "Traducción completada y copiada al portapapeles";
+"ai_summary_complete" = "Resumen completado y copiado al portapapeles";
+"ai_keywords_complete" = "Palabras clave extraídas y copiadas al portapapeles";
+"ai_text_only" = "Solo puede procesar contenido de texto";
+"ai_translation_failed" = "Falló la traducción";
+"ai_summary_failed" = "Falló el resumen";
+"ai_keywords_failed" = "Falló la extracción de palabras clave";
+
+/* Página de configuración */
+"settings_title" = "Configuración";
+"settings_basic" = "Configuración básica";
+"settings_data_management" = "Gestión de datos";
+"settings_other" = "Otros";
+"settings_hotkeys" = "Atajos de teclado";
+"settings_hotkeys_desc" = "Configurar atajos globales";
+"settings_clipboard" = "Portapapeles";
+"settings_clipboard_desc" = "Configuración de monitoreo del portapapeles";
+"settings_data" = "Gestión de datos";
+"settings_data_desc" = "Historial y limpieza";
+"settings_favorites" = "Favoritos";
+"settings_favorites_desc" = "Gestionar elementos favoritos";
+"settings_advanced" = "Avanzado";
+"settings_advanced_desc" = "Opciones de rendimiento y depuración";
+"settings_about" = "Acerca de";
+"settings_about_desc" = "Información y versión de la app";
+"settings_language" = "Idioma";
+"settings_language_desc" = "Elegir idioma de la interfaz";
+"settings_empty_title" = "Seleccionar configuración";
+"settings_empty_desc" = "Elija un elemento de configuración de la izquierda para comenzar";

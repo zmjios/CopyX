@@ -8,6 +8,7 @@ struct ModernDataSettingsView: View {
     @State private var showingExportDialog = false
     @State private var showingImportDialog = false
     @State private var showingClearAlert = false
+    @State private var showingFullClearAlert = false
     @State private var exportProgress: Double = 0
     @State private var importProgress: Double = 0
     @State private var isExporting = false
@@ -16,7 +17,17 @@ struct ModernDataSettingsView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 24) {
+                // 页面标题
+                VStack(alignment: .leading, spacing: 8) {
+                    LocalizedText("data_backup_title")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    LocalizedText("data_backup_subtitle")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                
                 // 数据备份部分
                 SettingsSection(
                     title: "data_backup".localized,
@@ -79,9 +90,9 @@ struct ModernDataSettingsView: View {
                                 .controlSize(.small)
                             }
                         }
-                        .padding(10)
-                        .background(Color.secondary.opacity(0.05))
-                        .cornerRadius(6)
+                        .padding(8)
+                        .background(Color.secondary.opacity(0.08))
+                        .cornerRadius(4)
                     }
                 }
                 
@@ -91,19 +102,34 @@ struct ModernDataSettingsView: View {
                     icon: "trash"
                 ) {
                     VStack(alignment: .leading, spacing: 12) {
-                        // 清空历史记录
-                        Button("clear_all_history".localized) {
+                        // 智能清空历史记录（保留收藏夹）
+                        Button("smart_clear_history".localized) {
                             showingClearAlert = true
                         }
                         .buttonStyle(.borderedProminent)
-                        .controlSize(.large)
-                        .alert("confirm_clear_all_history_title".localized, isPresented: $showingClearAlert) {
+                        .controlSize(.regular)
+                        .alert("confirm_smart_clear_title".localized, isPresented: $showingClearAlert) {
                             Button("cancel".localized, role: .cancel) { }
-                            Button("clear_all_history".localized, role: .destructive) {
+                            Button("smart_clear_history".localized, role: .destructive) {
+                                smartClearHistory()
+                            }
+                        } message: {
+                            Text("confirm_smart_clear_message".localized)
+                        }
+                        
+                        // 完全清空历史记录
+                        Button("full_clear_history".localized) {
+                            showingFullClearAlert = true
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.regular)
+                        .alert("confirm_full_clear_title".localized, isPresented: $showingFullClearAlert) {
+                            Button("cancel".localized, role: .cancel) { }
+                            Button("full_clear_history".localized, role: .destructive) {
                                 clearAllHistory()
                             }
                         } message: {
-                            Text("confirm_clear_all_history_message".localized)
+                            Text("confirm_full_clear_message".localized)
                         }
                     }
                 }
@@ -116,7 +142,7 @@ struct ModernDataSettingsView: View {
                     DataStatsView(clipboardManager: clipboardManager)
                 }
             }
-            .padding(30)
+            .padding(20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .fileImporter(
@@ -234,8 +260,12 @@ struct ModernDataSettingsView: View {
         }
     }
     
+    private func smartClearHistory() {
+        clipboardManager.clearHistoryKeepingFavorites()
+    }
+    
     private func clearAllHistory() {
-        clipboardManager.clipboardHistory.removeAll()
+        clipboardManager.clearHistory()
     }
 }
 
@@ -244,14 +274,26 @@ struct DataStatsView: View {
     let clipboardManager: ClipboardManager
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 12) {
             StatRow(
                 label: "total_items_stat".localized,
                 value: "\(clipboardManager.clipboardHistory.count)"
             )
             
-            // 可以添加更多统计项
-            // ...
+            StatRow(
+                label: "favorite_items_stat".localized,
+                value: "\(clipboardManager.clipboardHistory.filter { $0.isFavorite }.count)"
+            )
+            
+            StatRow(
+                label: "text_items_stat".localized,
+                value: "\(clipboardManager.clipboardHistory.filter { $0.type == .text }.count)"
+            )
+            
+            StatRow(
+                label: "image_items_stat".localized,
+                value: "\(clipboardManager.clipboardHistory.filter { $0.type == .image }.count)"
+            )
         }
     }
 }
