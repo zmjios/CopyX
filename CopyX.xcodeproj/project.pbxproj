@@ -69,6 +69,11 @@
 		977B0A0E2E06F0B400FCB6CD /* HotKeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeySettingsView.swift; sourceTree = "<group>"; };
 		977B0A0F2E06F0B400FCB6CD /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		977B0A112E06F0B400FCB6CD /* ShareViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViews.swift; sourceTree = "<group>"; };
+		977B0A392E07917600FCB6CD /* arm64-apple-macos.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "arm64-apple-macos.swiftsourceinfo"; sourceTree = "<group>"; };
+		977B0A3B2E07917600FCB6CD /* arm64-apple-macos.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "arm64-apple-macos.swiftdoc"; sourceTree = "<group>"; };
+		977B0A3C2E07917600FCB6CD /* arm64-apple-macos.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "arm64-apple-macos.swiftmodule"; sourceTree = "<group>"; };
+		977B0A3D2E07917600FCB6CD /* arm64-apple-macos.abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "arm64-apple-macos.abi.json"; sourceTree = "<group>"; };
+		977B0A3F2E07917600FCB6CD /* CopyX.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = CopyX.app; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				2A1E4B282B1234567890300 /* CopyX */,
+				977B0A402E07917600FCB6CD /* Products */,
 				2A1E4B272B1234567890301 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -226,6 +232,34 @@
 				977B0A122E06F0B400FCB6CD /* Share */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		977B0A3A2E07917600FCB6CD /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				977B0A392E07917600FCB6CD /* arm64-apple-macos.swiftsourceinfo */,
+			);
+			path = Project;
+			sourceTree = "<group>";
+		};
+		977B0A3E2E07917600FCB6CD /* CopyX.swiftmodule */ = {
+			isa = PBXGroup;
+			children = (
+				977B0A3A2E07917600FCB6CD /* Project */,
+				977B0A3B2E07917600FCB6CD /* arm64-apple-macos.swiftdoc */,
+				977B0A3C2E07917600FCB6CD /* arm64-apple-macos.swiftmodule */,
+				977B0A3D2E07917600FCB6CD /* arm64-apple-macos.abi.json */,
+			);
+			path = CopyX.swiftmodule;
+			sourceTree = "<group>";
+		};
+		977B0A402E07917600FCB6CD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				977B0A3E2E07917600FCB6CD /* CopyX.swiftmodule */,
+				977B0A3F2E07917600FCB6CD /* CopyX.app */,
+			);
+			path = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -478,6 +512,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/Products";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CopyX/Preview Content\"";
 				DEVELOPMENT_TEAM = 8YCD48DN83;
@@ -514,6 +549,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/Products";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CopyX/Preview Content\"";
 				DEVELOPMENT_TEAM = 8YCD48DN83;

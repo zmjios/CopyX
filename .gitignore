@@ -1,0 +1,110 @@
+# CopyX .gitignore
+
+# ===== 构建产物 =====
+# Products 文件夹 - 编译输出目录
+Products/
+*.app
+*.dSYM/
+*.xcarchive/
+
+# Xcode 构建文件
+build/
+DerivedData/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+
+# ===== Xcode 用户特定文件 =====
+# 用户界面状态
+project.xcworkspace/xcuserdata/
+*.xcuserdata
+*.xcuserdatad/
+
+# Xcode 断点
+*.xcbkptlist
+
+# Xcode scheme 用户数据
+*.xcscheme
+
+# ===== macOS 系统文件 =====
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ===== 临时文件 =====
+*.tmp
+*.temp
+*~
+.#*
+\#*#
+.*.swp
+.*.swo
+
+# ===== 日志文件 =====
+*.log
+logs/
+
+# ===== 压缩包 =====
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# ===== 开发工具 =====
+# AppCode
+.idea/
+
+# VSCode
+.vscode/
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ===== 证书和密钥 =====
+*.p12
+*.mobileprovision
+*.certSigningRequest
+
+# ===== 依赖管理 =====
+# CocoaPods (如果使用)
+Pods/
+*.xcworkspace
+
+# Carthage (如果使用)
+Carthage/Build/
+
+# Swift Package Manager (如果使用)
+.build/
+Packages/
+Package.pins
+Package.resolved
+# *.xcodeproj - 注释掉，因为我们需要跟踪项目文件
+
+# ===== 其他 =====
+# 备份文件
+*.backup
+*.bak
+
+# 测试覆盖率报告
+*.gcov
+*.gcda
+*.gcno
+
+# 性能分析文件
+*.trace
+
+# 文档生成
+docs/build/
+
+# 自定义忽略
+# 可以在这里添加项目特定的忽略规则 
