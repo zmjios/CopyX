@@ -106,7 +106,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         menu.addItem(NSMenuItem.separator())
 
-        let quitItem = NSMenuItem(title: "quit".localized, action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: "quit_app".localized, action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         menu.addItem(quitItem)
 
         self.menu = menu
@@ -183,7 +183,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func createSettingsWindow() {
-        let windowSize = NSSize(width: 714, height: 650)  // 缩小窗口大小
+        let windowSize = NSSize(width: 714, height: 650)  // 默认窗口大小
         let window = NSWindow(
             contentRect: NSRect(
                 x: 0,
@@ -198,8 +198,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         window.title = "settings".localized
         window.center()
-        window.minSize = NSSize(width: 714, height: 550)  // 缩小最小尺寸
-        window.maxSize = NSSize(width: 1400, height: 1000) // 适当调整最大尺寸
+        window.minSize = NSSize(width: 714, height: 550)  // 最小宽度固定为714
+        window.maxSize = NSSize(width: NSScreen.main?.frame.width ?? 1920, height: NSScreen.main?.frame.height ?? 1080) // 最大尺寸为屏幕尺寸
         
         window.isReleasedWhenClosed = false
         
@@ -208,7 +208,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .environmentObject(clipboardManager!)
             .environmentObject(hotKeyManager!)
             .environmentObject(localizationManager!)
-            .frame(width: windowSize.width, height: windowSize.height)
         
         window.contentView = NSHostingView(rootView: settingsView)
         window.delegate = self

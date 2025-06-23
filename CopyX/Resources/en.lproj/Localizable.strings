@@ -324,10 +324,6 @@
 "notificationduration_medium" = "Medium (5s)";
 "notificationduration_long" = "Long (10s)";
 
-// MARK: - New keys
-"about_app" = "About CopyX";
-"quit_app" = "Quit CopyX"; 
-
 // MARK: - New Key for Detail Window
 "clipboard_details_title" = "Clipboard Details";
 

@@ -16,7 +16,7 @@ struct ModernClipboardSettingsView: View {
                 
                 // 历史记录设置
                 SettingsSection(title: "history".localized, icon: "clock") {
-                    SettingsSlider(
+                    RulerSlider(
                         title: "max_items".localized,
                         subtitle: "max_items_subtitle".localized,
                         value: Binding(
@@ -24,7 +24,9 @@ struct ModernClipboardSettingsView: View {
                             set: { clipboardManager.maxHistoryCount = Int($0) }
                         ),
                         range: 10...1000,
-                        step: 10
+                        step: 10,
+                        majorTickInterval: 100,
+                        minorTickInterval: 50
                     )
                     
                     SettingsToggle(

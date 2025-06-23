@@ -419,4 +419,214 @@ struct SettingsListItem: View {
         }
         .buttonStyle(PlainButtonStyle())
     }
+}
+
+// MARK: - 真实直尺样式滑块组件
+struct RulerSlider: View {
+    let title: String
+    let subtitle: String?
+    @Binding var value: Double
+    let range: ClosedRange<Double>
+    let step: Double
+    let majorTickInterval: Double
+    let minorTickInterval: Double
+    
+    @State private var isDragging = false
+    @State private var dragStartValue: Double = 0
+    @State private var dragStartLocation: CGFloat = 0
+    
+    private let rulerHeight: CGFloat = 80
+    private let tickHeight: CGFloat = 6
+    private let majorTickHeight: CGFloat = 12
+    private let mediumTickHeight: CGFloat = 9
+    
+    init(
+        title: String,
+        subtitle: String? = nil,
+        value: Binding<Double>,
+        range: ClosedRange<Double>,
+        step: Double = 1.0,
+        majorTickInterval: Double = 100,
+        minorTickInterval: Double = 10
+    ) {
+        self.title = title
+        self.subtitle = subtitle
+        self._value = value
+        self.range = range
+        self.step = step
+        self.majorTickInterval = majorTickInterval
+        self.minorTickInterval = minorTickInterval
+    }
+    
+        var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            // 标题和当前值显示
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(.system(size: 14, weight: .medium))
+                    if let subtitle = subtitle {
+                        Text(subtitle)
+                            .font(.system(size: 12))
+                            .foregroundColor(.secondary)
+                    }
+                }
+                Spacer()
+                // 当前值显示（像真实直尺的读数窗口）
+                Text("\(Int(value))")
+                    .font(.system(size: 16, weight: .bold, design: .monospaced))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .foregroundColor(.black.opacity(0.8))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.yellow, lineWidth: 1)
+                            )
+                    )
+                    .scaleEffect(isDragging ? 1.1 : 1.0)
+                    .animation(.easeInOut(duration: 0.15), value: isDragging)
+            }
+            
+            // 真实直尺容器
+            GeometryReader { geometry in
+                let availableWidth = geometry.size.width - 20 // 留出边距
+                
+                ZStack {
+                    // 直尺背景（木质纹理效果）
+                    RoundedRectangle(cornerRadius: 4)
+                        .foregroundColor(Color(red: 0.96, green: 0.87, blue: 0.70)) // 木质颜色
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4)
+                                .stroke(Color.brown.opacity(0.3), lineWidth: 1)
+                        )
+                        .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    
+                    VStack(spacing: 0) {
+                        // 刻度和数字区域
+                        HStack(spacing: 0) {
+                            let tickPositions = generateTickPositions(availableWidth)
+                            ForEach(Array(tickPositions.enumerated()), id: \.offset) { index, tickValue in
+                                let isMajorTick = Int(tickValue) % Int(majorTickInterval) == 0 // 每100单位
+                                
+                                VStack(spacing: 1) {
+                                    // 数字标签（只在主刻度显示）
+                                    if isMajorTick && tickValue >= range.lowerBound && tickValue <= range.upperBound {
+                                        Text("\(Int(tickValue))")
+                                            .font(.system(size: 9, weight: .medium, design: .monospaced))
+                                            .foregroundColor(.black.opacity(0.8))
+                                            .lineLimit(1)
+                                            .fixedSize()
+                                    } else {
+                                        Spacer()
+                                            .frame(height: 14)
+                                    }
+                                    
+                                    // 刻度线
+                                    Rectangle()
+                                        .foregroundColor(.black.opacity(isMajorTick ? 0.8 : 0.5))
+                                        .frame(
+                                            width: 1,
+                                            height: isMajorTick ? majorTickHeight : mediumTickHeight
+                                        )
+                                }
+                                .frame(maxWidth: .infinity) // 平均分配空间
+                            }
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.top, 8)
+                        
+                        Spacer()
+                        
+                        // 滑动指示器（红色指针）
+                        ZStack {
+                            // 指针背景轨道
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .frame(height: 20)
+                            
+                            // 红色指针 - 修正位置计算
+                            HStack {
+                                Rectangle()
+                                    .foregroundColor(.red)
+                                    .frame(width: isDragging ? 3 : 2, height: 20)
+                                    .shadow(color: .red.opacity(0.5), radius: isDragging ? 4 : 2)
+                                    .animation(.easeInOut(duration: 0.15), value: isDragging)
+                                
+                                Spacer()
+                            }
+                            .offset(x: getProgressWidth(availableWidth))
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.bottom, 8)
+                    }
+                }
+                .frame(height: rulerHeight)
+                .gesture(
+                    DragGesture()
+                        .onChanged { gestureValue in
+                            handleDrag(gestureValue, availableWidth: availableWidth)
+                        }
+                        .onEnded { _ in
+                            isDragging = false
+                        }
+                )
+            }
+            .frame(height: rulerHeight)
+            .padding(.horizontal, 10)
+        }
+    }
+    
+    // MARK: - 计算方法
+    
+    private func getProgressWidth(_ availableWidth: CGFloat) -> CGFloat {
+        let progress = (value - range.lowerBound) / (range.upperBound - range.lowerBound)
+        return max(0, min(availableWidth, availableWidth * progress))
+    }
+    
+    private func getTickPosition(for tickValue: Double, availableWidth: CGFloat) -> CGFloat {
+        let progress = (tickValue - range.lowerBound) / (range.upperBound - range.lowerBound)
+        return progress * availableWidth
+    }
+    
+    private func generateTickPositions(_ availableWidth: CGFloat) -> [Double] {
+        var positions: [Double] = []
+        
+        // 使用固定的50单位间隔生成所有刻度位置
+        let tickInterval: Double = 50
+        
+        // 生成从0到1000的所有50单位刻度
+        var currentValue: Double = 0
+        while currentValue <= range.upperBound {
+            if currentValue >= range.lowerBound {
+                positions.append(currentValue)
+            }
+            currentValue += tickInterval
+        }
+        
+        return positions.sorted()
+    }
+    
+    private func handleDrag(_ gestureValue: DragGesture.Value, availableWidth: CGFloat) {
+        if !isDragging {
+            isDragging = true
+            dragStartValue = value
+            dragStartLocation = gestureValue.startLocation.x
+        }
+        
+        // 计算拖拽偏移量
+        let dragOffset = gestureValue.location.x - dragStartLocation
+        let valueRange = range.upperBound - range.lowerBound
+        let pixelsPerUnit = availableWidth / CGFloat(valueRange)
+        let valueDelta = Double(dragOffset / pixelsPerUnit)
+        
+        // 计算新值
+        let newValue = dragStartValue + valueDelta
+        let steppedValue = round(newValue / step) * step
+        
+        // 限制在范围内并实时更新
+        value = max(range.lowerBound, min(range.upperBound, steppedValue))
+    }
 } 
