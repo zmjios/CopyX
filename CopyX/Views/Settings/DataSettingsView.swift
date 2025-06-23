@@ -43,10 +43,14 @@ struct ModernDataSettingsView: View {
                         
                         // 手动备份按钮
                         HStack {
-                            Button("export_data".localized) {
+                            SettingsButton(
+                                title: "export_data".localized,
+                                subtitle: isExporting ? "exporting_data".localized : nil,
+                                icon: "square.and.arrow.up",
+                                style: .secondary
+                            ) {
                                 exportData()
                             }
-                            .buttonStyle(.bordered)
                             .disabled(isExporting)
                             
                             if isExporting {
@@ -57,10 +61,14 @@ struct ModernDataSettingsView: View {
                         
                         // 导入数据按钮
                         HStack {
-                            Button("import_data".localized) {
+                            SettingsButton(
+                                title: "import_data".localized,
+                                subtitle: isImporting ? "importing_data".localized : nil,
+                                icon: "square.and.arrow.down",
+                                style: .secondary
+                            ) {
                                 showingImportDialog = true
                             }
-                            .buttonStyle(.bordered)
                             .disabled(isImporting)
                             
                             if isImporting {
@@ -71,15 +79,16 @@ struct ModernDataSettingsView: View {
                         
                         // 备份路径设置
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("backup_path".localized)
-                                .font(.system(size: 13, weight: .medium))
-                            
                             HStack {
-                                Text(selectedBackupPath.isEmpty ? "not_selected".localized : selectedBackupPath)
-                                    .font(.system(size: 12))
-                                    .foregroundColor(.secondary)
-                                    .lineLimit(1)
-                                    .truncationMode(.middle)
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("backup_path".localized)
+                                        .font(.system(size: 15, weight: .medium))
+                                    Text(selectedBackupPath.isEmpty ? "not_selected".localized : selectedBackupPath)
+                                        .font(.system(size: 13))
+                                        .foregroundColor(.secondary)
+                                        .lineLimit(1)
+                                        .truncationMode(.middle)
+                                }
                                 
                                 Spacer()
                                 
@@ -90,9 +99,12 @@ struct ModernDataSettingsView: View {
                                 .controlSize(.small)
                             }
                         }
-                        .padding(8)
-                        .background(Color.secondary.opacity(0.08))
-                        .cornerRadius(4)
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color(NSColor.controlBackgroundColor))
+                                .opacity(0.3)
+                        )
                     }
                 }
                 
@@ -101,13 +113,17 @@ struct ModernDataSettingsView: View {
                     title: "data_management".localized,
                     icon: "trash"
                 ) {
-                    VStack(alignment: .leading, spacing: 12) {
+                    HStack(spacing: 16) {
                         // 智能清空历史记录（保留收藏夹）
-                        Button("smart_clear_history".localized) {
+                        SettingsButton(
+                            title: "smart_clear_history".localized,
+                            subtitle: "smart_clear_subtitle".localized,
+                            icon: "trash.slash",
+                            style: .primary
+                        ) {
                             showingClearAlert = true
                         }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.regular)
+                        .frame(maxWidth: .infinity)
                         .alert("confirm_smart_clear_title".localized, isPresented: $showingClearAlert) {
                             Button("cancel".localized, role: .cancel) { }
                             Button("smart_clear_history".localized, role: .destructive) {
@@ -118,11 +134,15 @@ struct ModernDataSettingsView: View {
                         }
                         
                         // 完全清空历史记录
-                        Button("full_clear_history".localized) {
+                        SettingsButton(
+                            title: "full_clear_history".localized,
+                            subtitle: "full_clear_subtitle".localized,
+                            icon: "trash",
+                            style: .destructive
+                        ) {
                             showingFullClearAlert = true
                         }
-                        .buttonStyle(.bordered)
-                        .controlSize(.regular)
+                        .frame(maxWidth: .infinity)
                         .alert("confirm_full_clear_title".localized, isPresented: $showingFullClearAlert) {
                             Button("cancel".localized, role: .cancel) { }
                             Button("full_clear_history".localized, role: .destructive) {
@@ -275,25 +295,38 @@ struct DataStatsView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            StatRow(
-                label: "total_items_stat".localized,
-                value: "\(clipboardManager.clipboardHistory.count)"
-            )
-            
-            StatRow(
-                label: "favorite_items_stat".localized,
-                value: "\(clipboardManager.clipboardHistory.filter { $0.isFavorite }.count)"
-            )
-            
-            StatRow(
-                label: "text_items_stat".localized,
-                value: "\(clipboardManager.clipboardHistory.filter { $0.type == .text }.count)"
-            )
-            
-            StatRow(
-                label: "image_items_stat".localized,
-                value: "\(clipboardManager.clipboardHistory.filter { $0.type == .image }.count)"
-            )
+            // 使用统一的设置信息卡片风格
+            VStack(alignment: .leading, spacing: 8) {
+                SettingsInfoCard(
+                    title: "total_items_stat".localized,
+                    description: "\(clipboardManager.clipboardHistory.count) 个项目",
+                    icon: "doc.text",
+                    color: .blue
+                )
+                
+                SettingsInfoCard(
+                    title: "favorite_items_stat".localized,
+                    description: "\(clipboardManager.clipboardHistory.filter { $0.isFavorite }.count) 个收藏",
+                    icon: "heart.fill",
+                    color: .red
+                )
+                
+                HStack(spacing: 12) {
+                    SettingsInfoCard(
+                        title: "text_items_stat".localized,
+                        description: "\(clipboardManager.clipboardHistory.filter { $0.type == .text }.count)",
+                        icon: "textformat",
+                        color: .green
+                    )
+                    
+                    SettingsInfoCard(
+                        title: "image_items_stat".localized,
+                        description: "\(clipboardManager.clipboardHistory.filter { $0.type == .image }.count)",
+                        icon: "photo",
+                        color: .orange
+                    )
+                }
+            }
         }
     }
 }

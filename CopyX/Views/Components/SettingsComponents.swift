@@ -146,30 +146,86 @@ struct SettingsButton: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
+            // 如果有subtitle，显示标题和描述
             if let subtitle = subtitle {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
-                        .font(.system(size: 15, weight: .medium))
+                        .font(.system(size: 14, weight: .medium))
                     Text(subtitle)
-                        .font(.system(size: 13))
+                        .font(.system(size: 12))
                         .foregroundColor(.secondary)
                 }
-            }
-            
-            Button(action: action) {
-                HStack {
-                    if let icon = icon {
-                        Image(systemName: icon)
-                            .font(.system(size: 14))
+                
+                // 按钮，根据样式选择不同的风格
+                if style == .primary || style == .destructive {
+                    Button(action: action) {
+                        HStack(spacing: 8) {
+                            if let icon = icon {
+                                Image(systemName: icon)
+                                    .font(.system(size: 13))
+                            }
+                            Text(title)
+                                .font(.system(size: 13, weight: .medium))
+                            Spacer()
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .frame(maxWidth: .infinity)
                     }
-                    Text(title)
-                        .font(.system(size: 14, weight: .medium))
+                    .buttonStyle(BorderedProminentButtonStyle())
+                    .accentColor(style.color)
+                } else {
+                    Button(action: action) {
+                        HStack(spacing: 8) {
+                            if let icon = icon {
+                                Image(systemName: icon)
+                                    .font(.system(size: 13))
+                            }
+                            Text(title)
+                                .font(.system(size: 13, weight: .medium))
+                            Spacer()
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(BorderedButtonStyle())
+                    .accentColor(style.color)
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
+            } else {
+                // 没有subtitle时，显示完整的按钮
+                if style == .primary || style == .destructive {
+                    Button(action: action) {
+                        HStack {
+                            if let icon = icon {
+                                Image(systemName: icon)
+                                    .font(.system(size: 13))
+                            }
+                            Text(title)
+                                .font(.system(size: 13, weight: .medium))
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                    }
+                    .buttonStyle(BorderedProminentButtonStyle())
+                    .accentColor(style.color)
+                } else {
+                    Button(action: action) {
+                        HStack {
+                            if let icon = icon {
+                                Image(systemName: icon)
+                                    .font(.system(size: 13))
+                            }
+                            Text(title)
+                                .font(.system(size: 13, weight: .medium))
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                    }
+                    .buttonStyle(BorderedButtonStyle())
+                    .accentColor(style.color)
+                }
             }
-            .buttonStyle(.bordered)
-            .accentColor(style.color)
         }
     }
 }
