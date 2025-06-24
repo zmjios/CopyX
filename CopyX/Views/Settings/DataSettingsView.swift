@@ -17,14 +17,14 @@ struct ModernDataSettingsView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 16) {
                 // 页面标题
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 6) {
                     LocalizedText("data_backup_title")
-                        .font(.title)
+                        .font(.title2)
                         .fontWeight(.bold)
                     LocalizedText("data_backup_subtitle")
-                        .font(.subheadline)
+                        .font(.caption)
                         .foregroundColor(.secondary)
                 }
                 

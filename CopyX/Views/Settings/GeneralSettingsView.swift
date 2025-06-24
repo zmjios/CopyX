@@ -14,14 +14,14 @@ struct ModernGeneralSettingsView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 16) {
                 // 页面标题
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 6) {
                     LocalizedText("general_settings_title")
-                        .font(.title)
+                        .font(.title2)
                         .fontWeight(.bold)
                     LocalizedText("general_settings_subtitle")
-                        .font(.subheadline)
+                        .font(.caption)
                         .foregroundColor(.secondary)
                 }
                 
@@ -88,7 +88,7 @@ struct ModernGeneralSettingsView: View {
                     }
                 }
             }
-            .padding(20)
+            .padding(12)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }

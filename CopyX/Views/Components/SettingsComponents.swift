@@ -366,12 +366,12 @@ struct SettingsPageHeader: View {
     let subtitle: String
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
             Text(title)
-                .font(.title)
+                .font(.title2)
                 .fontWeight(.bold)
             Text(subtitle)
-                .font(.subheadline)
+                .font(.caption)
                 .foregroundColor(.secondary)
         }
     }

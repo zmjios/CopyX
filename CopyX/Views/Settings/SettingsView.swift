@@ -91,7 +91,7 @@ struct SettingsView: View {
             .frame(minWidth: 500, idealWidth: 500, maxWidth: .infinity)
         }
         .navigationSplitViewStyle(.balanced)
-        .frame(minWidth: 714, idealWidth: 714, maxWidth: 714, minHeight: 520, idealHeight: 520, maxHeight: 800)
+        .frame(minWidth: 714, idealWidth: 714, maxWidth: 714, minHeight: 450, idealHeight: 500, maxHeight: 700)
         .toolbar {
             // 隐藏侧边栏切换按钮
             ToolbarItem(placement: .navigation) {

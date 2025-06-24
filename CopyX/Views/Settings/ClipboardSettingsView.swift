@@ -8,7 +8,7 @@ struct ModernClipboardSettingsView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 16) {
                 SettingsPageHeader(
                     title: "clipboard_title".localized,
                     subtitle: "clipboard_settings_subtitle".localized
@@ -78,7 +78,7 @@ struct ModernClipboardSettingsView: View {
                     )
                 }
             }
-            .padding(30)
+            .padding(12)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }

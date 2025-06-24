@@ -175,6 +175,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             createSettingsWindow()
         }
         
+        // 更新窗口标题以反映当前语言
+        updateSettingsWindowTitle()
+        
         // 确保窗口显示在前面，但不持续浮动
         print("   -> 正在显示设置窗口...")
         settingsWindow?.makeKeyAndOrderFront(nil)
@@ -183,7 +186,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func createSettingsWindow() {
-        let windowSize = NSSize(width: 714, height: 650)  // 默认窗口大小
+        let windowSize = NSSize(width: 714, height: 500)  // 减小默认窗口高度
         let window = NSWindow(
             contentRect: NSRect(
                 x: 0,
@@ -198,7 +201,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         window.title = "settings".localized
         window.center()
-        window.minSize = NSSize(width: 714, height: 550)  // 最小宽度固定为714
+        window.minSize = NSSize(width: 714, height: 450)  // 减小最小高度
         window.maxSize = NSSize(width: NSScreen.main?.frame.width ?? 1920, height: NSScreen.main?.frame.height ?? 1080) // 最大尺寸为屏幕尺寸
         
         window.isReleasedWhenClosed = false
@@ -213,6 +216,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.delegate = self
         
         settingsWindow = window
+        
+        // 监听语言变化通知
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(languageDidChange),
+            name: NSNotification.Name("LanguageDidChange"),
+            object: nil
+        )
+    }
+    
+    private func updateSettingsWindowTitle() {
+        settingsWindow?.title = "settings".localized
+    }
+    
+    @objc private func languageDidChange() {
+        updateSettingsWindowTitle()
     }
     
     @objc func showAbout() {

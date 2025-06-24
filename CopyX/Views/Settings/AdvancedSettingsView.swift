@@ -13,7 +13,7 @@ struct ModernAdvancedSettingsView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 16) {
                 SettingsPageHeader(
                     title: "advanced_settings_title".localized,
                     subtitle: "advanced_settings_subtitle".localized
@@ -162,7 +162,7 @@ struct ModernAdvancedSettingsView: View {
                     }
                 }
             }
-            .padding(30)
+            .padding(12)
         }
         .id(localizationManager.revision)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)

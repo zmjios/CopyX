@@ -12,14 +12,14 @@ struct ModernHotKeySettingsView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 16) {
                 // 页面标题
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 6) {
                     LocalizedText("hotkeys_title")
-                        .font(.title)
+                        .font(.title2)
                         .fontWeight(.bold)
                     LocalizedText("hotkey_settings_subtitle")
-                        .font(.subheadline)
+                        .font(.caption)
                         .foregroundColor(.secondary)
                 }
                 

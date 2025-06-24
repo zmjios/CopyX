@@ -42,6 +42,8 @@ class LocalizationManager: ObservableObject {
             UserDefaults.standard.set(language.rawValue, forKey: "selectedLanguage")
             // Manually trigger UI updates on language change
             self.revision += 1
+            // 发送语言变化通知
+            NotificationCenter.default.post(name: NSNotification.Name("LanguageDidChange"), object: nil)
         }
     }
 
