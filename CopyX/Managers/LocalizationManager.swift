@@ -130,5 +130,6 @@ struct LocalizedText: View {
     
     var body: some View {
         Text(localizationManager.localizedString(forKey: key))
+            .id(localizationManager.revision) // 强制更新当语言改变时
     }
 }

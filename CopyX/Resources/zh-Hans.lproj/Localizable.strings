@@ -613,3 +613,7 @@
 "startup_settings" = "启动设置";
 "hide_dock_icon" = "隐藏 Dock 图标";
 
+// MARK: - Additional Translations
+"yesterday" = "昨天";
+"image_content" = "图片内容";
+

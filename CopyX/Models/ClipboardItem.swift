@@ -147,13 +147,13 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
         var displayName: String {
             switch self {
             case .text:
-                return "富文本"
+                return "text_type".localized
             case .image:
-                return "图片"
+                return "image_type".localized
             case .url:
-                return "链接"
+                return "url_type".localized
             case .file:
-                return "文件"
+                return "file_type".localized
             }
         }
         
@@ -190,7 +190,7 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
             // 对于长文本，显示更多内容，但在卡片中通过ScrollView处理显示
             return content
         case .image:
-            return "图片内容"
+            return "image_content".localized
         case .file:
             return content
         }
@@ -204,7 +204,7 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
             formatter.dateFormat = "HH:mm"
             return formatter.string(from: timestamp)
         } else if calendar.isDateInYesterday(timestamp) {
-            return "昨天"
+            return "yesterday".localized
         } else {
             formatter.dateFormat = "MM-dd"
             return formatter.string(from: timestamp)
@@ -214,27 +214,42 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
     var relativeTime: String {
         let timeInterval = Date().timeIntervalSince(timestamp)
         
-        // 1小时内显示相对时间
-        if timeInterval < 3600 {
-            let formatter = RelativeDateTimeFormatter()
-            formatter.locale = Locale(identifier: "zh_CN")
-            formatter.unitsStyle = .abbreviated
-            return formatter.localizedString(for: timestamp, relativeTo: Date())
-        } else {
-            // 1小时之前显示具体时间
-            let formatter = DateFormatter()
-            let calendar = Calendar.current
-            
-            if calendar.isDateInToday(timestamp) {
-                formatter.dateFormat = "HH:mm"
-                return "今天 " + formatter.string(from: timestamp)
-            } else if calendar.isDateInYesterday(timestamp) {
-                formatter.dateFormat = "HH:mm"
-                return "昨天 " + formatter.string(from: timestamp)
+        // 小于1分钟
+        if timeInterval < 60 {
+            return "just_now".localized
+        }
+        // 小于1小时
+        else if timeInterval < 3600 {
+            let minutes = Int(timeInterval / 60)
+            if minutes == 1 {
+                return "minute_ago".localized
             } else {
-                formatter.dateFormat = "MM-dd HH:mm"
-                return formatter.string(from: timestamp)
+                return String(format: "minutes_ago".localized, minutes)
             }
+        }
+        // 小于24小时
+        else if timeInterval < 86400 {
+            let hours = Int(timeInterval / 3600)
+            if hours == 1 {
+                return "hour_ago".localized
+            } else {
+                return String(format: "hours_ago".localized, hours)
+            }
+        }
+        // 小于7天
+        else if timeInterval < 604800 {
+            let days = Int(timeInterval / 86400)
+            if days == 1 {
+                return "day_ago".localized
+            } else {
+                return String(format: "days_ago".localized, days)
+            }
+        }
+        // 超过7天显示日期
+        else {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM-dd HH:mm"
+            return formatter.string(from: timestamp)
         }
     }
     
@@ -295,9 +310,9 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
         case .text, .url:
             return String(content.prefix(50))
         case .image:
-            return "图片内容"
+            return "image_content".localized
         case .file:
-            return URL(string: content)?.lastPathComponent ?? "文件"
+            return URL(string: content)?.lastPathComponent ?? "file_type".localized
         }
     }
     
