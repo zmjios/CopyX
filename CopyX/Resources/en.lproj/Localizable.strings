@@ -586,3 +586,15 @@
 "interface_settings" = "Interface Settings";
 "startup_settings" = "Startup Settings";
 "hide_dock_icon" = "Hide Dock Icon";
+
+// MARK: - Clipboard Detail View
+"clipboard_detail" = "Clipboard Details";
+"content_preview" = "Content Preview";
+"empty_content" = "Content is empty";
+"copy_to_clipboard" = "Copy to Clipboard";
+"basic_info" = "Basic Information";
+"type_label" = "Type:";
+"source_label" = "Source:";
+"time_label" = "Time:";
+"size_label" = "Size:";
+"unknown_size" = "Unknown";

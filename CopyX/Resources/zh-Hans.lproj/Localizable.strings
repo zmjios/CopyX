@@ -498,6 +498,17 @@
 
 /* History Management */
 "history_count_setting" = "历史记录数量";
+
+/* New Context Menu Items */
+"copy_to_clipboard" = "复制到剪切板";
+"share" = "分享";
+"favorite" = "收藏";
+"unfavorite" = "取消收藏";
+"view_details" = "查看详情";
+"delete_item" = "删除项目";
+"items" = "项";
+"show_favorites_only" = "只显示收藏";
+"image_content" = "图片内容";
 "history_count_subtitle" = "设置最大保存的历史记录数量 (10-1000)";
 "current_history_count" = "当前设置: %d 条记录";
 "history_count_changed" = "历史记录数量已更改为 %d 条";
@@ -568,52 +579,40 @@
 "settings_empty_title" = "选择设置项";
 "settings_empty_desc" = "从左侧选择一个设置项来开始配置";
 
-/* 通用 */
-"items" = "项目";
-"show_favorites_only" = "只显示收藏";
-
-// MARK: - Settings Page Structure
-"settings_title" = "设置";
-"settings_basic" = "基础设置";
-"settings_data_management" = "数据管理";
-"settings_other" = "其他";
-"settings_empty_title" = "选择设置项";
-"settings_empty_desc" = "从左侧选择一个设置项来开始配置";
-
-// MARK: - Settings Items
-"settings_hotkeys" = "快捷键";
-"settings_hotkeys_desc" = "配置全局快捷键";
-"settings_clipboard" = "剪切板";
-"settings_clipboard_desc" = "剪切板监控设置";
-"settings_language" = "语言";
-"settings_language_desc" = "选择界面语言";
-"settings_data" = "数据管理";
-"settings_data_desc" = "历史记录和清理";
-"settings_favorites" = "收藏夹";
-"settings_favorites_desc" = "管理收藏的项目";
-"settings_advanced" = "高级设置";
-"settings_advanced_desc" = "高级功能和选项";
-"settings_about" = "关于";
-"settings_about_desc" = "版本信息和帮助";
-
-// MARK: - Language Settings
-"display_language" = "显示语言";
-"language_settings" = "语言设置";
-"language_settings_desc" = "选择应用程序的显示语言";
-"language_auto" = "跟随系统";
-"language_en" = "English";
-"language_zh_hans" = "简体中文";
-"language_de" = "Deutsch";
-"language_fr" = "Français";
-"language_es" = "Español";
-"language_ja" = "日本語";
-
-// MARK: - Interface Settings
-"interface_settings" = "界面设置";
-"startup_settings" = "启动设置";
-"hide_dock_icon" = "隐藏 Dock 图标";
-
-// MARK: - Additional Translations
-"yesterday" = "昨天";
+// MARK: - Content Types
+"text_type" = "文本";
+"image_type" = "图片";
+"url_type" = "链接";
+"file_type" = "文件";
+"rtf_type" = "富文本";
+"code_type" = "代码";
+"json_type" = "JSON";
+"xml_type" = "XML";
+"email_type" = "邮箱";
+"phone_type" = "电话";
 "image_content" = "图片内容";
+
+// MARK: - Usage Statistics
+"usage_count_format" = "使用 %d 次";
+"favorited_at_format" = "收藏于 %@";
+
+// MARK: - Additional UI strings
+"you_are_on_latest_version" = "您已经是最新版本";
+
+// MARK: - Clipboard Management
+"clipboard_manager" = "剪贴板管理器";
+"smart_recognition" = "智能识别";
+"auto_categorization" = "自动分类";
+
+// MARK: - Clipboard Detail View
+"clipboard_detail" = "剪切板详情";
+"content_preview" = "内容预览";
+"empty_content" = "内容为空";
+"copy_to_clipboard" = "复制到剪切板";
+"basic_info" = "基本信息";
+"type_label" = "类型:";
+"source_label" = "来源:";
+"time_label" = "时间:";
+"size_label" = "大小:";
+"unknown_size" = "未知";
 

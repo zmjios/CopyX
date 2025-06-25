@@ -7,11 +7,46 @@ struct CopyXApp: App {
     @StateObject private var clipboardManager = ClipboardManager()
     @StateObject private var hotKeyManager = HotKeyManager()
     @StateObject private var localizationManager = LocalizationManager.shared
+    @State private var showSplash = true
+    
+    private func setupConfig() {
+        // 请求通知权限
+        ClipboardManager.requestNotificationPermission()
+
+        // 将 managers 传递给需要它们的 AppKit 部分
+        appDelegate.clipboardManager = clipboardManager
+        appDelegate.hotKeyManager = hotKeyManager
+        appDelegate.localizationManager = localizationManager
+        
+        hotKeyManager.clipboardManager = clipboardManager
+        hotKeyManager.localizationManager = localizationManager
+        hotKeyManager.appDelegate = appDelegate
+        
+        // 启动服务
+        clipboardManager.startMonitoring()
+        hotKeyManager.registerHotKeys()
+
+        // 设置UI
+        DispatchQueue.main.async {
+            appDelegate.setupStatusBar()
+        }
+    }
     
     var body: some Scene {
-        // 由于我们是状态栏应用，不需要主窗口
-        // 使用一个隐藏的窗口来保持应用运行
-            WindowGroup {
+        WindowGroup {
+            if showSplash {
+                SplashScreenView {
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        showSplash = false
+                    }
+                }
+                .environmentObject(clipboardManager)
+                .environmentObject(hotKeyManager)
+                .environmentObject(localizationManager)
+                .onAppear{
+                    self.setupConfig()
+                }
+            } else {
                 EmptyView()
                     .environmentObject(clipboardManager)
                     .environmentObject(hotKeyManager)
@@ -20,30 +55,12 @@ struct CopyXApp: App {
                     .opacity(0)
                     .onAppear {
                         // 请求通知权限
-                        ClipboardManager.requestNotificationPermission()
-
-                        // 将 managers 传递给需要它们的 AppKit 部分
-                        appDelegate.clipboardManager = clipboardManager
-                        appDelegate.hotKeyManager = hotKeyManager
-                        appDelegate.localizationManager = localizationManager
-                        
-                        hotKeyManager.clipboardManager = clipboardManager
-                        hotKeyManager.localizationManager = localizationManager
-                        hotKeyManager.appDelegate = appDelegate
-                        
-                        // 启动服务
-                        clipboardManager.startMonitoring()
-                        hotKeyManager.registerHotKeys()
-
-                        // 设置UI
-                        DispatchQueue.main.async {
-                            appDelegate.setupStatusBar()
-                        }
+                        self.setupConfig()
                     }
             }
-            .windowStyle(HiddenTitleBarWindowStyle())
-            .windowResizability(.contentSize)
-        
+        }
+        .windowStyle(HiddenTitleBarWindowStyle())
+        .windowResizability(.contentSize)
     }
 }
 
@@ -88,29 +105,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         
-        // 不设置默认菜单，通过按钮点击事件来控制
-        // statusBarItem?.menu = nil
-        
-        // 创建状态栏菜单
-        let menu = NSMenu()
-        
-        let settingsItem = NSMenuItem(title: "settings".localized, action: #selector(openSettings), keyEquivalent: ",")
-        settingsItem.target = self
-        menu.addItem(settingsItem)
-        
-        menu.addItem(NSMenuItem.separator())
-        
-        let aboutItem = NSMenuItem(title: "about".localized, action: #selector(showAbout), keyEquivalent: "")
-        aboutItem.target = self
-        menu.addItem(aboutItem)
-        
-        menu.addItem(NSMenuItem.separator())
-
-        let quitItem = NSMenuItem(title: "quit_app".localized, action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
-        menu.addItem(quitItem)
-
-        self.menu = menu
-        print("✅ 状态栏菜单创建完成")
+        createStatusBarMenu()
     }
     
     func setupStatusBar() {
@@ -183,6 +178,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         settingsWindow?.makeKeyAndOrderFront(nil)
         settingsWindow?.orderFrontRegardless()
         NSApp.activate(ignoringOtherApps: true)
+    }
+
+    private func createStatusBarMenu() {
+        // 创建状态栏菜单
+        let menu = NSMenu()
+        
+        let settingsItem = NSMenuItem(title: "settings".localized, action: #selector(openSettings), keyEquivalent: ",")
+        settingsItem.target = self
+        menu.addItem(settingsItem)
+        
+        menu.addItem(NSMenuItem.separator())
+        
+        let aboutItem = NSMenuItem(title: "about".localized, action: #selector(showAbout), keyEquivalent: "")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
+        
+        menu.addItem(NSMenuItem.separator())
+
+        let quitItem = NSMenuItem(title: "quit_app".localized, action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        menu.addItem(quitItem)
+
+        self.menu = menu
+        print("✅ 状态栏菜单创建完成")
+        
     }
     
     private func createSettingsWindow() {

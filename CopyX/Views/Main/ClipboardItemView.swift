@@ -1,6 +1,179 @@
 import SwiftUI
 import AppKit
 
+// MARK: - 可选择文本视图
+struct SelectableTextView: NSViewRepresentable {
+    let text: String
+    let font: NSFont
+    
+    init(text: String, font: NSFont = NSFont.systemFont(ofSize: 13)) {
+        self.text = text
+        self.font = font
+    }
+    
+    func makeNSView(context: Context) -> NSScrollView {
+        let scrollView = NSScrollView()
+        let textView = NSTextView()
+        
+        // 基本配置
+        textView.string = text
+        textView.font = font
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.backgroundColor = NSColor.controlBackgroundColor
+        textView.textColor = NSColor.textColor
+        textView.textContainerInset = NSSize(width: 12, height: 12)
+        
+        // 文本属性
+        textView.isAutomaticQuoteSubstitutionEnabled = false
+        textView.isAutomaticSpellingCorrectionEnabled = false
+        textView.isRichText = false
+        textView.allowsUndo = false
+        
+        // 布局设置
+        textView.isVerticallyResizable = true
+        textView.isHorizontallyResizable = false
+        textView.autoresizingMask = [.width]
+        
+        // 文本容器设置
+        if let textContainer = textView.textContainer {
+            textContainer.containerSize = NSSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
+            textContainer.widthTracksTextView = true
+            textContainer.heightTracksTextView = false
+        }
+        
+        // 滚动视图设置
+        scrollView.documentView = textView
+        scrollView.hasVerticalScroller = true
+        scrollView.hasHorizontalScroller = false
+        scrollView.autohidesScrollers = true
+        scrollView.borderType = .noBorder
+        
+        return scrollView
+    }
+    
+    func updateNSView(_ nsView: NSScrollView, context: Context) {
+        if let textView = nsView.documentView as? NSTextView {
+            if textView.string != text {
+                textView.string = text
+                textView.needsDisplay = true
+            }
+        }
+    }
+}
+
+// MARK: - 自定义文本视图（支持增强右击菜单）
+class CustomTextView: NSTextView {
+    override func menu(for event: NSEvent) -> NSMenu? {
+        let menu = NSMenu()
+        
+        // 获取选中的文本
+        let selectedRange = self.selectedRange()
+        let selectedText = selectedRange.length > 0 ? (self.string as NSString).substring(with: selectedRange) : ""
+        let hasSelection = !selectedText.isEmpty
+        
+        // 复制选中内容
+        if hasSelection {
+            let copyItem = NSMenuItem(title: "复制选中内容", action: #selector(copy(_:)), keyEquivalent: "c")
+            copyItem.target = self
+            menu.addItem(copyItem)
+            
+            menu.addItem(NSMenuItem.separator())
+        }
+        
+        // 全选
+        let selectAllItem = NSMenuItem(title: "全选", action: #selector(selectAll(_:)), keyEquivalent: "a")
+        selectAllItem.target = self
+        menu.addItem(selectAllItem)
+        
+        // 复制全部内容
+        let copyAllItem = NSMenuItem(title: "复制全部内容", action: #selector(copyAll), keyEquivalent: "")
+        copyAllItem.target = self
+        menu.addItem(copyAllItem)
+        
+        menu.addItem(NSMenuItem.separator())
+        
+        // 查找
+        let findItem = NSMenuItem(title: "查找...", action: #selector(showFindPanel), keyEquivalent: "f")
+        findItem.target = self
+        menu.addItem(findItem)
+        
+        // 如果有选中文本，添加在网络中搜索选项
+        if hasSelection && selectedText.count < 100 {
+            menu.addItem(NSMenuItem.separator())
+            
+            let searchTitle = selectedText.count > 20 ? 
+                "在网络中搜索 '\(selectedText.prefix(20))...'" : 
+                "在网络中搜索 '\(selectedText)'"
+            let searchItem = NSMenuItem(title: searchTitle, action: #selector(searchInWeb), keyEquivalent: "")
+            searchItem.target = self
+            menu.addItem(searchItem)
+        }
+        
+        return menu
+    }
+    
+    @objc func copyAll() {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(self.string, forType: .string)
+        
+        // 显示复制成功提示
+        showNotification(message: "已复制全部内容到剪切板")
+    }
+    
+    @objc func showFindPanel() {
+        if let window = self.window {
+            // 使用 window 的 firstResponder 来显示查找面板
+            window.makeFirstResponder(self)
+            // 使用 cmd+f 快捷键触发查找功能
+            let event = NSEvent.keyEvent(with: .keyDown, 
+                                       location: NSPoint.zero, 
+                                       modifierFlags: .command, 
+                                       timestamp: 0, 
+                                       windowNumber: window.windowNumber, 
+                                       context: nil, 
+                                       characters: "f", 
+                                       charactersIgnoringModifiers: "f", 
+                                       isARepeat: false, 
+                                       keyCode: 3)
+            if let event = event {
+                window.sendEvent(event)
+            }
+        }
+    }
+    
+    @objc func searchInWeb() {
+        // 获取当前选中的文本
+        let selectedRange = self.selectedRange()
+        guard selectedRange.length > 0 else { return }
+        
+        let selectedText = (self.string as NSString).substring(with: selectedRange)
+        let searchText = selectedText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let searchURL = "https://www.google.com/search?q=\(searchText)"
+        
+        if let url = URL(string: searchURL) {
+            NSWorkspace.shared.open(url)
+        }
+    }
+    
+    private func showNotification(message: String) {
+        DispatchQueue.main.async {
+            let alert = NSAlert()
+            alert.messageText = "操作成功"
+            alert.informativeText = message
+            alert.alertStyle = .informational
+            alert.addButton(withTitle: "确定")
+            
+            if let window = self.window {
+                alert.beginSheetModal(for: window) { _ in }
+            } else {
+                alert.runModal()
+            }
+        }
+    }
+}
+
 // MARK: - 剪切板项目视图
 struct ClipboardItemView: View {
     let item: ClipboardItem
@@ -101,9 +274,9 @@ struct ClipboardItemView: View {
                         // 渐变叠加
                         LinearGradient(
                             colors: [
-                                getAppBasedColor().opacity(0.9),
-                                getAppBasedColor().opacity(0.7),
-                                getAppBasedColor().opacity(0.8)
+                                item.getAppThemeColor().opacity(0.9),
+                                item.getAppThemeColor().opacity(0.7),
+                                item.getAppThemeColor().opacity(0.8)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -164,50 +337,6 @@ struct ClipboardItemView: View {
                         .foregroundColor(.secondary)
                 }
             }
-        }
-    }
-    
-    // 根据应用名称生成颜色
-    private func getAppBasedColor() -> Color {
-        let appName = item.sourceApp.lowercased()
-        
-        // 为常见应用定义特定颜色
-        switch appName {
-        case let name where name.contains("safari"):
-            return Color.blue
-        case let name where name.contains("chrome"):
-            return Color.green
-        case let name where name.contains("firefox"):
-            return Color.orange
-        case let name where name.contains("xcode"):
-            return Color.blue
-        case let name where name.contains("vscode"), let name where name.contains("code"):
-            return Color.blue
-        case let name where name.contains("finder"):
-            return Color.blue
-        case let name where name.contains("terminal"):
-            return Color.black
-        case let name where name.contains("notes"), let name where name.contains("备忘录"):
-            return Color.yellow
-        case let name where name.contains("mail"), let name where name.contains("邮件"):
-            return Color.blue
-        case let name where name.contains("messages"), let name where name.contains("信息"):
-            return Color.green
-        case let name where name.contains("slack"):
-            return Color.purple
-        case let name where name.contains("discord"):
-            return Color.indigo
-        case let name where name.contains("telegram"):
-            return Color.blue
-        case let name where name.contains("wechat"), let name where name.contains("微信"):
-            return Color.green
-        case let name where name.contains("qq"):
-            return Color.blue
-        default:
-            // 为其他应用生成基于名称的颜色
-            let hash = appName.hash
-            let colors: [Color] = [.red, .orange, .yellow, .green, .blue, .indigo, .purple, .pink, .teal, .cyan]
-            return colors[abs(hash) % colors.count]
         }
     }
     
@@ -316,27 +445,34 @@ struct ClipboardCardView: View {
             // 底部信息栏
             cardBottomInfo
         }
-        .frame(width: index == 0 ? 280 : 320, height: index == 0 ? 220 : 260)
+        .frame(width: 320, height: 260)
         .background(cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay(cardBorder)
         .overlay(copyFeedbackOverlay)
+        .overlay(favoriteIndicator)
         .scaleEffect(cardScale)
         .shadow(color: shadowColor, radius: shadowRadius, x: 0, y: shadowOffset)
         .animation(.interpolatingSpring(stiffness: 300, damping: 25), value: isHovered)
         .animation(.interpolatingSpring(stiffness: 400, damping: 20), value: isPressed)
         .animation(.easeInOut(duration: 0.3), value: isSelected)
         .animation(.bouncy(duration: 0.6), value: isCopied)
+        .animation(.bouncy(duration: 0.8), value: item.isFavorite)
         .onHover { hovering in
             withAnimation(.interpolatingSpring(stiffness: 300, damping: 25)) {
                 isHovered = hovering
             }
         }
         .onTapGesture {
-            performCopyAnimation()
+            withAnimation(.interpolatingSpring(stiffness: 300, damping: 25)) {
+                // 单击选中卡片
+            }
         }
         .onTapGesture(count: 2) {
-            onShowDetail()
+            performCopyAnimation()
+        }
+        .contextMenu {
+            cardContextMenu
         }
         .simultaneousGesture(
             DragGesture(minimumDistance: 0)
@@ -550,7 +686,16 @@ struct ClipboardCardView: View {
                 // 功能按钮
                 cardActionButton(icon: "doc.on.doc.fill", tooltip: "copy_to_clipboard".localized, action: onCopy)
                 cardActionButton(icon: "square.and.arrow.up.fill", tooltip: "share".localized, action: onShare)
-                cardActionButton(icon: "star.fill", tooltip: "toggle_favorite".localized, action: onToggleFavorite)
+                cardActionButton(
+                    icon: item.isFavorite ? "heart.fill" : "heart", 
+                    tooltip: item.isFavorite ? "unfavorite".localized : "favorite".localized, 
+                    color: item.isFavorite ? .red : .secondary,
+                    action: {
+                        withAnimation(.bouncy(duration: 0.8)) {
+                            onToggleFavorite()
+                        }
+                    }
+                )
             }
         }
         .padding(.horizontal, 16)
@@ -591,6 +736,18 @@ struct ClipboardCardView: View {
                     endPoint: .bottomTrailing
                 )
             )
+        } else if item.isFavorite {
+            return AnyShapeStyle(
+                LinearGradient(
+                    colors: [
+                        Color.red.opacity(0.05),
+                        Color.pink.opacity(0.03),
+                        Color(NSColor.controlBackgroundColor)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
         } else {
             return AnyShapeStyle(
                 LinearGradient(
@@ -617,6 +774,14 @@ struct ClipboardCardView: View {
                     ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
+                ) : item.isFavorite ?
+                LinearGradient(
+                    colors: [
+                        Color.red.opacity(0.4),
+                        Color.pink.opacity(0.2)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
                 ) :
                 LinearGradient(
                     colors: [
@@ -626,7 +791,7 @@ struct ClipboardCardView: View {
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ),
-                lineWidth: isSelected ? 3 : 1
+                lineWidth: isSelected ? 3 : (item.isFavorite ? 2 : 1)
             )
     }
     
@@ -649,6 +814,40 @@ struct ClipboardCardView: View {
                     }
                         }
                 .transition(.opacity.combined(with: .scale))
+            }
+        }
+    }
+    
+    // 收藏标识
+    private var favoriteIndicator: some View {
+        Group {
+            if item.isFavorite {
+                VStack {
+                    HStack {
+                        Spacer()
+                        ZStack {
+                            Circle()
+                                .fill(
+                                    RadialGradient(
+                                        colors: [Color.red, Color.pink],
+                                        center: .center,
+                                        startRadius: 2,
+                                        endRadius: 12
+                                    )
+                                )
+                                .frame(width: 24, height: 24)
+                                .shadow(color: .red.opacity(0.3), radius: 4, x: 0, y: 2)
+                            
+                            Image(systemName: "heart.fill")
+                                .font(.system(size: 12, weight: .bold))
+                                .foregroundColor(.white)
+                        }
+                        .offset(x: -8, y: 8)
+                    }
+                    Spacer()
+                }
+                .transition(.scale.combined(with: .opacity))
+                .animation(.bouncy(duration: 0.6), value: item.isFavorite)
             }
         }
     }
@@ -707,6 +906,18 @@ struct ClipboardCardView: View {
             return .orange
         case .file:
             return .green
+        case .rtf:
+            return .blue
+        case .code:
+            return .mint
+        case .json:
+            return .cyan
+        case .xml:
+            return .teal
+        case .email:
+            return .indigo
+        case .phone:
+            return .brown
         }
     }
     
@@ -732,29 +943,67 @@ struct ClipboardCardView: View {
         }
     }
     
+    // 右键菜单
+    private var cardContextMenu: some View {
+        VStack {
+            Button(action: {
+                performCopyAnimation()
+            }) {
+                Label("copy_to_clipboard".localized, systemImage: "doc.on.doc")
+            }
+            
+            Button(action: onShare) {
+                Label("share".localized, systemImage: "square.and.arrow.up")
+            }
+            
+            Button(action: {
+                withAnimation(.bouncy(duration: 0.8)) {
+                    onToggleFavorite()
+                }
+            }) {
+                Label(
+                    item.isFavorite ? "unfavorite".localized : "favorite".localized,
+                    systemImage: item.isFavorite ? "heart.slash" : "heart"
+                )
+            }
+            
+            Divider()
+            
+            Button(action: onShowDetail) {
+                Label("view_details".localized, systemImage: "info.circle")
+            }
+            
+            Button(action: {
+                // 删除功能 - 需要从外部传入
+            }) {
+                Label("delete_item".localized, systemImage: "trash")
+            }
+            .foregroundColor(.red)
+        }
+    }
+    
     // 功能按钮辅助方法
-    private func cardActionButton(icon: String, tooltip: String, action: @escaping () -> Void) -> some View {
+    private func cardActionButton(icon: String, tooltip: String, color: Color = .secondary, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: icon)
                 .font(.system(size: 12, weight: .medium))
-                .foregroundColor(.secondary)
+                .foregroundColor(color)
                 .frame(width: 24, height: 24)
                 .background(
                     Circle()
-                        .fill(Color(NSColor.controlBackgroundColor).opacity(0.8))
+                        .fill(color == .red ? Color.red.opacity(0.1) : Color(NSColor.controlBackgroundColor).opacity(0.8))
                 )
                 .overlay(
                     Circle()
-                        .stroke(Color(NSColor.separatorColor).opacity(0.3), lineWidth: 0.5)
+                        .stroke(color == .red ? Color.red.opacity(0.3) : Color(NSColor.separatorColor).opacity(0.3), lineWidth: 0.5)
                 )
         }
         .buttonStyle(PlainButtonStyle())
         .help(tooltip)
         .allowsHitTesting(true)
         .contentShape(Circle())
-        .onHover { hovering in
-            // 添加悬停效果
-        }
+        .scaleEffect(isHovered ? 1.1 : 1.0)
+        .animation(.easeInOut(duration: 0.15), value: isHovered)
     }
 }
 
@@ -765,49 +1014,48 @@ struct ClipboardDetailView: View {
     let onCopy: () -> Void
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 10) {
             // 标题栏
             HStack {
-                Text("剪切板详情")
+                Text(LocalizedStringKey("clipboard_detail"))
                     .font(.title2)
                     .fontWeight(.bold)
                 
                 Spacer()
                 
-                Button("关闭", action: onClose)
+                Button(LocalizedStringKey("close"), action: onClose)
                     .keyboardShortcut(.escape)
             }
-            .padding()
             
             // 内容区域
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 10) {
                     // 基本信息
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("基本信息")
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(LocalizedStringKey("basic_info"))
                             .font(.headline)
                         
                         HStack {
-                            Text("类型:")
+                            Text(LocalizedStringKey("type_label"))
                             Text(item.type.displayName)
                                 .foregroundColor(.secondary)
                         }
                         
                         HStack {
-                            Text("来源:")
+                            Text(LocalizedStringKey("source_label"))
                             Text(item.sourceApp)
                                 .foregroundColor(.secondary)
                         }
                         
                         HStack {
-                            Text("时间:")
+                            Text(LocalizedStringKey("time_label"))
                             Text(item.timestamp, style: .date)
                                 .foregroundColor(.secondary)
                         }
                         
                         HStack {
-                            Text("大小:")
-                            Text(item.fileSize ?? "未知")
+                            Text(LocalizedStringKey("size_label"))
+                            Text(item.fileSize ?? NSLocalizedString("unknown_size", comment: "Unknown size"))
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -816,7 +1064,7 @@ struct ClipboardDetailView: View {
                     
                     // 内容预览
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("内容预览")
+                        Text(LocalizedStringKey("content_preview"))
                             .font(.headline)
                         
                         if item.type == .image, 
@@ -825,14 +1073,29 @@ struct ClipboardDetailView: View {
                             Image(nsImage: image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(maxHeight: 300)
+                                .frame(maxHeight: 400)
                                 .cornerRadius(8)
                         } else {
-                            Text(item.content)
-                                .font(.system(.body, design: .monospaced))
-                                .padding()
+                            // 添加调试信息
+                            if item.content.isEmpty {
+                                Text(LocalizedStringKey("empty_content"))
+                                    .foregroundColor(.secondary)
+                                    .frame(minHeight: 200)
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color(NSColor.controlBackgroundColor))
+                                    .cornerRadius(8)
+                            } else {
+                                ScrollView {
+                                    Text(item.content)
+                                        .font(.system(size: 13, design: .monospaced))
+                                        .textSelection(.enabled)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(12)
+                                }
+                                .frame(minHeight: 300, maxHeight: 500)
                                 .background(Color(NSColor.controlBackgroundColor))
                                 .cornerRadius(8)
+                            }
                         }
                     }
                 }
@@ -843,7 +1106,7 @@ struct ClipboardDetailView: View {
             HStack {
                 Spacer()
                 
-                Button("复制到剪切板", action: onCopy)
+                Button(LocalizedStringKey("copy_to_clipboard"), action: onCopy)
                     .buttonStyle(.borderedProminent)
                     .keyboardShortcut(.return)
             }
@@ -851,4 +1114,114 @@ struct ClipboardDetailView: View {
         }
         .frame(minWidth: 600, minHeight: 400)
     }
-} 
+}
+
+// MARK: - 简单文本视图（调试用）
+struct SimpleTextView: NSViewRepresentable {
+    let text: String
+    let font: NSFont
+    
+    func makeNSView(context: Context) -> NSScrollView {
+        let scrollView = NSScrollView()
+        let textView = NSTextView()
+        
+        // 基本配置
+        textView.string = text
+        textView.font = font
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.backgroundColor = NSColor.controlBackgroundColor
+        textView.textColor = NSColor.textColor
+        textView.textContainerInset = NSSize(width: 12, height: 12)
+        
+        // 布局配置
+        textView.isVerticallyResizable = true
+        textView.isHorizontallyResizable = false
+        textView.textContainer?.widthTracksTextView = true
+        textView.textContainer?.heightTracksTextView = false
+        textView.maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+        
+        // 滚动视图配置
+        scrollView.documentView = textView
+        scrollView.hasVerticalScroller = true
+        scrollView.hasHorizontalScroller = false
+        scrollView.autohidesScrollers = true
+        scrollView.borderType = .noBorder
+        
+        return scrollView
+    }
+    
+    func updateNSView(_ nsView: NSScrollView, context: Context) {
+        if let textView = nsView.documentView as? NSTextView {
+            if textView.string != text {
+                textView.string = text
+            }
+        }
+    }
+}
+
+// MARK: - 最简单的文本视图（用于调试）
+struct BasicTextView: NSViewRepresentable {
+    let text: String
+    
+    func makeNSView(context: Context) -> NSTextView {
+        let textView = NSTextView()
+        textView.string = text
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.font = NSFont.monospacedSystemFont(ofSize: 13, weight: .regular)
+        textView.backgroundColor = NSColor.controlBackgroundColor
+        textView.textColor = NSColor.textColor
+        return textView
+    }
+    
+    func updateNSView(_ nsView: NSTextView, context: Context) {
+        if nsView.string != text {
+            nsView.string = text
+        }
+    }
+}
+
+// MARK: - 带右击菜单的可选择文本视图
+struct SelectableTextViewWithMenu: NSViewRepresentable {
+    let text: String
+    
+    func makeNSView(context: Context) -> NSScrollView {
+        let scrollView = NSScrollView()
+        let textView = CustomTextView()
+        
+        // 配置文本视图
+        textView.string = text
+        textView.font = NSFont.monospacedSystemFont(ofSize: 13, weight: .regular)
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.backgroundColor = NSColor.controlBackgroundColor
+        textView.textColor = NSColor.textColor
+        textView.textContainerInset = NSSize(width: 12, height: 12)
+        
+        // 配置滚动视图
+        scrollView.documentView = textView
+        scrollView.hasVerticalScroller = true
+        scrollView.hasHorizontalScroller = false
+        scrollView.autohidesScrollers = true
+        scrollView.borderType = .noBorder
+        
+        // 设置文本视图属性
+        textView.isVerticallyResizable = true
+        textView.isHorizontallyResizable = false
+        textView.textContainer?.widthTracksTextView = true
+        textView.textContainer?.heightTracksTextView = false
+        textView.maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+        
+        return scrollView
+    }
+    
+    func updateNSView(_ nsView: NSScrollView, context: Context) {
+        if let textView = nsView.documentView as? CustomTextView {
+            if textView.string != text {
+                textView.string = text
+                textView.needsDisplay = true
+            }
+        }
+    }
+}

@@ -60,7 +60,7 @@ struct ClipboardHistoryView: View {
     @EnvironmentObject var localizationManager: LocalizationManager
     @State private var searchText = ""
     @State private var selectedTypeFilter: ClipboardItem.ClipboardItemType? = nil
-    @State private var selectedIndex = 0
+    @State private var selectedIndex = -1
     @State private var showingDetailView = false
     @State private var selectedItem: ClipboardItem? = nil
     @State private var displayMode: DisplayMode = .bottom
@@ -112,7 +112,7 @@ struct ClipboardHistoryView: View {
                 return false
             }
             .onAppear {
-                selectedIndex = 0
+                selectedIndex = -1
             }
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("DisplayModeChanged"))) { notification in
                 if let modeString = notification.userInfo?["mode"] as? String,
@@ -199,24 +199,73 @@ struct ClipboardHistoryView: View {
             HStack(spacing: 20) {
                 // 左侧：应用标题和状态
                 HStack(spacing: 12) {
-                    Image(systemName: "doc.on.clipboard.fill")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(
-                            LinearGradient(
-                                colors: [.blue, .purple],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [.blue, .purple, .pink],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
                             )
-                        )
+                            .frame(width: 32, height: 32)
+                            .shadow(color: .blue.opacity(0.3), radius: 8, x: 0, y: 4)
+                        
+                        Image(systemName: "doc.on.clipboard.fill")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                    }
+                    .scaleEffect(1.0)
+                    .animation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true), value: UUID())
                     
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("CopyX")
-                            .font(.system(size: 20, weight: .bold, design: .rounded))
-                            .foregroundColor(.primary)
+                        HStack(spacing: 6) {
+                            Text("CopyX")
+                                .font(.system(size: 20, weight: .bold, design: .rounded))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [.primary, .blue.opacity(0.8)],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                            
+                            if !filteredItems.isEmpty {
+                                Text("Pro")
+                                    .font(.system(size: 10, weight: .bold))
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 2)
+                                    .background(
+                                        Capsule()
+                                            .fill(
+                                                LinearGradient(
+                                                    colors: [.orange, .red],
+                                                    startPoint: .leading,
+                                                    endPoint: .trailing
+                                                )
+                                            )
+                                    )
+                                    .shadow(color: .orange.opacity(0.3), radius: 4, x: 0, y: 2)
+                            }
+                        }
                         
-                        Text("\(filteredItems.count) \("items".localized)")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(.secondary)
+                        HStack(spacing: 4) {
+                            Text("\(filteredItems.count)")
+                                .font(.system(size: 12, weight: .bold))
+                                .foregroundColor(.accentColor)
+                            Text("items".localized)
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(.secondary)
+                            
+                            if showOnlyFavorites {
+                                Image(systemName: "heart.fill")
+                                    .font(.system(size: 10))
+                                    .foregroundColor(.red)
+                                    .scaleEffect(1.2)
+                                    .animation(.bouncy(duration: 0.6).repeatForever(autoreverses: true), value: showOnlyFavorites)
+                            }
+                        }
                     }
                 }
                 
@@ -282,17 +331,22 @@ struct ClipboardHistoryView: View {
         .frame(width: 280)
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white.opacity(0.8))
+                .fill(.ultraThinMaterial)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(
-                            searchText.isEmpty ? 
-                                Color.gray.opacity(0.3) :
-                                Color.accentColor.opacity(0.5),
+                            LinearGradient(
+                                colors: searchText.isEmpty ? 
+                                    [Color.gray.opacity(0.3), Color.gray.opacity(0.1)] :
+                                    [Color.blue.opacity(0.6), Color.purple.opacity(0.4)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
                             lineWidth: searchText.isEmpty ? 1 : 2
                         )
                         .animation(.easeInOut(duration: 0.2), value: searchText.isEmpty)
                 )
+                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
         )
         .contentShape(Rectangle())
         .onTapGesture {
@@ -304,66 +358,141 @@ struct ClipboardHistoryView: View {
     
     private var typeFilterButtons: some View {
         HStack(spacing: 6) {
-            Button(action: { selectedTypeFilter = nil }) {
+            Button(action: { 
+                withAnimation(.bouncy(duration: 0.5)) {
+                    selectedTypeFilter = nil 
+                }
+            }) {
                 Image(systemName: "square.grid.2x2.fill")
                     .font(.system(size: 14, weight: .medium))
                     .foregroundColor(selectedTypeFilter == nil ? .white : .secondary)
                     .frame(width: 32, height: 32)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(selectedTypeFilter == nil ? Color.accentColor : Color.clear)
+                            .fill(
+                                selectedTypeFilter == nil ? 
+                                LinearGradient(
+                                    colors: [.blue, .purple],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ) :
+                                LinearGradient(
+                                    colors: [Color.clear],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.secondary.opacity(0.3), lineWidth: selectedTypeFilter == nil ? 0 : 1)
+                            .stroke(
+                                selectedTypeFilter == nil ? 
+                                Color.blue.opacity(0.3) : 
+                                Color.secondary.opacity(0.3), 
+                                lineWidth: 1
+                            )
+                    )
+                    .shadow(
+                        color: selectedTypeFilter == nil ? .blue.opacity(0.3) : .clear,
+                        radius: selectedTypeFilter == nil ? 4 : 0,
+                        x: 0,
+                        y: 2
                     )
             }
             .buttonStyle(PlainButtonStyle())
             .help("all_types".localized)
+            .scaleEffect(selectedTypeFilter == nil ? 1.1 : 1.0)
+            .animation(.bouncy(duration: 0.5), value: selectedTypeFilter)
 
             ForEach(ClipboardItem.ClipboardItemType.allCases, id: \.self) { type in
-                Button(action: { selectedTypeFilter = type }) {
+                Button(action: { 
+                    withAnimation(.bouncy(duration: 0.5)) {
+                        selectedTypeFilter = type 
+                    }
+                }) {
                     Image(systemName: type.iconName)
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(selectedTypeFilter == type ? .white : .secondary)
+                        .foregroundColor(selectedTypeFilter == type ? .white : type.color)
                         .frame(width: 32, height: 32)
                         .background(
                             RoundedRectangle(cornerRadius: 8)
-                                .fill(selectedTypeFilter == type ? Color.accentColor : Color.clear)
+                                .fill(
+                                    selectedTypeFilter == type ? 
+                                    LinearGradient(
+                                        colors: [type.color, type.color.opacity(0.8)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    ) :
+                                    LinearGradient(
+                                        colors: [type.color.opacity(0.1)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
                         )
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.secondary.opacity(0.3), lineWidth: selectedTypeFilter == type ? 0 : 1)
+                                .stroke(
+                                    type.color.opacity(selectedTypeFilter == type ? 0.5 : 0.3), 
+                                    lineWidth: 1
+                                )
+                        )
+                        .shadow(
+                            color: selectedTypeFilter == type ? type.color.opacity(0.3) : .clear,
+                            radius: selectedTypeFilter == type ? 4 : 0,
+                            x: 0,
+                            y: 2
                         )
                 }
                 .buttonStyle(PlainButtonStyle())
                 .help(type.displayName)
+                .scaleEffect(selectedTypeFilter == type ? 1.1 : 1.0)
+                .animation(.bouncy(duration: 0.5), value: selectedTypeFilter)
             }
         }
     }
     
     private var closeButton: some View {
         Button(action: {
-            if let onClose = onClose {
-                onClose()
-            } else {
-                NotificationCenter.default.post(
-                    name: NSNotification.Name("CloseClipboardHistory"),
-                    object: nil
-                )
+            withAnimation(.easeInOut(duration: 0.3)) {
+                if let onClose = onClose {
+                    onClose()
+                } else {
+                    NotificationCenter.default.post(
+                        name: NSNotification.Name("CloseClipboardHistory"),
+                        object: nil
+                    )
+                }
             }
         }) {
             Image(systemName: "xmark.circle.fill")
                 .font(.system(size: 16, weight: .medium))
-                .foregroundColor(.red)
+                .foregroundColor(.white)
                 .frame(width: 32, height: 32)
                 .background(
                     Circle()
-                        .fill(Color.red.opacity(0.1))
+                        .fill(
+                            LinearGradient(
+                                colors: [.red, .pink],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                 )
+                .overlay(
+                    Circle()
+                        .stroke(Color.red.opacity(0.3), lineWidth: 1)
+                )
+                .shadow(color: .red.opacity(0.3), radius: 4, x: 0, y: 2)
         }
         .buttonStyle(PlainButtonStyle())
         .help("close".localized)
+        .scaleEffect(1.0)
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.2)) {
+                // 可以添加悬停缩放效果
+            }
+        }
     }
     
     // 标题栏设置按钮
@@ -377,17 +506,33 @@ struct ClipboardHistoryView: View {
                 .frame(width: 32, height: 32)
                 .background(
                     Circle()
-                        .fill(Color.secondary.opacity(0.1))
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.secondary.opacity(0.15), Color.secondary.opacity(0.05)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                )
+                .overlay(
+                    Circle()
+                        .stroke(Color.secondary.opacity(0.2), lineWidth: 1)
                 )
         }
         .buttonStyle(PlainButtonStyle())
         .help("settings".localized)
+        .scaleEffect(1.0)
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.2)) {
+                // 悬停效果可以在这里添加
+            }
+        }
     }
     
     // 标题栏收藏按钮
     private var favoritesButton: some View {
         Button(action: {
-            withAnimation(.easeInOut(duration: 0.3)) {
+            withAnimation(.bouncy(duration: 0.6)) {
                 showOnlyFavorites.toggle()
             }
         }) {
@@ -397,11 +542,38 @@ struct ClipboardHistoryView: View {
                 .frame(width: 32, height: 32)
                 .background(
                     Circle()
-                        .fill(showOnlyFavorites ? Color.red : Color.secondary.opacity(0.1))
+                        .fill(
+                            showOnlyFavorites ? 
+                            LinearGradient(
+                                colors: [Color.red, Color.pink],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ) :
+                            LinearGradient(
+                                colors: [Color.secondary.opacity(0.1), Color.secondary.opacity(0.05)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                )
+                .overlay(
+                    Circle()
+                        .stroke(
+                            showOnlyFavorites ? Color.red.opacity(0.3) : Color.secondary.opacity(0.2),
+                            lineWidth: 1
+                        )
+                )
+                .shadow(
+                    color: showOnlyFavorites ? Color.red.opacity(0.3) : Color.clear,
+                    radius: showOnlyFavorites ? 6 : 0,
+                    x: 0,
+                    y: 2
                 )
         }
         .buttonStyle(PlainButtonStyle())
         .help(showOnlyFavorites ? "show_all".localized : "show_favorites_only".localized)
+        .scaleEffect(showOnlyFavorites ? 1.1 : 1.0)
+        .animation(.bouncy(duration: 0.6), value: showOnlyFavorites)
     }
     
     // 拉伸指示符
@@ -596,6 +768,17 @@ struct ModernClipboardListItemView: View {
                 endPoint: .bottomTrailing
             ).blur(radius: 20)
             
+            if item.isFavorite {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.red.opacity(0.1), Color.pink.opacity(0.05)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            }
+            
             if isSelected {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Color.accentColor.opacity(0.2))
@@ -609,12 +792,75 @@ struct ModernClipboardListItemView: View {
                 LinearGradient(
                     colors: isSelected ?
                         [Color.accentColor.opacity(0.8), Color.accentColor.opacity(0.4)] :
+                        item.isFavorite ?
+                        [Color.red.opacity(0.6), Color.pink.opacity(0.3)] :
                         [Color.white.opacity(isHovered ? 0.6 : 0.3), Color.white.opacity(isHovered ? 0.3 : 0.1)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ),
-                lineWidth: isSelected ? 2.5 : 1.5
+                lineWidth: isSelected ? 2 : 1
             )
+    }
+
+
+    
+    // 复制反馈覆盖层
+    private var copyFeedbackOverlay: some View {
+        Group {
+            if showCopyFeedback {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.green.opacity(0.2))
+                    
+                    VStack(spacing: 6) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 24, weight: .medium))
+                            .foregroundColor(.green)
+                        
+                        Text("已复制")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.green)
+                    }
+                }
+                .transition(.opacity.combined(with: .scale))
+            }
+        }
+    }
+    
+
+    
+    // 现代化操作按钮
+    private func modernActionButton(icon: String, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: icon)
+                .font(.system(size: 12, weight: .medium))
+                .foregroundColor(color == .secondary ? color : .white)
+                .frame(width: 24, height: 24)
+                .background(
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: color == .secondary ? 
+                                    [Color.secondary.opacity(0.2), Color.secondary.opacity(0.1)] :
+                                    [color, color.opacity(0.8)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                )
+                .overlay(
+                    Circle()
+                        .stroke(color.opacity(0.3), lineWidth: 0.5)
+                )
+                .shadow(color: color.opacity(0.3), radius: 2, x: 0, y: 1)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .scaleEffect(1.0)
+        .onHover { hovering in
+            withAnimation(.easeInOut(duration: 0.15)) {
+                // 可以添加悬停效果
+            }
+        }
     }
 
     var body: some View {
@@ -634,6 +880,16 @@ struct ModernClipboardListItemView: View {
         .onHover { hovering in
             self.isHovered = hovering
         }
+        .onTapGesture(count: 2) {
+            onCopy()
+            withAnimation { showCopyFeedback = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                withAnimation { showCopyFeedback = false }
+            }
+        }
+        .contextMenu {
+            listItemContextMenu
+        }
     }
 
     private var header: some View {
@@ -645,9 +901,28 @@ struct ModernClipboardListItemView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 4))
                     .shadow(radius: 2)
             }
+            
+            // 应用名称使用主题色
             Text(item.sourceApp)
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(.primary.opacity(0.9))
+                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .background(
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(item.getAppThemeColor().opacity(0.1))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(item.getAppThemeColor().opacity(0.3), lineWidth: 0.5)
+                        )
+                )
+                .foregroundColor(item.getAppThemeColor())
+            
+            if item.isFavorite {
+                Image(systemName: "heart.fill")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundColor(.red)
+                    .transition(.scale.combined(with: .opacity))
+            }
 
             Spacer()
 
@@ -688,7 +963,7 @@ struct ModernClipboardListItemView: View {
     private var actionButtons: some View {
         HStack(spacing: 0) {
             actionButton(icon: "square.and.arrow.up", color: .blue, tooltip: "share", action: onShare)
-            actionButton(icon: item.isFavorite ? "heart.fill" : "heart", color: .pink, tooltip: "favorite", action: onToggleFavorite)
+            actionButton(icon: item.isFavorite ? "heart.fill" : "heart", color: item.isFavorite ? .red : .pink, tooltip: item.isFavorite ? "unfavorite" : "favorite", action: onToggleFavorite)
             actionButton(icon: "info.circle", color: .cyan, tooltip: "details", action: onShowDetail)
             actionButton(icon: showCopyFeedback ? "checkmark" : "doc.on.doc", color: .green, tooltip: "copy", action: {
                 onCopy()
@@ -707,6 +982,42 @@ struct ModernClipboardListItemView: View {
         )
     }
 
+    // 列表项右键菜单
+    private var listItemContextMenu: some View {
+        VStack {
+            Button(action: {
+                onCopy()
+                withAnimation { showCopyFeedback = true }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    withAnimation { showCopyFeedback = false }
+                }
+            }) {
+                Label("copy_to_clipboard".localized, systemImage: "doc.on.doc")
+            }
+            
+            Button(action: onShare) {
+                Label("share".localized, systemImage: "square.and.arrow.up")
+            }
+            
+            Button(action: {
+                withAnimation(.bouncy(duration: 0.8)) {
+                    onToggleFavorite()
+                }
+            }) {
+                Label(
+                    item.isFavorite ? "unfavorite".localized : "favorite".localized,
+                    systemImage: item.isFavorite ? "heart.slash" : "heart"
+                )
+            }
+            
+            Divider()
+            
+            Button(action: onShowDetail) {
+                Label("view_details".localized, systemImage: "info.circle")
+            }
+        }
+    }
+    
     private func actionButton(icon: String, color: Color, tooltip: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: icon)

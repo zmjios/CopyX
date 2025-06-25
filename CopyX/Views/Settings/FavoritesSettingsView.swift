@@ -247,15 +247,24 @@ struct FavoriteItemRow: View {
             }
             .buttonStyle(PlainButtonStyle())
             
-            // 类型图标
-            ZStack {
-                Circle()
-                    .fill(item.type.color.opacity(0.15))
-                    .frame(width: 32, height: 32)
+            // 类型图标和应用标识
+            HStack(spacing: 8) {
+                // 类型图标
+                ZStack {
+                    Circle()
+                        .fill(item.type.color.opacity(0.15))
+                        .frame(width: 32, height: 32)
+                    
+                    Image(systemName: item.type.iconName)
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(item.type.color)
+                }
                 
-                Image(systemName: item.type.iconName)
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(item.type.color)
+                // 应用标识条
+                Rectangle()
+                    .fill(item.getAppThemeColor())
+                    .frame(width: 3, height: 32)
+                    .cornerRadius(1.5)
             }
             
             // 内容区域
@@ -266,6 +275,15 @@ struct FavoriteItemRow: View {
                         .lineLimit(1)
                     
                     Spacer()
+                    
+                    // 应用名称标签
+                    Text(item.sourceApp)
+                        .font(.system(size: 10, weight: .medium))
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(item.getAppThemeColor().opacity(0.15))
+                        .foregroundColor(item.getAppThemeColor())
+                        .cornerRadius(4)
                     
                     if item.usageCount > 0 {
                         Text(String(format: "usage_count_format".localized, item.usageCount))

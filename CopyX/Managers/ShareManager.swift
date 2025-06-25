@@ -88,7 +88,7 @@ class ShareManager: ObservableObject {
         NSPasteboard.general.clearContents()
         
         switch item.type {
-        case .text, .url, .file:
+        case .text, .url, .file, .rtf, .code, .json, .xml, .email, .phone:
             NSPasteboard.general.setString(content, forType: .string)
         case .image:
             if let imageData = Data(base64Encoded: item.content),
@@ -106,7 +106,7 @@ class ShareManager: ObservableObject {
     // MARK: - 私有方法
     private func prepareShareContent(_ item: ClipboardItem) -> String {
         switch item.type {
-        case .text:
+        case .text, .rtf, .code, .json, .xml, .email, .phone:
             return item.content
         case .url:
             return item.content
@@ -133,7 +133,7 @@ class ShareManager: ObservableObject {
             let sharingItems: [Any]
             
             switch item.type {
-            case .text, .url:
+            case .text, .url, .rtf, .code, .json, .xml, .email, .phone:
                 sharingItems = [content]
             case .image:
                 if let imageData = Data(base64Encoded: item.content),
@@ -171,7 +171,7 @@ class ShareManager: ObservableObject {
         let fileName: String
         
         switch item.type {
-        case .text:
+        case .text, .rtf, .code, .json, .xml, .email, .phone:
             fileName = "shared_text.txt"
         case .url:
             fileName = "shared_url.txt"
@@ -201,7 +201,7 @@ class ShareManager: ObservableObject {
         var shareURL: URL?
         
         switch item.type {
-        case .text, .url:
+        case .text, .url, .rtf, .code, .json, .xml, .email, .phone:
             shareURL = URL(string: "weixin://dl/stickers")
             NSPasteboard.general.clearContents()
             NSPasteboard.general.setString(content, forType: .string)
@@ -229,7 +229,7 @@ class ShareManager: ObservableObject {
     private func showWeChatShareGuidance(for type: ClipboardItem.ClipboardItemType) {
         let message: String
         switch type {
-        case .text, .url:
+        case .text, .url, .rtf, .code, .json, .xml, .email, .phone:
             message = "内容已复制到剪切板，在微信中长按输入框粘贴分享"
         case .image:
             message = "图片已复制到剪切板，在微信中点击相册选择或粘贴分享"

@@ -167,19 +167,13 @@ class ClipboardManager: ObservableObject {
         
         // 首先尝试获取文本
         if let string = pasteboard.string(forType: .string), !string.isEmpty {
-            let type: ClipboardItem.ClipboardItemType
-            
-            // 检测URL
-            if isValidURL(string) {
-                type = .url
-            } else {
-                type = .text
-            }
+            // 使用智能类型检测
+            let detectedType = ClipboardItem.ClipboardItemType.detectType(from: string)
             
             return ClipboardItem(
                 content: string,
                 timestamp: Date(),
-                type: type,
+                type: detectedType,
                 sourceApp: sourceApp,
                 sourceAppBundleIdentifier: bundleId,
                 fileSize: nil
@@ -378,7 +372,7 @@ class ClipboardManager: ObservableObject {
         pasteboard.clearContents()
         
         switch item.type {
-        case .text, .url:
+        case .text, .url, .rtf, .code, .json, .xml, .email, .phone:
             pasteboard.setString(item.content, forType: .string)
         case .image:
             if let data = Data(base64Encoded: item.content) {
