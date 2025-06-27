@@ -49,6 +49,7 @@ class ClipboardManager: ObservableObject {
     @AppStorage("maxHistoryCount") var storedMaxHistoryCount: Int = 100
     @AppStorage("enabledTypes") var enabledTypesData: Data = Data()
     @AppStorage("excludePasswords") var excludePasswords: Bool = true
+    @AppStorage("excludeSensitiveData") var excludeSensitiveData: Bool = true
     @AppStorage("autoStart") var autoStart: Bool = true
     @AppStorage("autoCleanup") var autoCleanup: Bool = false
     @AppStorage("enableTextHistory") var enableTextHistory: Bool = true
@@ -83,6 +84,28 @@ class ClipboardManager: ObservableObject {
         loadClipboardHistory()
         maxHistoryCount = storedMaxHistoryCount
         NSLog("加载的历史记录数量: \(clipboardHistory.count)")
+        
+        // 启动定期内存清理
+        scheduleMemoryCleanup()
+        
+        // 监听应用程序生命周期事件
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleMemoryWarning),
+            name: NSApplication.didResignActiveNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func handleMemoryWarning() {
+        NSLog("收到内存警告，开始清理...")
+        cleanupMemory()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        timer?.invalidate()
+        stopMonitoring()
     }
     
     func startMonitoring() {
@@ -146,6 +169,12 @@ class ClipboardManager: ObservableObject {
         // 检查是否为密码（简单检测）
         if excludePasswords && isPotentialPassword(newItem.content) {
             NSLog("检测到潜在密码，跳过")
+            return
+        }
+        
+        // 检查是否包含敏感数据
+        if excludeSensitiveData && newItem.containsSensitiveData() {
+            NSLog("检测到敏感数据，跳过")
             return
         }
         
@@ -269,7 +298,7 @@ class ClipboardManager: ObservableObject {
     
     private func saveClipboardHistory() {
         do {
-            // 使用文件系统存储而不是UserDefaults
+            // 使用应用程序支持目录（沙盒安全）
             let documentsPath = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
             let appSupportPath = documentsPath.appendingPathComponent("CopyX", isDirectory: true)
             
@@ -277,12 +306,52 @@ class ClipboardManager: ObservableObject {
             try FileManager.default.createDirectory(at: appSupportPath, withIntermediateDirectories: true, attributes: nil)
             
             let filePath = appSupportPath.appendingPathComponent("clipboardHistory.json")
-            let data = try JSONEncoder().encode(clipboardHistory)
-            try data.write(to: filePath)
+            
+            // 分批保存大量数据以避免内存问题
+            let batchSize = 50
+            let totalItems = clipboardHistory.count
+            let tempItems = clipboardHistory
+            
+            if totalItems > batchSize {
+                // 对于大量数据，分批编码
+                var allData = Data()
+                allData.append("[".data(using: .utf8)!)
+                
+                // 手动分批处理
+                let totalBatches = (tempItems.count + batchSize - 1) / batchSize
+                for batchIndex in 0..<totalBatches {
+                    let startIndex = batchIndex * batchSize
+                    let endIndex = min(startIndex + batchSize, tempItems.count)
+                    let batch = Array(tempItems[startIndex..<endIndex])
+                    
+                    let batchData = try JSONEncoder().encode(batch)
+                    // 移除数组的开始和结束括号
+                    let batchString = String(data: batchData, encoding: .utf8)!
+                    let cleanedBatch = String(batchString.dropFirst().dropLast())
+                    
+                    allData.append(cleanedBatch.data(using: .utf8)!)
+                    
+                    // 如果不是最后一批，添加逗号
+                    if batchIndex < totalBatches - 1 {
+                        allData.append(",".data(using: .utf8)!)
+                    }
+                }
+                allData.append("]".data(using: .utf8)!)
+                
+                try allData.write(to: filePath, options: .atomic)
+            } else {
+                // 少量数据直接编码
+                let data = try JSONEncoder().encode(clipboardHistory)
+                try data.write(to: filePath, options: .atomic)
+            }
             
             NSLog("剪切板历史已保存到: \(filePath.path)")
         } catch {
             NSLog("保存剪切板历史失败: \(error)")
+            // 显示用户友好的错误消息
+            DispatchQueue.main.async {
+                self.showErrorAlert("保存数据失败", message: "无法保存剪贴板历史记录。请检查存储空间和权限。")
+            }
         }
     }
     
@@ -298,9 +367,38 @@ class ClipboardManager: ObservableObject {
                 return
             }
             
+            // 检查文件大小，避免加载过大的文件
+            let fileAttributes = try FileManager.default.attributesOfItem(atPath: filePath.path)
+            let fileSize = fileAttributes[.size] as? Int64 ?? 0
+            
+            if fileSize > 50 * 1024 * 1024 { // 50MB 限制
+                print("历史记录文件过大 (\(fileSize) bytes)，重置为空")
+                clipboardHistory = []
+                // 删除过大的文件
+                try FileManager.default.removeItem(at: filePath)
+                return
+            }
+            
             let data = try Data(contentsOf: filePath)
-            clipboardHistory = try JSONDecoder().decode([ClipboardItem].self, from: data)
-            print("成功加载剪切板历史，共 \(clipboardHistory.count) 项")
+            
+            // 使用安全的解码方式，避免崩溃
+            do {
+                clipboardHistory = try JSONDecoder().decode([ClipboardItem].self, from: data)
+                
+                // 限制加载的项目数量，避免内存问题
+                if clipboardHistory.count > maxHistoryCount {
+                    clipboardHistory = Array(clipboardHistory.prefix(maxHistoryCount))
+                }
+                
+                print("成功加载剪切板历史，共 \(clipboardHistory.count) 项")
+            } catch {
+                print("解码剪切板历史失败: \(error)，使用空数组")
+                clipboardHistory = []
+                // 备份损坏的文件
+                let backupPath = filePath.appendingPathExtension("backup")
+                try? FileManager.default.moveItem(at: filePath, to: backupPath)
+            }
+            
         } catch {
             print("加载剪切板历史失败: \(error)")
             clipboardHistory = []
@@ -582,8 +680,53 @@ class ClipboardManager: ObservableObject {
         }
     */
     
-    deinit {
-        stopMonitoring()
+    // 显示错误提示
+    private func showErrorAlert(_ title: String, message: String) {
+        let alert = NSAlert()
+        alert.messageText = title
+        alert.informativeText = message
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
+    }
+    
+    // MARK: - 内存管理优化
+    
+    /// 清理内存中的大型数据
+    func cleanupMemory() {
+        // 清理过期的临时数据
+        let threshold = Date().addingTimeInterval(-86400) // 24小时前
+        clipboardHistory.removeAll { item in
+            !item.isFavorite && item.timestamp < threshold
+        }
+        
+        // 限制图片数据的内存占用
+        for i in 0..<clipboardHistory.count {
+            if clipboardHistory[i].type == .image {
+                // 可以考虑压缩图片数据或移除过大的图片
+                let content = clipboardHistory[i].content
+                if content.count > 1024 * 1024 { // 1MB
+                    // 标记为需要重新加载的状态
+                    clipboardHistory[i] = ClipboardItem(
+                        content: "large_image_placeholder",
+                        timestamp: clipboardHistory[i].timestamp,
+                        type: .image,
+                        sourceApp: clipboardHistory[i].sourceApp,
+                        sourceAppBundleIdentifier: clipboardHistory[i].sourceAppBundleIdentifier,
+                        fileSize: clipboardHistory[i].fileSize
+                    )
+                }
+            }
+        }
+        
+        saveClipboardHistory()
+    }
+    
+    /// 定期清理内存
+    func scheduleMemoryCleanup() {
+        Timer.scheduledTimer(withTimeInterval: 3600, repeats: true) { _ in
+            self.cleanupMemory()
+        }
     }
 }
 

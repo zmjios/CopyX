@@ -1,0 +1,21 @@
+/* 
+  InfoPlist.strings
+  CopyX - Spanish Localization
+
+  Created by AI Assistant on 2024.
+*/
+
+// MARK: - Descripciones de permisos
+"NSAppleEventsUsageDescription" = "CopyX necesita enviar Apple Events para interactuar y compartir con otras aplicaciones, proporcionándote una mejor experiencia de gestión del portapapeles.";
+
+"NSAccessibilityUsageDescription" = "CopyX necesita permisos de accesibilidad para detectar el contexto de la aplicación, proporcionándote una experiencia de gestión del portapapeles más inteligente. Estos permisos solo se usan para mejorar la funcionalidad de la aplicación y no recopilan tus datos privados.";
+
+"NSContactsUsageDescription" = "CopyX puede necesitar acceso a los contactos para identificar y procesar información de contacto, proporcionando funciones de gestión del portapapeles más inteligentes. Tus datos de contacto no serán transmitidos ni almacenados.";
+
+"NSCalendarsUsageDescription" = "CopyX puede necesitar acceso a los calendarios para identificar y procesar información de fecha/hora, proporcionando funciones de gestión del portapapeles más inteligentes. Tus datos de calendario no serán transmitidos ni almacenados.";
+
+"NSSystemAdministrationUsageDescription" = "CopyX necesita permisos de administración del sistema para acceder a los servicios de compartir y funcionalidades del portapapeles, asegurando que la aplicación funcione correctamente.";
+
+// MARK: - Información del bundle
+"CFBundleDisplayName" = "CopyX";
+"CFBundleName" = "CopyX"; 

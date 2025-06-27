@@ -8,8 +8,17 @@ struct CopyXApp: App {
     @StateObject private var hotKeyManager = HotKeyManager()
     @StateObject private var localizationManager = LocalizationManager.shared
     @State private var showSplash = true
+    @State private var showFirstLaunch = false
+    @AppStorage("hasCompletedFirstLaunch") private var hasCompletedFirstLaunch = false
+    @AppStorage("hasAgreedToTerms") private var hasAgreedToTerms = false
     
     private func setupConfig() {
+        // 检查首次启动
+        if !hasCompletedFirstLaunch {
+            showFirstLaunch = true
+            return
+        }
+        
         // 请求通知权限
         ClipboardManager.requestNotificationPermission()
 
@@ -34,7 +43,17 @@ struct CopyXApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if showSplash {
+            if showFirstLaunch && !hasCompletedFirstLaunch {
+                FirstLaunchWelcomeView {
+                    hasCompletedFirstLaunch = true
+                    hasAgreedToTerms = true
+                    showFirstLaunch = false
+                    setupConfig()
+                }
+                .environmentObject(clipboardManager)
+                .environmentObject(hotKeyManager)
+                .environmentObject(localizationManager)
+            } else if showSplash {
                 SplashScreenView {
                     withAnimation(.easeInOut(duration: 0.5)) {
                         showSplash = false

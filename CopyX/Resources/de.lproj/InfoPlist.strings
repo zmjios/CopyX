@@ -1,0 +1,21 @@
+/* 
+  InfoPlist.strings
+  CopyX - German Localization
+
+  Created by AI Assistant on 2024.
+*/
+
+// MARK: - Berechtigungsbeschreibungen
+"NSAppleEventsUsageDescription" = "CopyX benötigt die Berechtigung, Apple Events zu senden, um mit anderen Anwendungen zu interagieren und zu teilen, damit Sie eine bessere Zwischenablage-Verwaltung erhalten.";
+
+"NSAccessibilityUsageDescription" = "CopyX benötigt Barrierefreiheitsberechtigung, um den Anwendungskontext zu erkennen und Ihnen eine intelligentere Zwischenablage-Verwaltung zu bieten. Diese Berechtigungen werden nur zur Verbesserung der App-Funktionalität verwendet und sammeln keine privaten Daten.";
+
+"NSContactsUsageDescription" = "CopyX benötigt möglicherweise Zugriff auf Kontakte, um Kontaktinformationen zu identifizieren und zu verarbeiten, damit intelligentere Zwischenablage-Funktionen bereitgestellt werden können. Ihre Kontaktdaten werden nicht übertragen oder gespeichert.";
+
+"NSCalendarsUsageDescription" = "CopyX benötigt möglicherweise Zugriff auf Kalender, um Datum/Zeit-Informationen zu identifizieren und zu verarbeiten, damit intelligentere Zwischenablage-Funktionen bereitgestellt werden können. Ihre Kalenderdaten werden nicht übertragen oder gespeichert.";
+
+"NSSystemAdministrationUsageDescription" = "CopyX benötigt Systemadministratorberechtigungen, um auf Freigabedienste und Zwischenablage-Funktionen zuzugreifen und den ordnungsgemäßen Betrieb der App sicherzustellen.";
+
+// MARK: - Bundle-Informationen
+"CFBundleDisplayName" = "CopyX";
+"CFBundleName" = "CopyX"; 

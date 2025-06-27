@@ -768,4 +768,41 @@ struct ClipboardItem: Identifiable, Codable, Equatable {
         
         return score
     }
+    
+    /// 检测可能包含的敏感数据
+    func containsSensitiveData() -> Bool {
+        switch type {
+        case .text, .email, .phone, .code, .json, .xml:
+            return containsSensitiveInformation(content)
+        case .image, .url, .file, .rtf:
+            // 可以根据需要添加不同类型的敏感数据检测
+            return false
+        }
+    }
+    
+    /// 分析文本是否包含敏感信息
+    private func containsSensitiveInformation(_ text: String) -> Bool {
+        // 身份证号（中国）
+        let idCardPattern = "\\d{17}[\\dXx]"
+        // 信用卡号
+        let creditCardPattern = "(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\\d{3})\\d{11})"
+        // 银行账号（简化版）
+        let bankAccountPattern = "\\d{16,19}"
+        // API密钥模式（通常为长随机字符串，可能包含特定前缀）
+        let apiKeyPattern = "([A-Za-z0-9]{32,}|sk_[A-Za-z0-9]{24,}|ak_[A-Za-z0-9]{24,})"
+        // 密码模式（包含数字和特殊字符的短字符串）
+        let passwordPattern = "(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}"
+        
+        // 组合所有模式
+        let patterns = [idCardPattern, creditCardPattern, bankAccountPattern, apiKeyPattern, passwordPattern]
+        
+        for pattern in patterns {
+            if let regex = try? NSRegularExpression(pattern: pattern),
+               regex.firstMatch(in: text, range: NSRange(location: 0, length: text.utf16.count)) != nil {
+                return true
+            }
+        }
+        
+        return false
+    }
 } 

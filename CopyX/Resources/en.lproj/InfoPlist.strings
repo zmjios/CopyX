@@ -1,0 +1,21 @@
+/* 
+  InfoPlist.strings
+  CopyX - English Localization
+
+  Created by AI Assistant on 2024.
+*/
+
+// MARK: - Permission Descriptions
+"NSAppleEventsUsageDescription" = "CopyX needs to send Apple Events to interact and share with other applications, providing you with a better clipboard management experience.";
+
+"NSAccessibilityUsageDescription" = "CopyX needs accessibility permissions to detect application context, providing you with a smarter clipboard management experience. These permissions are only used to improve app functionality and will not collect your private data.";
+
+"NSContactsUsageDescription" = "CopyX may need to access contacts to identify and process contact information, providing smarter clipboard management features. Your contact data will not be transmitted or stored.";
+
+"NSCalendarsUsageDescription" = "CopyX may need to access calendars to identify and process date/time information, providing smarter clipboard management features. Your calendar data will not be transmitted or stored.";
+
+"NSSystemAdministrationUsageDescription" = "CopyX needs system administration permissions to access sharing services and clipboard functionality, ensuring the app runs properly.";
+
+// MARK: - Bundle Info
+"CFBundleDisplayName" = "CopyX";
+"CFBundleName" = "CopyX"; 

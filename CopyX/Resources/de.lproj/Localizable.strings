@@ -524,4 +524,33 @@
 "settings_language" = "Sprache";
 "settings_language_desc" = "Oberflächensprache wählen";
 "settings_empty_title" = "Einstellung auswählen";
-"settings_empty_desc" = "Wählen Sie ein Einstellungselement links aus, um mit der Konfiguration zu beginnen"; 
+"settings_empty_desc" = "Wählen Sie ein Einstellungselement links aus, um mit der Konfiguration zu beginnen";
+
+// MARK: - Privatsphäre und Sicherheit
+"exclude_sensitive_data" = "Sensible Daten ausschließen";
+"exclude_sensitive_data_subtitle" = "Sensible Informationen wie Ausweisnummern, Kreditkartennummern usw. automatisch erkennen und überspringen.";
+"privacy_notice_title" = "Datenschutzhinweis";
+"privacy_notice_message" = "CopyX erkennt und schützt Ihre sensiblen Informationen lokal, wie z.B. Ausweisnummern, Kreditkartennummern usw. Diese Daten werden nicht gespeichert oder übertragen.";
+"user_agreement_title" = "Benutzervereinbarung";
+"user_agreement_message" = "Durch die Nutzung von CopyX stimmen Sie unseren Nutzungsbedingungen und Datenschutzrichtlinien zu.";
+"i_agree" = "Ich stimme zu";
+"view_full_agreement" = "Vollständige Vereinbarung anzeigen";
+"first_launch_welcome" = "Willkommen bei CopyX";
+"first_launch_subtitle" = "Leistungsstarkes Zwischenablage-Verwaltungstool";
+"get_started" = "Loslegen";
+"enable_accessibility_title" = "Barrierefreiheitsberechtigungen aktivieren";
+"enable_accessibility_message" = "CopyX benötigt Barrierefreiheitsberechtigungen, um Zwischenablage-Änderungen zu überwachen. Bitte aktivieren Sie sie in den Systemeinstellungen.";
+"open_system_preferences" = "Systemeinstellungen öffnen";
+"skip_for_now" = "Vorerst überspringen";
+
+// MARK: - Erweiterte Inhaltstypen
+"rtf_type" = "Rich Text";
+"code_type" = "Code";
+"json_type" = "JSON-Daten";
+"xml_type" = "XML-Daten";
+"email_type" = "E-Mail-Adresse";
+"phone_type" = "Telefonnummer";
+
+// MARK: - Inhaltsbeschreibungen
+"image_content" = "Bild";
+"yesterday" = "Gestern"; 

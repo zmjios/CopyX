@@ -1,0 +1,21 @@
+/* 
+  InfoPlist.strings
+  CopyX - Japanese Localization
+
+  Created by AI Assistant on 2024.
+*/
+
+// MARK: - 権限の説明
+"NSAppleEventsUsageDescription" = "CopyXは他のアプリケーションとの相互作用と共有のためにApple Eventsを送信する必要があり、より良いクリップボード管理体験を提供します。";
+
+"NSAccessibilityUsageDescription" = "CopyXはアプリケーションのコンテキストを検出するためにアクセシビリティ権限が必要で、よりスマートなクリップボード管理体験を提供します。これらの権限はアプリの機能向上のためだけに使用され、プライベートデータは収集しません。";
+
+"NSContactsUsageDescription" = "CopyXは連絡先情報を識別し処理するために連絡先へのアクセスが必要な場合があり、よりスマートなクリップボード管理機能を提供します。あなたの連絡先データは送信または保存されません。";
+
+"NSCalendarsUsageDescription" = "CopyXは日付/時刻情報を識別し処理するためにカレンダーへのアクセスが必要な場合があり、よりスマートなクリップボード管理機能を提供します。あなたのカレンダーデータは送信または保存されません。";
+
+"NSSystemAdministrationUsageDescription" = "CopyXは共有サービスやクリップボード機能にアクセスし、アプリの正常な動作を確保するためにシステム管理権限が必要です。";
+
+// MARK: - バンドル情報
+"CFBundleDisplayName" = "CopyX";
+"CFBundleName" = "CopyX"; 

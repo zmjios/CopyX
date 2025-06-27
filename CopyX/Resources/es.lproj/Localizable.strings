@@ -525,3 +525,32 @@
 "settings_language_desc" = "Elegir idioma de la interfaz";
 "settings_empty_title" = "Seleccionar configuración";
 "settings_empty_desc" = "Elija un elemento de configuración de la izquierda para comenzar";
+
+// MARK: - Privacidad y seguridad
+"exclude_sensitive_data" = "Excluir datos sensibles";
+"exclude_sensitive_data_subtitle" = "Detectar y omitir automáticamente información sensible como números de identificación, números de tarjeta de crédito, etc.";
+"privacy_notice_title" = "Aviso de privacidad";
+"privacy_notice_message" = "CopyX detecta y protege localmente tu información sensible, como números de identificación, números de tarjeta de crédito, etc. Estos datos no se guardan ni se transmiten.";
+"user_agreement_title" = "Acuerdo de usuario";
+"user_agreement_message" = "Al usar CopyX, aceptas nuestros términos de servicio y política de privacidad.";
+"i_agree" = "Acepto";
+"view_full_agreement" = "Ver acuerdo completo";
+"first_launch_welcome" = "Bienvenido a CopyX";
+"first_launch_subtitle" = "Herramienta poderosa de gestión del portapapeles";
+"get_started" = "Comenzar";
+"enable_accessibility_title" = "Habilitar permisos de accesibilidad";
+"enable_accessibility_message" = "CopyX necesita permisos de accesibilidad para monitorear cambios del portapapeles. Por favor habilítalo en Preferencias del Sistema.";
+"open_system_preferences" = "Abrir Preferencias del Sistema";
+"skip_for_now" = "Omitir por ahora";
+
+// MARK: - Tipos de contenido extendidos
+"rtf_type" = "Texto enriquecido";
+"code_type" = "Código";
+"json_type" = "Datos JSON";
+"xml_type" = "Datos XML";
+"email_type" = "Dirección de correo";
+"phone_type" = "Número de teléfono";
+
+// MARK: - Descripciones de contenido
+"image_content" = "Imagen";
+"yesterday" = "Ayer";

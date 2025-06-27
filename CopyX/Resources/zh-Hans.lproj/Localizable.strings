@@ -616,3 +616,32 @@
 "size_label" = "大小:";
 "unknown_size" = "未知";
 
+// MARK: - Privacy and Security
+"exclude_sensitive_data" = "排除敏感数据";
+"exclude_sensitive_data_subtitle" = "自动检测并跳过身份证、银行卡号等敏感信息";
+"privacy_notice_title" = "隐私声明";
+"privacy_notice_message" = "CopyX 会在本地检测并保护您的敏感信息，如身份证号、银行卡号等。这些数据不会被保存或传输。";
+"user_agreement_title" = "用户协议";
+"user_agreement_message" = "使用 CopyX 即表示您同意我们的使用条款和隐私政策。";
+"i_agree" = "我同意";
+"view_full_agreement" = "查看完整协议";
+"first_launch_welcome" = "欢迎使用 CopyX";
+"first_launch_subtitle" = "强大的剪贴板管理工具";
+"get_started" = "开始使用";
+"enable_accessibility_title" = "启用辅助功能权限";
+"enable_accessibility_message" = "CopyX 需要辅助功能权限来监控剪贴板变化。请在系统偏好设置中启用。";
+"open_system_preferences" = "打开系统偏好设置";
+"skip_for_now" = "暂时跳过";
+
+// MARK: - Content Types Extended
+"rtf_type" = "富文本";
+"code_type" = "代码";
+"json_type" = "JSON数据";
+"xml_type" = "XML数据";
+"email_type" = "邮箱地址";
+"phone_type" = "电话号码";
+
+// MARK: - Content Descriptions
+"image_content" = "图片";
+"yesterday" = "昨天";
+

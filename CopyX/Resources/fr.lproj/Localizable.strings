@@ -525,3 +525,33 @@
 "settings_language_desc" = "Choisir la langue de l'interface";
 "settings_empty_title" = "Sélectionner paramètres";
 "settings_empty_desc" = "Choisissez un élément de paramètres à gauche pour commencer la configuration";
+
+
+// MARK: - Confidentialité et sécurité
+"exclude_sensitive_data" = "Exclure les données sensibles";
+"exclude_sensitive_data_subtitle" = "Détecter et ignorer automatiquement les informations sensibles comme les numéros d'identité, les numéros de carte de crédit, etc.";
+"privacy_notice_title" = "Avis de confidentialité";
+"privacy_notice_message" = "CopyX détecte et protège localement vos informations sensibles, telles que les numéros d'identité, les numéros de carte de crédit, etc. Ces données ne sont pas sauvegardées ou transmises.";
+"user_agreement_title" = "Accord utilisateur";
+"user_agreement_message" = "En utilisant CopyX, vous acceptez nos conditions d'utilisation et notre politique de confidentialité.";
+"i_agree" = "J'accepte";
+"view_full_agreement" = "Voir l'accord complet";
+"first_launch_welcome" = "Bienvenue dans CopyX";
+"first_launch_subtitle" = "Outil puissant de gestion du presse-papiers";
+"get_started" = "Commencer";
+"enable_accessibility_title" = "Activer les permissions d'accessibilité";
+"enable_accessibility_message" = "CopyX a besoin des permissions d'accessibilité pour surveiller les changements du presse-papiers. Veuillez l'activer dans les Préférences Système.";
+"open_system_preferences" = "Ouvrir les Préférences Système";
+"skip_for_now" = "Ignorer pour l'instant";
+
+// MARK: - Types de contenu étendus
+"rtf_type" = "Texte enrichi";
+"code_type" = "Code";
+"json_type" = "Données JSON";
+"xml_type" = "Données XML";
+"email_type" = "Adresse e-mail";
+"phone_type" = "Numéro de téléphone";
+
+// MARK: - Descriptions de contenu
+"image_content" = "Image";
+"yesterday" = "Hier";

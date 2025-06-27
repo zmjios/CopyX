@@ -1,0 +1,21 @@
+/* 
+  InfoPlist.strings
+  CopyX - 简体中文本地化
+
+  Created by AI Assistant on 2024.
+*/
+
+// MARK: - 权限描述
+"NSAppleEventsUsageDescription" = "CopyX 需要发送 Apple Events 以便与其他应用程序进行分享和交互，为您提供更好的剪贴板管理体验。";
+
+"NSAccessibilityUsageDescription" = "CopyX 需要辅助功能权限来检测应用上下文，为您提供更智能的剪贴板管理体验。这些权限仅用于改善应用功能，不会收集您的隐私数据。";
+
+"NSContactsUsageDescription" = "CopyX 可能需要访问通讯录来识别和处理联系人信息，提供更智能的剪贴板管理功能。您的通讯录数据不会被传输或存储。";
+
+"NSCalendarsUsageDescription" = "CopyX 可能需要访问日历来识别和处理日期时间信息，提供更智能的剪贴板管理功能。您的日历数据不会被传输或存储。";
+
+"NSSystemAdministrationUsageDescription" = "CopyX 需要系统管理权限以便访问分享服务和剪贴板功能，确保应用正常运行。";
+
+// MARK: - 应用信息
+"CFBundleDisplayName" = "CopyX";
+"CFBundleName" = "CopyX"; 

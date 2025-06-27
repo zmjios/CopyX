@@ -58,6 +58,12 @@ struct ModernClipboardSettingsView: View {
                         subtitle: "skip_password_fields_subtitle".localized,
                         isOn: $clipboardManager.excludePasswords
                     )
+                    
+                    SettingsToggle(
+                        title: "exclude_sensitive_data".localized,
+                        subtitle: "exclude_sensitive_data_subtitle".localized,
+                        isOn: $clipboardManager.excludeSensitiveData
+                    )
                 }
                 
                 // 界面设置

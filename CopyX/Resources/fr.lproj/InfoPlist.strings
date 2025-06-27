@@ -1,0 +1,21 @@
+/* 
+  InfoPlist.strings
+  CopyX - French Localization
+
+  Created by AI Assistant on 2024.
+*/
+
+// MARK: - Descriptions des permissions
+"NSAppleEventsUsageDescription" = "CopyX a besoin d'envoyer des Apple Events pour interagir et partager avec d'autres applications, vous offrant une meilleure expérience de gestion du presse-papiers.";
+
+"NSAccessibilityUsageDescription" = "CopyX a besoin des permissions d'accessibilité pour détecter le contexte de l'application, vous offrant une expérience de gestion du presse-papiers plus intelligente. Ces permissions ne sont utilisées que pour améliorer les fonctionnalités de l'application et ne collectent pas vos données privées.";
+
+"NSContactsUsageDescription" = "CopyX peut avoir besoin d'accéder aux contacts pour identifier et traiter les informations de contact, fournissant des fonctionnalités de gestion du presse-papiers plus intelligentes. Vos données de contact ne seront pas transmises ou stockées.";
+
+"NSCalendarsUsageDescription" = "CopyX peut avoir besoin d'accéder aux calendriers pour identifier et traiter les informations de date/heure, fournissant des fonctionnalités de gestion du presse-papiers plus intelligentes. Vos données de calendrier ne seront pas transmises ou stockées.";
+
+"NSSystemAdministrationUsageDescription" = "CopyX a besoin des permissions d'administration système pour accéder aux services de partage et aux fonctionnalités du presse-papiers, garantissant le bon fonctionnement de l'application.";
+
+// MARK: - Informations du bundle
+"CFBundleDisplayName" = "CopyX";
+"CFBundleName" = "CopyX"; 

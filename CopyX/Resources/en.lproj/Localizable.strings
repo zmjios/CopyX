@@ -598,3 +598,32 @@
 "time_label" = "Time:";
 "size_label" = "Size:";
 "unknown_size" = "Unknown";
+
+// MARK: - Privacy and Security
+"exclude_sensitive_data" = "Exclude sensitive data";
+"exclude_sensitive_data_subtitle" = "Automatically detect and skip sensitive information like ID numbers, credit card numbers, etc.";
+"privacy_notice_title" = "Privacy Notice";
+"privacy_notice_message" = "CopyX detects and protects your sensitive information locally, such as ID numbers, credit card numbers, etc. This data is not saved or transmitted.";
+"user_agreement_title" = "User Agreement";
+"user_agreement_message" = "By using CopyX, you agree to our Terms of Service and Privacy Policy.";
+"i_agree" = "I Agree";
+"view_full_agreement" = "View Full Agreement";
+"first_launch_welcome" = "Welcome to CopyX";
+"first_launch_subtitle" = "Powerful clipboard management tool";
+"get_started" = "Get Started";
+"enable_accessibility_title" = "Enable Accessibility Permissions";
+"enable_accessibility_message" = "CopyX needs accessibility permissions to monitor clipboard changes. Please enable it in System Preferences.";
+"open_system_preferences" = "Open System Preferences";
+"skip_for_now" = "Skip for Now";
+
+// MARK: - Content Types Extended
+"rtf_type" = "Rich Text";
+"code_type" = "Code";
+"json_type" = "JSON Data";
+"xml_type" = "XML Data";
+"email_type" = "Email Address";
+"phone_type" = "Phone Number";
+
+// MARK: - Content Descriptions
+"image_content" = "Image";
+"yesterday" = "Yesterday";

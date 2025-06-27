@@ -525,4 +525,33 @@
 "settings_language" = "言語";
 "settings_language_desc" = "インターフェース言語を選択";
 "settings_empty_title" = "設定を選択";
-"settings_empty_desc" = "左側から設定項目を選択して設定を開始してください"; 
+"settings_empty_desc" = "左側から設定項目を選択して設定を開始してください";
+
+// MARK: - プライバシーとセキュリティ
+"exclude_sensitive_data" = "機密データを除外";
+"exclude_sensitive_data_subtitle" = "身分証明書番号、クレジットカード番号などの機密情報を自動的に検出してスキップします。";
+"privacy_notice_title" = "プライバシー通知";
+"privacy_notice_message" = "CopyXは身分証明書番号、クレジットカード番号などの機密情報をローカルで検出して保護します。このデータは保存または送信されません。";
+"user_agreement_title" = "ユーザー契約";
+"user_agreement_message" = "CopyXを使用することで、利用規約とプライバシーポリシーに同意したことになります。";
+"i_agree" = "同意する";
+"view_full_agreement" = "完全な契約を表示";
+"first_launch_welcome" = "CopyXへようこそ";
+"first_launch_subtitle" = "強力なクリップボード管理ツール";
+"get_started" = "始める";
+"enable_accessibility_title" = "アクセシビリティ権限を有効にする";
+"enable_accessibility_message" = "CopyXはクリップボードの変更を監視するためにアクセシビリティ権限が必要です。システム環境設定で有効にしてください。";
+"open_system_preferences" = "システム環境設定を開く";
+"skip_for_now" = "今はスキップ";
+
+// MARK: - 拡張コンテンツタイプ
+"rtf_type" = "リッチテキスト";
+"code_type" = "コード";
+"json_type" = "JSONデータ";
+"xml_type" = "XMLデータ";
+"email_type" = "メールアドレス";
+"phone_type" = "電話番号";
+
+// MARK: - コンテンツの説明
+"image_content" = "画像";
+"yesterday" = "昨日"; 
